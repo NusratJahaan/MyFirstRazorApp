@@ -1,0 +1,42 @@
+﻿@page
+@model MyFirstRazorApp.Pages.Students.IndexModel
+
+<h2>Student List</h2>
+
+<p>
+    <a asp-page="Create" class="btn btn-primary">Add New Student</a>
+</p>
+
+@if (Model.Students.Any())
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Age</th>
+                <th>Course</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var student in Model.Students)
+            {
+                <tr>
+                    <td>@student.Name</td>
+                    <td>@student.Email</td>
+                    <td>@student.Age</td>
+                    <td>@student.Course</td>
+                    <td>
+                        <a asp-page="Edit" asp-route-id="@student.Id">Edit</a> |
+                        <a asp-page="Delete" asp-route-id="@student.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No students found. Add one now!</p>
+}

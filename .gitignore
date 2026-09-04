@@ -1,0 +1,15 @@
+# Visual Studio and .NET
+bin/
+obj/
+.vs/
+*.user
+*.suo
+*.sln.docstates
+appsettings.Development.json
+*.mdf
+*.ldf
+packages/
+node_modules/
+Debug/
+Release/
+.vscode/

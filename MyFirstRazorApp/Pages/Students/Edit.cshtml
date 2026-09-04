@@ -1,0 +1,43 @@
+﻿@page "{id:int}"
+@model MyFirstRazorApp.Pages.Students.EditModel
+
+<h2>Edit Student</h2>
+
+<form method="post">
+    <input type="hidden" asp-for="Student.Id" />
+
+    <div class="form-group">
+        <label asp-for="Student.Name" class="control-label"></label>
+        <input asp-for="Student.Name" class="form-control" />
+        <span asp-validation-for="Student.Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Student.Email" class="control-label"></label>
+        <input asp-for="Student.Email" class="form-control" />
+        <span asp-validation-for="Student.Email" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Student.Age" class="control-label"></label>
+        <input asp-for="Student.Age" class="form-control" />
+        <span asp-validation-for="Student.Age" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Student.Course" class="control-label"></label>
+        <input asp-for="Student.Course" class="form-control" />
+        <span asp-validation-for="Student.Course" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mt-3">
+        <input type="submit" value="Save" class="btn btn-primary" />
+        <a asp-page="Index" class="btn btn-secondary">Back to List</a>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
