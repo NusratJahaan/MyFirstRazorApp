@@ -12,19 +12,19 @@ namespace MyFirstRazorApp.Data
 
         public DbSet<Student> Students { get; set; }
 
-        public override int SaveChanges()
+        public override int SaveChanges()  //remove
         {
             UpdateAuditFields();
             return base.SaveChanges();
         }
 
-        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)  //remove
         {
             UpdateAuditFields();
             return await base.SaveChangesAsync(cancellationToken);
         }
 
-        private void UpdateAuditFields()
+        private void UpdateAuditFields() //remove
         {
             var entries = ChangeTracker.Entries()
                 .Where(e => e.Entity is BaseEntity &&
