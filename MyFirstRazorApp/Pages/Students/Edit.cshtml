@@ -5,6 +5,9 @@
 
 <form method="post">
     <input type="hidden" asp-for="Student.Id" />
+    <!-- ✅ Hidden field for UpdatedDate (keep CreatedDate unchanged) -->
+    <input type="hidden" asp-for="Student.UpdatedDate" value="@DateTime.Now" />
+
     
     <div class="form-group">
         <label asp-for="Student.Name" class="control-label"></label>

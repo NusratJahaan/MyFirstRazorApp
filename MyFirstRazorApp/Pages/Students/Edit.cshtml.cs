@@ -60,7 +60,13 @@ namespace MyFirstRazorApp.Pages.Students
                 return Page();
             }
 
-            _context.Attach(Student).State = EntityState.Modified;
+            var existingStudent = await _context.Students.FindAsync(Student.Id);
+            existingStudent.Name = Student.Name;
+            existingStudent.Email = Student.Email;
+            existingStudent.Age = Student.Age;
+            existingStudent.Course = Student.Course;
+            existingStudent.UpdatedDate = DateTime.Now;
+            await _context.SaveChangesAsync();
 
             try
             {
