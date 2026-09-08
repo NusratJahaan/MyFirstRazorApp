@@ -2,21 +2,22 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using MyFirstRazorApp.Data;
 using MyFirstRazorApp.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace MyFirstRazorApp.Pages.Students
 {
     public class IndexModel : PageModel
     {
-        private readonly AppDbContext _context;
+        private readonly AppDbContext _context; // DB Context call hobe Data folder er AppDbContext class theke
+
+
+        public IList<Student> Students { get; set; } = new List<Student>();
+
 
         public IndexModel(AppDbContext context)
         {
             _context = context;
         }
 
-        public IList<Student> Students { get; set; } = new List<Student>();
 
         public async Task OnGetAsync()
         {
@@ -24,3 +25,8 @@ namespace MyFirstRazorApp.Pages.Students
         }
     }
 }
+
+// Learn 
+// Dependcy Injection er maddhome AppDbContext class er instance ke IndexModel class e inject kora hoyeche.
+// Ekhane _context variable er maddhome database er Students table theke data fetch kora hocche.
+// OnGetAsync method ta asynchronous vabe Students list ke populate kore.

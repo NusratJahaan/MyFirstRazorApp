@@ -20,6 +20,9 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+
+//service register for Services || Setp: 2
+
 app.UseHttpsRedirection();
 
 app.UseRouting();
