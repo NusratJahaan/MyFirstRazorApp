@@ -1,9 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MyFirstRazorApp.Data;
 using MyFirstRazorApp.Models;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MyFirstRazorApp.Pages.Students
 {
@@ -19,6 +22,8 @@ namespace MyFirstRazorApp.Pages.Students
         [BindProperty]
         public Student Student { get; set; } = new Student();
 
+        public List<SelectListItem> CourseOptions { get; set; } = new();
+
         public async Task<IActionResult> OnGetAsync(int id)
         {
             Student = await _context.Students.FindAsync(id);
@@ -28,6 +33,16 @@ namespace MyFirstRazorApp.Pages.Students
                 return NotFound();
             }
 
+            // Populate dropdown
+            CourseOptions = Enum.GetValues(typeof(CourseType))
+                .Cast<CourseType>()
+                .Select(c => new SelectListItem
+                {
+                    Value = c.ToString(),
+                    Text = c.ToString(),
+                    Selected = c == Student.Course
+                }).ToList();
+
             return Page();
         }
 
@@ -35,6 +50,13 @@ namespace MyFirstRazorApp.Pages.Students
         {
             if (!ModelState.IsValid)
             {
+                CourseOptions = Enum.GetValues(typeof(CourseType))
+                    .Cast<CourseType>()
+                    .Select(c => new SelectListItem
+                    {
+                        Value = c.ToString(),
+                        Text = c.ToString()
+                    }).ToList();
                 return Page();
             }
 

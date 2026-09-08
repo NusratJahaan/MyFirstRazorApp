@@ -9,13 +9,15 @@
 
 @if (Model.Students.Any())
 {
-    <table class="table table-bordered">
+    <table class="table table-bordered table-striped">
         <thead>
             <tr>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Age</th>
                 <th>Course</th>
+                <th>Created</th>
+                <th>Updated</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -27,9 +29,11 @@
                     <td>@student.Email</td>
                     <td>@student.Age</td>
                     <td>@student.Course</td>
+                    <td>@student.CreatedDate.ToString("yyyy-MM-dd")</td>
+                    <td>@student.UpdatedDate?.ToString("yyyy-MM-dd")</td>
                     <td>
-                        <a asp-page="Edit" asp-route-id="@student.Id">Edit</a> |
-                        <a asp-page="Delete" asp-route-id="@student.Id">Delete</a>
+                        <a asp-page="Edit" asp-route-id="@student.Id" class="btn btn-sm btn-primary">Edit</a>
+                        <a asp-page="Delete" asp-route-id="@student.Id" class="btn btn-sm btn-danger">Delete</a>
                     </td>
                 </tr>
             }

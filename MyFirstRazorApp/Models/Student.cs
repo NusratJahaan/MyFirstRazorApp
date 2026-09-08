@@ -1,17 +1,38 @@
-﻿namespace MyFirstRazorApp.Models
-{
-    //BaseClass
-    // CreatedDate
-    //CreatedBy
-    //UpdatedDate
-    //UpdatedBy
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-    public class Student
+namespace MyFirstRazorApp.Models
+{
+    // Course enum
+    public enum CourseType
     {
-        public int Id { get; set; } //Primary Key
-        public string Name { get; set; } //Required hote hbe
-        public string Email { get; set; } //Valid Email hote hbe [Regex]
-        public int? Age { get; set; } //nullable
-        public string Course { get; set; } //Enum :: Bangla, English, Math, Science
+        Bangla,
+        English,
+        Math,
+        Science
+    }
+
+    public class Student : BaseEntity
+    {
+        [Key]
+        public int Id { get; set; }
+
+        [Required(ErrorMessage = "Name is required")]
+        [StringLength(100, MinimumLength = 2, ErrorMessage = "Name must be between 2 and 100 characters")]
+        [Display(Name = "Student Name")]
+        public string Name { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Please enter a valid email address")]
+        [Display(Name = "Email Address")]
+        public string Email { get; set; } = string.Empty;
+
+        [Range(5, 100, ErrorMessage = "Age must be between 5 and 100")]
+        [Display(Name = "Age")]
+        public int? Age { get; set; }
+
+        [Required(ErrorMessage = "Course is required")]
+        [Display(Name = "Course")]
+        public CourseType Course { get; set; }
     }
 }

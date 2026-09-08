@@ -3,10 +3,7 @@
 
 <h2>Add New Student</h2>
 
-<form method="post">'
-    @* common componenent for both create and edit pages *@
-    <input type="hidden" asp-for="Student.Id" />
-
+<form method="post">
     <div class="form-group">
         <label asp-for="Student.Name" class="control-label"></label>
         <input asp-for="Student.Name" class="form-control" />
@@ -27,7 +24,9 @@
 
     <div class="form-group">
         <label asp-for="Student.Course" class="control-label"></label>
-        <input asp-for="Student.Course" class="form-control" />
+        <select asp-for="Student.Course" class="form-control" asp-items="Model.CourseOptions">
+            <option value="">-- Select Course --</option>
+        </select>
         <span asp-validation-for="Student.Course" class="text-danger"></span>
     </div>
 
