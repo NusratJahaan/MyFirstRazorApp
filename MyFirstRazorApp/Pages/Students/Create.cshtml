@@ -3,7 +3,10 @@
 
 <h2>Add New Student</h2>
 
-<form method="post">
+<form method="post">'
+    @* common componenent for both create and edit pages *@
+    <input type="hidden" asp-for="Student.Id" />
+
     <div class="form-group">
         <label asp-for="Student.Name" class="control-label"></label>
         <input asp-for="Student.Name" class="form-control" />
