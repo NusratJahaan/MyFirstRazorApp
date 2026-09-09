@@ -1,18 +1,17 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using MyFirstRazorApp.Data;
 using MyFirstRazorApp.Models;
-using System.Threading.Tasks;
+using MyFirstRazorApp.Services;
 
 namespace MyFirstRazorApp.Pages.Students
 {
     public class DeleteModel : PageModel
     {
-        private readonly AppDbContext _context;
+        private readonly IStudentService _studentService;
 
-        public DeleteModel(AppDbContext context)
+        public DeleteModel(IStudentService studentService)
         {
-            _context = context;
+            _studentService=studentService;
         }
 
         [BindProperty]
@@ -20,7 +19,7 @@ namespace MyFirstRazorApp.Pages.Students
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            Student = await _context.Students.FindAsync(id);
+            Student = await _studentService.GetStudentByIdAsync(id) ?? new Student();
 
             if (Student == null)
             {
@@ -32,13 +31,7 @@ namespace MyFirstRazorApp.Pages.Students
 
         public async Task<IActionResult> OnPostAsync(int id)
         {
-            Student = await _context.Students.FindAsync(id);
-
-            if (Student != null)
-            {
-                _context.Students.Remove(Student);
-                await _context.SaveChangesAsync();
-            }
+            await _studentService.DeleteStudentAsync(id);
 
             return RedirectToPage("./Index");
         }
