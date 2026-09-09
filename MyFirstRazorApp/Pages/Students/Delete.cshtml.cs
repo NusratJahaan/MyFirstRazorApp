@@ -11,7 +11,7 @@ namespace MyFirstRazorApp.Pages.Students
 
         public DeleteModel(IStudentService studentService)
         {
-            _studentService=studentService;
+            _studentService = studentService;
         }
 
         [BindProperty]

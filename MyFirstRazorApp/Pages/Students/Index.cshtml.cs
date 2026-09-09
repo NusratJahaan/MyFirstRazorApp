@@ -1,6 +1,4 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using MyFirstRazorApp.Data;
 using MyFirstRazorApp.Models;
 using MyFirstRazorApp.Services;
 

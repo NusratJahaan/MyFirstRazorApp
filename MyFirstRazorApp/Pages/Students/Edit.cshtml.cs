@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using MyFirstRazorApp.Data;
-using MyFirstRazorApp.Services;
 using MyFirstRazorApp.Models;
+using MyFirstRazorApp.Services;
 
 namespace MyFirstRazorApp.Pages.Students
 {
@@ -13,7 +12,7 @@ namespace MyFirstRazorApp.Pages.Students
 
         public EditModel(IStudentService studentService)
         {
-            _studentService= studentService;
+            _studentService = studentService;
         }
 
         [BindProperty]
@@ -54,7 +53,7 @@ namespace MyFirstRazorApp.Pages.Students
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (Student.Id==0)
+                if (Student.Id == 0)
                 {
                     return NotFound();
                 }
