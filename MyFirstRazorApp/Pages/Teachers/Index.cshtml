@@ -27,14 +27,13 @@
                     <td>@teacher.Email</td>
                     <td>@teacher.Specialization</td>
                     <td>
-                        <!-- ✅ Link to view students in this course -->
-                        <a asp-page="/Students/ByCourse" asp-route-course="@teacher.Course?.Name">
+                        <a asp-page="/Students/ByCourse" asp-route-courseId="@teacher.CourseId" asp-route-courseName="@teacher.Course?.Name">
                             @teacher.Course?.Name
                         </a>
                     </td>
                     <td>
                         <a asp-page="Edit" asp-route-id="@teacher.Id">Edit</a> |
-                        <a asp-page="Delete" asp-route-id="@teacher.Id">Delete</a>
+                        <a href="#" onclick="deleteTeacher(@teacher.Id, '@teacher.Name'); return false;">Delete</a>
                     </td>
                 </tr>
             }
@@ -44,4 +43,36 @@
 else
 {
     <p>No teachers found.</p>
+}
+<!-- ✅ Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete <strong id="teacherName"></strong>?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form method="post" asp-page-handler="Delete" id="deleteForm">
+                    <input type="hidden" name="id" id="deleteId" />
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function deleteTeacher(id, name) {
+            document.getElementById('deleteId').value = id;
+            document.getElementById('teacherName').textContent = name;
+            var modal = new bootstrap.Modal(document.getElementById('deleteModal'));
+            modal.show();
+        }
+    </script>
 }

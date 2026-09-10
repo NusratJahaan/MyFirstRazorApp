@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyFirstRazorApp.Models;
 using MyFirstRazorApp.Services;
@@ -24,6 +25,21 @@ namespace MyFirstRazorApp.Pages.Teachers
             catch (Exception ex)
             {
                 Console.WriteLine($"Error deleting student: {ex.Message}");
+            }
+        }
+        public async Task<IActionResult> OnPostDeleteAsync(int id)
+        {
+            try
+            {
+                await _teacherService.DeleteTeacherAsync(id);
+                return RedirectToPage("./Index");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                ModelState.AddModelError("", "An error occurred while deleting.");
+                await OnGetAsync();
+                return Page();
             }
         }
     }

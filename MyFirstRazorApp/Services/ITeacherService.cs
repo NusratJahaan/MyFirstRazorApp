@@ -11,6 +11,5 @@ namespace MyFirstRazorApp.Services
         Task<bool> AddTeacherAsync(Teacher teacher);
         Task<bool> UpdateTeacherAsync(Teacher teacher);
         Task<bool> DeleteTeacherAsync(int id);
-        Task<List<Course>> GetAllCoursesAsync();
     }
 }

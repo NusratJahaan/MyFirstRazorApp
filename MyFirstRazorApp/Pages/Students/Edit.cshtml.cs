@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using MyFirstRazorApp.Models;
 using MyFirstRazorApp.Services;
 
@@ -9,26 +9,29 @@ namespace MyFirstRazorApp.Pages.Students
     public class EditModel : PageModel
     {
         private readonly IStudentService _studentService;
+        private readonly ICourseService _courseService;
 
-        public EditModel(IStudentService studentService)
+        public EditModel(IStudentService studentService, ICourseService courseService)
         {
             _studentService = studentService;
+            _courseService = courseService;
         }
 
         [BindProperty]
         public Student Student { get; set; } = new Student();
 
-
+        public List<SelectListItem> CourseOptions { get; set; } = new();
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
             Student = await _studentService.GetStudentByIdAsync(id) ?? new Student();
 
-            if (Student == null)
+            if (Student.Id == 0)
             {
                 return NotFound();
             }
 
+            await LoadCoursesAsync();
             return Page();
         }
 
@@ -36,6 +39,7 @@ namespace MyFirstRazorApp.Pages.Students
         {
             if (!ModelState.IsValid)
             {
+                await LoadCoursesAsync();
                 return Page();
             }
 
@@ -43,27 +47,32 @@ namespace MyFirstRazorApp.Pages.Students
             existingStudent.Name = Student.Name;
             existingStudent.Email = Student.Email;
             existingStudent.Age = Student.Age;
-            existingStudent.Course = Student.Course;
+            existingStudent.CourseId = Student.CourseId;   // ✅ Changed
             existingStudent.UpdatedDate = DateTime.Now;
-            await _studentService.UpdateStudentAsync(existingStudent);
 
             try
             {
                 await _studentService.UpdateStudentAsync(existingStudent);
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
-                if (Student.Id == 0)
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                Console.WriteLine($"Error: {ex.Message}");
+                await LoadCoursesAsync();
+                return Page();
             }
 
             return RedirectToPage("./Index");
+        }
+
+        private async Task LoadCoursesAsync()
+        {
+            var courses = await _courseService.GetAllCoursesAsync();
+
+            ViewData["CourseOptions"] = courses.Select(c => new SelectListItem
+            {
+                Value = c.Id.ToString(),
+                Text = c.Name
+            }).ToList();
         }
     }
 }

@@ -15,20 +15,16 @@ namespace MyFirstRazorApp.Services
 
         public async Task<List<Student>> GetAllStudentsAsync()
         {
-            return await _context.Students.ToListAsync();
+            return await _context.Students.Include(s => s.Course).ToListAsync();
         }
-        public async Task<List<Student>> GetStudentsByCourseAsync(string courseName)
+
+        public async Task<List<Student>> GetStudentsByCourseAsync(int courseId)
         {
             try
             {
-                // Parse the course name to enum
-                if (Enum.TryParse<CourseType>(courseName, out var courseType))
-                {
-                    return await _context.Students
-                        .Where(s => s.Course == courseType)
-                        .ToListAsync();
-                }
-                return new List<Student>();
+                return await _context.Students
+                    .Where(s => s.CourseId == courseId)
+                    .ToListAsync();
             }
             catch (Exception ex)
             {
@@ -38,9 +34,8 @@ namespace MyFirstRazorApp.Services
 
         public async Task<Student?> GetStudentByIdAsync(int id)
         {
-            return await _context.Students.FindAsync(id);
+            return await _context.Students.Include(s => s.Course).FirstOrDefaultAsync(s => s.Id == id);
         }
-
 
         public async Task AddStudentAsync(Student student)
         {
@@ -63,6 +58,5 @@ namespace MyFirstRazorApp.Services
                 await _context.SaveChangesAsync();
             }
         }
-
     }
 }

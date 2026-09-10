@@ -1,19 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 namespace MyFirstRazorApp.Models
 {
-    // Course enum //Remove
-    public enum CourseType
-    {
-        Bangla = 1,
-        English = 2,
-        Math = 3,
-        Science = 4,
-        History = 5,
-        Geography = 6,
-        Physics = 7,
-        Chemistry = 8
-    }
-
     public class Student : BaseEntity
     {
         [Required(ErrorMessage = "Name is required")]
@@ -29,15 +16,11 @@ namespace MyFirstRazorApp.Models
 
         [Range(5, 100, ErrorMessage = "Age must be between 5 and 100")]
         [Display(Name = "Age")]
-        public int? Age { get; set; } 
+        public int? Age { get; set; }
 
         [Required(ErrorMessage = "Course is required")]
         [Display(Name = "Course")]
-        public CourseType Course { get; set; } //Remove
-        // Foreign Key to Course
         public int? CourseId { get; set; }
-
-        // Navigation Property
-        public virtual Course? EnrolledCourse { get; set; } //rename
+        public virtual Course? Course { get; set; }
     }
 }

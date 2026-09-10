@@ -87,17 +87,5 @@ namespace MyFirstRazorApp.Services
                 throw new Exception($"Error deleting teacher: {ex.Message}");
             }
         }
-
-        public async Task<List<Course>> GetAllCoursesAsync()
-        {
-            try
-            {
-                return await _context.Courses.ToListAsync();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Error getting courses: {ex.Message}");
-            }
-        }
     }
 }

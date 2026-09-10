@@ -1,18 +1,16 @@
 ﻿using System.ComponentModel.DataAnnotations;
-
 namespace MyFirstRazorApp.Models
 {
     public class Teacher : BaseEntity
     {
-        public int Id { get; set; }
-
         [Required(ErrorMessage = "Teacher name is required")]
         public string Name { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Email is required")]
-        [EmailAddress(ErrorMessage = "Please enter a valid email")]
+        [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$",
+            ErrorMessage = "Please enter a valid email address")]
+        [Display(Name = "Email Address")]
         public string Email { get; set; } = string.Empty;
-
         public string? Specialization { get; set; }
 
         // Foreign Key to Course

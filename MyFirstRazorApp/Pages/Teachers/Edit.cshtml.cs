@@ -8,30 +8,73 @@ namespace MyFirstRazorApp.Pages.Teachers
 {
     public class EditModel : PageModel
     {
+        // ✅ 1. Private fields
         private readonly ITeacherService _teacherService;
+        private readonly ICourseService _courseService;
 
-        public EditModel(ITeacherService teacherService)
-        {
-            _teacherService = teacherService;
-        }
-
+        // ✅ 2. Public properties
         [BindProperty]
         public Teacher Teacher { get; set; } = new Teacher();
 
         public List<SelectListItem> CourseOptions { get; set; } = new();
 
+        // ✅ 3. Constructor
+        public EditModel(ITeacherService teacherService, ICourseService courseService)
+        {
+            _teacherService = teacherService;
+            _courseService = courseService;
+        }
+
+        // ✅ 4. Public methods
         public async Task<IActionResult> OnGetAsync(int id)
         {
             try
             {
                 Teacher = await _teacherService.GetTeacherByIdAsync(id);
+
                 if (Teacher == null)
                 {
                     return NotFound();
                 }
 
+                await LoadCoursesAsync();
+                return Page();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error loading teacher: {ex.Message}");
+                return NotFound();
+            }
+        }
 
-                var courses = await _teacherService.GetAllCoursesAsync();
+        public async Task<IActionResult> OnPostAsync()
+        {
+            if (!ModelState.IsValid)
+            {
+                await LoadCoursesAsync();
+                return Page();
+            }
+
+            try
+            {
+                await _teacherService.UpdateTeacherAsync(Teacher);
+                return RedirectToPage("./Index");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error updating teacher: {ex.Message}");
+                ModelState.AddModelError("", "An error occurred. Please try again.");
+                await LoadCoursesAsync();
+                return Page();
+            }
+        }
+
+        // ✅ 5. Private methods
+        private async Task LoadCoursesAsync()
+        {
+            try
+            {
+                var courses = await _courseService.GetAllCoursesAsync();
                 foreach (var course in courses)
                 {
                     CourseOptions.Add(new SelectListItem
@@ -41,38 +84,11 @@ namespace MyFirstRazorApp.Pages.Teachers
                         Selected = course.Id == Teacher.CourseId
                     });
                 }
-
-                return Page();
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error deleting student: {ex.Message}");
-                return Page();
-            }
-
-        }
-
-        public async Task<IActionResult> OnPostAsync()
-        {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-            try
-            {
-
-                var result = await _teacherService.UpdateTeacherAsync(Teacher);
-                if (result)
-                {
-                    return RedirectToPage("./Index");
-                }
-
-                return Page();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error deleting student: {ex.Message}");
-                return Page();
+                Console.WriteLine($"Error loading courses: {ex.Message}");
+                ModelState.AddModelError("", "An error occurred while loading courses.");
             }
         }
     }

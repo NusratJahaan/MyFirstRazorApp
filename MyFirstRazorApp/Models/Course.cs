@@ -1,11 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-
 namespace MyFirstRazorApp.Models
 {
     public class Course : BaseEntity
     {
-        public int Id { get; set; }
-
         [Required(ErrorMessage = "Course name is required")]
         public string Name { get; set; } = string.Empty;
 
@@ -16,14 +13,6 @@ namespace MyFirstRazorApp.Models
 
         // One Course has one Teacher
         public virtual Teacher? Teacher { get; set; }
-
-        public string ClassName { get; set; }
-
-    }
-
-    public class MyClass : BaseEntity
-    {
-        public string ClassName { get; set; }
 
     }
 }
