@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MyFirstRazorApp.Models;
 using MyFirstRazorApp.Services;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace MyFirstRazorApp.Pages.Teachers
 {
@@ -24,14 +22,21 @@ namespace MyFirstRazorApp.Pages.Teachers
 
         public async Task OnGetAsync()
         {
-            var courses = await _teacherService.GetAllCoursesAsync();
-            foreach (var course in courses)
+            try
             {
-                CourseOptions.Add(new SelectListItem
+                var courses = await _teacherService.GetAllCoursesAsync();
+                foreach (var course in courses)
                 {
-                    Value = course.Id.ToString(),
-                    Text = course.Name
-                });
+                    CourseOptions.Add(new SelectListItem
+                    {
+                        Value = course.Id.ToString(),
+                        Text = course.Name
+                    });
+                }
+            }
+            catch
+            {
+
             }
         }
 
@@ -42,14 +47,22 @@ namespace MyFirstRazorApp.Pages.Teachers
                 await OnGetAsync();
                 return Page();
             }
-
-            var result = await _teacherService.AddTeacherAsync(Teacher);
-            if (result)
+            try
             {
-                return RedirectToPage("./Index");
-            }
 
-            return Page();
+                var result = await _teacherService.AddTeacherAsync(Teacher);
+                if (result)
+                {
+                    return RedirectToPage("./Index");
+                }
+
+                return Page();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error deleting student: {ex.Message}");
+                return Page();
+            }
         }
     }
 }

@@ -22,24 +22,34 @@ namespace MyFirstRazorApp.Pages.Teachers
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            Teacher = await _teacherService.GetTeacherByIdAsync(id);
-            if (Teacher == null)
+            try
             {
-                return NotFound();
-            }
-
-            var courses = await _teacherService.GetAllCoursesAsync();
-            foreach (var course in courses)
-            {
-                CourseOptions.Add(new SelectListItem
+                Teacher = await _teacherService.GetTeacherByIdAsync(id);
+                if (Teacher == null)
                 {
-                    Value = course.Id.ToString(),
-                    Text = course.Name,
-                    Selected = course.Id == Teacher.CourseId
-                });
+                    return NotFound();
+                }
+
+
+                var courses = await _teacherService.GetAllCoursesAsync();
+                foreach (var course in courses)
+                {
+                    CourseOptions.Add(new SelectListItem
+                    {
+                        Value = course.Id.ToString(),
+                        Text = course.Name,
+                        Selected = course.Id == Teacher.CourseId
+                    });
+                }
+
+                return Page();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error deleting student: {ex.Message}");
+                return Page();
             }
 
-            return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -48,14 +58,22 @@ namespace MyFirstRazorApp.Pages.Teachers
             {
                 return Page();
             }
-
-            var result = await _teacherService.UpdateTeacherAsync(Teacher);
-            if (result)
+            try
             {
-                return RedirectToPage("./Index");
-            }
 
-            return Page();
+                var result = await _teacherService.UpdateTeacherAsync(Teacher);
+                if (result)
+                {
+                    return RedirectToPage("./Index");
+                }
+
+                return Page();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error deleting student: {ex.Message}");
+                return Page();
+            }
         }
     }
 }

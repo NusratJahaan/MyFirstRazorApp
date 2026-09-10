@@ -28,10 +28,18 @@ namespace MyFirstRazorApp.Pages.Students
             {
                 return Page();
             }
+            try
+            {
 
-            await _studentService.AddStudentAsync(Student);
+                await _studentService.AddStudentAsync(Student);
 
-            return RedirectToPage("./Index");
+                return RedirectToPage("./Index");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return Page();
+            }
         }
     }
 }

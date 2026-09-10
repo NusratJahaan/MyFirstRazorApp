@@ -20,7 +20,14 @@ namespace MyFirstRazorApp.Pages.Students
 
         public async Task OnGetAsync()
         {
-            Students = await _studentService.GetAllStudentsAsync();
+            try
+            {
+                Students = await _studentService.GetAllStudentsAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
         }
     }
 }

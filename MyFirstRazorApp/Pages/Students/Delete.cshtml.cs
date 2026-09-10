@@ -19,21 +19,37 @@ namespace MyFirstRazorApp.Pages.Students
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            Student = await _studentService.GetStudentByIdAsync(id) ?? new Student();
-
-            if (Student == null)
+            try
             {
-                return NotFound();
-            }
+                Student = await _studentService.GetStudentByIdAsync(id) ?? new Student();
 
-            return Page();
+                if (Student == null)
+                {
+                    return NotFound();
+                }
+
+                return Page();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return Page();
+            }
         }
 
         public async Task<IActionResult> OnPostAsync(int id)
         {
-            await _studentService.DeleteStudentAsync(id);
+            try
+            {
+                await _studentService.DeleteStudentAsync(id);
 
-            return RedirectToPage("./Index");
+                return RedirectToPage("./Index");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error deleting student: {ex.Message}");
+                return Page();
+            }
         }
     }
 }

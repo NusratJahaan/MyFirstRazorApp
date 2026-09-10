@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyFirstRazorApp.Models;
 using MyFirstRazorApp.Services;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace MyFirstRazorApp.Pages.Teachers
 {
@@ -19,7 +17,14 @@ namespace MyFirstRazorApp.Pages.Teachers
 
         public async Task OnGetAsync()
         {
-            Teachers = await _teacherService.GetAllTeachersAsync();
+            try
+            {
+                Teachers = await _teacherService.GetAllTeachersAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error deleting student: {ex.Message}");
+            }
         }
     }
 }

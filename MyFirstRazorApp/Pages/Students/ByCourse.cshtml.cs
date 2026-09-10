@@ -18,8 +18,15 @@ namespace MyFirstRazorApp.Pages.Students
 
         public async Task OnGetAsync(string course)
         {
-            CourseName = course;
-            Students = await _studentService.GetStudentsByCourseAsync(course);
+            try
+            {
+                CourseName = course;
+                Students = await _studentService.GetStudentsByCourseAsync(course);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error deleting student: {ex.Message}");
+            }
         }
     }
 }

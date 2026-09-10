@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyFirstRazorApp.Models;
 using MyFirstRazorApp.Services;
-using System.Threading.Tasks;
 
 namespace MyFirstRazorApp.Pages.Teachers
 {
@@ -20,12 +19,20 @@ namespace MyFirstRazorApp.Pages.Teachers
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            Teacher = await _teacherService.GetTeacherByIdAsync(id);
-            if (Teacher == null)
+            try
             {
-                return NotFound();
+                Teacher = await _teacherService.GetTeacherByIdAsync(id);
+                if (Teacher == null)
+                {
+                    return NotFound();
+                }
+                return Page();
             }
-            return Page();
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error deleting student: {ex.Message}");
+                return Page();
+            }
         }
 
         public async Task<IActionResult> OnPostAsync(int id)
