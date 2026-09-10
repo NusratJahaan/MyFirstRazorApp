@@ -17,11 +17,30 @@ namespace MyFirstRazorApp.Services
         {
             return await _context.Students.ToListAsync();
         }
+        public async Task<List<Student>> GetStudentsByCourseAsync(string courseName)
+        {
+            try
+            {
+                // Parse the course name to enum
+                if (Enum.TryParse<CourseType>(courseName, out var courseType))
+                {
+                    return await _context.Students
+                        .Where(s => s.Course == courseType)
+                        .ToListAsync();
+                }
+                return new List<Student>();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error getting students by course: {ex.Message}");
+            }
+        }
 
         public async Task<Student?> GetStudentByIdAsync(int id)
         {
             return await _context.Students.FindAsync(id);
         }
+
 
         public async Task AddStudentAsync(Student student)
         {
@@ -44,5 +63,6 @@ namespace MyFirstRazorApp.Services
                 await _context.SaveChangesAsync();
             }
         }
+
     }
 }
