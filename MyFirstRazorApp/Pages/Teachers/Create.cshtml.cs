@@ -8,15 +8,15 @@ namespace MyFirstRazorApp.Pages.Teachers
 {
     public class CreateModel : PageModel
     {
+        [BindProperty]
+        public Teacher Teacher { get; set; } = new Teacher();
+
         private readonly ITeacherService _teacherService;
 
         public CreateModel(ITeacherService teacherService)
         {
             _teacherService = teacherService;
         }
-
-        [BindProperty]
-        public Teacher Teacher { get; set; } = new Teacher();
 
         public List<SelectListItem> CourseOptions { get; set; } = new();
 

@@ -1,9 +1,12 @@
 namespace MyFirstRazorApp.Models
 {
-    public class BaseEntity
+    public class BaseEntity 
     {
         public int Id { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
+
+        //add updated by and created by
+
     }
 }

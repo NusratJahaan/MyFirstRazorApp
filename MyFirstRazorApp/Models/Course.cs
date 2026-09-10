@@ -9,12 +9,21 @@ namespace MyFirstRazorApp.Models
         [Required(ErrorMessage = "Course name is required")]
         public string Name { get; set; } = string.Empty;
 
-        public string? Description { get; set; }
+        public string Description { get; set; }
 
         // One Course has many Students
         public virtual ICollection<Student> Students { get; set; } = new List<Student>();
 
         // One Course has one Teacher
         public virtual Teacher? Teacher { get; set; }
+
+        public string ClassName { get; set; }
+
+    }
+
+    public class MyClass : BaseEntity
+    {
+        public string ClassName { get; set; }
+
     }
 }

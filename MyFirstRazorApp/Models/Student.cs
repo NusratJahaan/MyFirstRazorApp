@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 namespace MyFirstRazorApp.Models
 {
-    // Course enum
+    // Course enum //Remove
     public enum CourseType
     {
         Bangla = 1,
@@ -29,15 +29,15 @@ namespace MyFirstRazorApp.Models
 
         [Range(5, 100, ErrorMessage = "Age must be between 5 and 100")]
         [Display(Name = "Age")]
-        public int? Age { get; set; }
+        public int? Age { get; set; } 
 
         [Required(ErrorMessage = "Course is required")]
         [Display(Name = "Course")]
-        public CourseType Course { get; set; }
+        public CourseType Course { get; set; } //Remove
         // Foreign Key to Course
         public int? CourseId { get; set; }
 
         // Navigation Property
-        public virtual Course? EnrolledCourse { get; set; }
+        public virtual Course? EnrolledCourse { get; set; } //rename
     }
 }
