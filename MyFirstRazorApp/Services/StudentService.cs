@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyFirstRazorApp.Data;
 using MyFirstRazorApp.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace MyFirstRazorApp.Services
 {

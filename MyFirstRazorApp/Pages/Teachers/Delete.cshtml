@@ -1,0 +1,27 @@
+﻿@page "{id:int}"
+@model MyFirstRazorApp.Pages.Teachers.DeleteModel
+
+<h2>Delete Teacher</h2>
+
+<div class="alert alert-danger">
+    <h3>Are you sure?</h3>
+</div>
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-3">Name</dt>
+        <dd class="col-sm-9">@Model.Teacher.Name</dd>
+        <dt class="col-sm-3">Email</dt>
+        <dd class="col-sm-9">@Model.Teacher.Email</dd>
+        <dt class="col-sm-3">Specialization</dt>
+        <dd class="col-sm-9">@Model.Teacher.Specialization</dd>
+        <dt class="col-sm-3">Course</dt>
+        <dd class="col-sm-9">@Model.Teacher.Course?.Name</dd>
+    </dl>
+</div>
+
+<form method="post">
+    <input type="hidden" asp-for="Teacher.Id" />
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-page="Index" class="btn btn-secondary">Cancel</a>
+</form>

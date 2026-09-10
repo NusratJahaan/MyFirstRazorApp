@@ -7,7 +7,11 @@ namespace MyFirstRazorApp.Models
         Bangla = 1,
         English = 2,
         Math = 3,
-        Science = 4
+        Science = 4,
+        History = 5,
+        Geography = 6,
+        Physics = 7,
+        Chemistry = 8
     }
 
     public class Student : BaseEntity
@@ -30,5 +34,10 @@ namespace MyFirstRazorApp.Models
         [Required(ErrorMessage = "Course is required")]
         [Display(Name = "Course")]
         public CourseType Course { get; set; }
+        // Foreign Key to Course
+        public int? CourseId { get; set; }
+
+        // Navigation Property
+        public virtual Course? EnrolledCourse { get; set; }
     }
 }
