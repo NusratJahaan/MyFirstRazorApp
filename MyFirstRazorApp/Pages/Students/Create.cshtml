@@ -6,7 +6,7 @@
 <form method="post">
     <input type="hidden" asp-for="Student.CreatedDate" value="@DateTime.Now" />
     <input type="hidden" asp-for="Student.UpdatedDate" value="@DateTime.Now" />
-    <partial name="_StudentForm" for="Student" />
+    <partial name="_StudentForm" model=Model.Student" />
     <div class="form-group mt-3">
         <input type="submit" value="Create" class="btn btn-primary" />
         <a asp-page="Index" class="btn btn-secondary">Back to List</a>
