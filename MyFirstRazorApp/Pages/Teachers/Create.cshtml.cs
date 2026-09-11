@@ -8,24 +8,17 @@ namespace MyFirstRazorApp.Pages.Teachers
 {
     public class CreateModel : PageModel
     {
-        // ✅ 1. Private fields
-        private readonly ITeacherService _teacherService;
-        private readonly ICourseService _courseService;
-
-        // ✅ 2. Public properties
         [BindProperty]
         public Teacher Teacher { get; set; } = new Teacher();
 
         public List<SelectListItem> CourseOptions { get; set; } = new();
-
-        // ✅ 3. Constructor
+        private readonly ITeacherService _teacherService;
+        private readonly ICourseService _courseService;
         public CreateModel(ITeacherService teacherService, ICourseService courseService)
         {
             _teacherService = teacherService;
             _courseService = courseService;
         }
-
-        // ✅ 4. Public methods
         public async Task OnGetAsync()
         {
             await LoadCoursesAsync();
@@ -53,7 +46,6 @@ namespace MyFirstRazorApp.Pages.Teachers
             }
         }
 
-        // ✅ 5. Private methods
         private async Task LoadCoursesAsync()
         {
             try

@@ -8,24 +8,20 @@ namespace MyFirstRazorApp.Pages.Teachers
 {
     public class EditModel : PageModel
     {
-        // ✅ 1. Private fields
-        private readonly ITeacherService _teacherService;
-        private readonly ICourseService _courseService;
 
-        // ✅ 2. Public properties
         [BindProperty]
         public Teacher Teacher { get; set; } = new Teacher();
 
         public List<SelectListItem> CourseOptions { get; set; } = new();
+        private readonly ITeacherService _teacherService;
+        private readonly ICourseService _courseService;
 
-        // ✅ 3. Constructor
         public EditModel(ITeacherService teacherService, ICourseService courseService)
         {
             _teacherService = teacherService;
             _courseService = courseService;
         }
 
-        // ✅ 4. Public methods
         public async Task<IActionResult> OnGetAsync(int id)
         {
             try
@@ -69,7 +65,6 @@ namespace MyFirstRazorApp.Pages.Teachers
             }
         }
 
-        // ✅ 5. Private methods
         private async Task LoadCoursesAsync()
         {
             try

@@ -8,6 +8,10 @@ namespace MyFirstRazorApp.Pages.Students
 {
     public class CreateModel : PageModel
     {
+        [BindProperty]
+        public Student Student { get; set; } = new Student();
+
+        public List<SelectListItem> CourseOptions { get; set; } = new();
         private readonly IStudentService _studentService;
         private readonly ICourseService _courseService;
 
@@ -16,11 +20,6 @@ namespace MyFirstRazorApp.Pages.Students
             _studentService = studentService;
             _courseService = courseService;
         }
-
-        [BindProperty]
-        public Student Student { get; set; } = new Student();
-
-        public List<SelectListItem> CourseOptions { get; set; } = new();
 
         public async Task OnGetAsync()
         {

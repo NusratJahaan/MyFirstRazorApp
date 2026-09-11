@@ -8,6 +8,10 @@ namespace MyFirstRazorApp.Pages.Students
 {
     public class EditModel : PageModel
     {
+        [BindProperty]
+        public Student Student { get; set; } = new Student();
+
+        public List<SelectListItem> CourseOptions { get; set; } = new();
         private readonly IStudentService _studentService;
         private readonly ICourseService _courseService;
 
@@ -16,12 +20,6 @@ namespace MyFirstRazorApp.Pages.Students
             _studentService = studentService;
             _courseService = courseService;
         }
-
-        [BindProperty]
-        public Student Student { get; set; } = new Student();
-
-        public List<SelectListItem> CourseOptions { get; set; } = new();
-
         public async Task<IActionResult> OnGetAsync(int id)
         {
             Student = await _studentService.GetStudentByIdAsync(id) ?? new Student();
@@ -47,7 +45,7 @@ namespace MyFirstRazorApp.Pages.Students
             existingStudent.Name = Student.Name;
             existingStudent.Email = Student.Email;
             existingStudent.Age = Student.Age;
-            existingStudent.CourseId = Student.CourseId;   // ✅ Changed
+            existingStudent.CourseId = Student.CourseId;
             existingStudent.UpdatedDate = DateTime.Now;
 
             try
