@@ -90,6 +90,7 @@ namespace MyFirstRazorApp.Pages.Teachers
                 Console.WriteLine($"Error loading courses: {ex.Message}");
                 ModelState.AddModelError("", "An error occurred while loading courses.");
             }
+            ViewData["CourseOptions"] = CourseOptions;
         }
     }
 }

@@ -1,5 +1,8 @@
 ﻿@model MyFirstRazorApp.Models.Teacher
-
+<input type="hidden" asp-for="CreatedBy" value="Teacher" />
+<input type="hidden" asp-for="UpdatedBy" value="Teacher" />
+<input type="hidden" asp-for="CreatedDate" value="@DateTime.Now" />
+<input type="hidden" asp-for="UpdatedDate" value="@DateTime.Now" />
 <div class="form-group">
     <label asp-for="Name" class="control-label"></label>
     <input asp-for="Name" class="form-control" />
@@ -20,7 +23,7 @@
 
 <div class="form-group">
     <label asp-for="CourseId" class="control-label"></label>
-    <select asp-for="CourseId" class="form-control" asp-items="ViewBag.CourseOptions">
+    <select asp-for="CourseId" class="form-control" asp-items="@(ViewData["CourseOptions"] as List<SelectListItem>)">
         <option value="">-- Select Course --</option>
     </select>
     <span asp-validation-for="CourseId" class="text-danger"></span>
