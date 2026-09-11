@@ -6,17 +6,14 @@ namespace MyFirstRazorApp.Pages.Students
 {
     public class IndexModel : PageModel
     {
-        private readonly IStudentService _studentService;
-
-
         public IList<Student> Students { get; set; } = new List<Student>();
 
+        private readonly IStudentService _studentService;
 
         public IndexModel(IStudentService studentService)
         {
             _studentService = studentService;
         }
-
 
         public async Task OnGetAsync()
         {

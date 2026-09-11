@@ -1,4 +1,9 @@
 ﻿@model MyFirstRazorApp.Models.Student
+@inject MyFirstRazorApp.Services.ICourseService _courseService
+
+@{
+    var courses = await _courseService.GetAllCoursesAsync();
+}
 
 <input type="hidden" asp-for="CreatedBy" value="Nusrat" />
 <input type="hidden" asp-for="UpdatedBy" value="Nusrat" />
@@ -25,6 +30,7 @@
 
 <div class="form-group">
     <label asp-for="CourseId" class="control-label"></label>
+     @*Exclude viewdata and use the courses to build the dropdown*@
     <select asp-for="CourseId" class="form-control" asp-items="@(ViewData["CourseOptions"] as List<SelectListItem>)">
         <option value="">-- Select Course --</option>
     </select>

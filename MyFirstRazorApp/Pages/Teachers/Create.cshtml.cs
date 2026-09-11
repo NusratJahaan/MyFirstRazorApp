@@ -12,8 +12,10 @@ namespace MyFirstRazorApp.Pages.Teachers
         public Teacher Teacher { get; set; } = new Teacher();
 
         public List<SelectListItem> CourseOptions { get; set; } = new();
+
         private readonly ITeacherService _teacherService;
         private readonly ICourseService _courseService;
+
         public CreateModel(ITeacherService teacherService, ICourseService courseService)
         {
             _teacherService = teacherService;

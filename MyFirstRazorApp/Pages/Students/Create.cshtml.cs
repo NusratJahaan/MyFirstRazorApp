@@ -12,6 +12,7 @@ namespace MyFirstRazorApp.Pages.Students
         public Student Student { get; set; } = new Student();
 
         public List<SelectListItem> CourseOptions { get; set; } = new();
+
         private readonly IStudentService _studentService;
         private readonly ICourseService _courseService;
 
