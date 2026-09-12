@@ -12,7 +12,7 @@ using MyFirstRazorApp.Data;
 namespace MyFirstRazorApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260910072632_InitialCreate")]
+    [Migration("20260911061632_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

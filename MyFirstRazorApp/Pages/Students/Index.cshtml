@@ -1,46 +1,96 @@
 ﻿@page
 @model MyFirstRazorApp.Pages.Students.IndexModel
 
-<h2>Student List</h2>
+<div class="container-fluid mt-4 mb-5">
+    <!-- Header Section -->
+    <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+        <div>
+            <h2 class="text-dark fw-bold mb-0">Student Directory</h2>
+            <p class="text-muted small mb-0">Manage and view all enrolled students</p>
+        </div>
+        <a asp-page="Create" class="btn btn-primary shadow-sm d-flex align-items-center gap-2">
+            <i class="bi bi-person-plus-fill"></i> Add New Student
+        </a>
+    </div>
 
-<p>
-    <a asp-page="Create" class="btn btn-primary">Add New Student</a>
-</p>
-
-@if (Model.Students.Any())
-{
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Age</th>
-                <th>Course</th>
-                <th>Created</th>
-                <th>Updated</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var student in Model.Students)
-            {
-                <tr>
-                    <td>@student.Name</td>
-                    <td>@student.Email</td>
-                    <td>@student.Age</td>
-                   <td>@student.Course?.Name</td>
-                    <td>@student.CreatedDate.ToString("yyyy-MM-dd")</td>
-                    <td>@student.UpdatedDate?.ToString("yyyy-MM-dd")</td>
-                    <td>
-                        <a asp-page="Edit" asp-route-id="@student.Id" class="btn btn-sm btn-primary">Edit</a>
-                        <a asp-page="Delete" asp-route-id="@student.Id" class="btn btn-sm btn-danger">Delete</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
-else
-{
-    <p>No students found. Add one now!</p>
-}
+    <!-- Data Card -->
+    <div class="card shadow-sm border-0 rounded-4 overflow-hidden">
+        @if (Model.Students.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="px-4 py-3 text-secondary fw-semibold">Name</th>
+                            <th class="py-3 text-secondary fw-semibold">Email</th>
+                            <th class="py-3 text-secondary fw-semibold text-center">Age</th>
+                            <th class="py-3 text-secondary fw-semibold">Course</th>
+                            <th class="py-3 text-secondary fw-semibold">Created</th>
+                            <th class="py-3 text-secondary fw-semibold">Updated</th>
+                            <th class="px-4 py-3 text-secondary fw-semibold text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="border-top-0">
+                        @foreach (var student in Model.Students)
+                        {
+                            <tr>
+                                <td class="px-4 fw-medium text-dark">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                            <i class="bi bi-person text-primary"></i>
+                                        </div>
+                                        @student.Name
+                                    </div>
+                                </td>
+                                <td class="text-muted">@student.Email</td>
+                                <td class="text-center">
+                                    <span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary-subtle rounded-pill">
+                                        @student.Age
+                                    </span>
+                                </td>
+                                <td>
+                                    @if (student.Course?.Name != null)
+                                    {
+                                        <span class="badge bg-info bg-opacity-10 text-info border border-info-subtle px-3 py-2 rounded-pill">
+                                            @student.Course.Name
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted small fst-italic">Unassigned</span>
+                                    }
+                                </td>
+                                <td class="text-muted small">@student.CreatedDate.ToString("MMM dd, yyyy")</td>
+                                <td class="text-muted small">@(student.UpdatedDate?.ToString("MMM dd, yyyy") ?? "--")</td>
+                                <td class="px-4 text-end">
+                                    <div class="btn-group shadow-sm" role="group">
+                                        <a asp-page="Edit" asp-route-id="@student.Id" class="btn btn-sm btn-light border d-flex align-items-center gap-1 text-primary">
+                                            <i class="bi bi-pencil-square"></i> Edit
+                                        </a>
+                                        <a asp-page="Delete" asp-route-id="@student.Id" class="btn btn-sm btn-light border d-flex align-items-center gap-1 text-danger">
+                                            <i class="bi bi-trash"></i> Delete
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <!-- Empty State -->
+            <div class="text-center py-5">
+                <div class="display-3 text-muted mb-3 opacity-50">
+                    <i class="bi bi-people"></i>
+                </div>
+                <h4 class="text-dark fw-bold">No students found</h4>
+                <p class="text-muted mb-4">Your student directory is currently empty. Get started by adding a new student.</p>
+                <a asp-page="Create" class="btn btn-outline-primary rounded-pill px-4">
+                    Add First Student
+                </a>
+            </div>
+        }
+    </div>
+</div>
