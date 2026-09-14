@@ -13,6 +13,12 @@ node_modules/
 Debug/
 Release/
 .vscode/
-"*.db" 
-"*.db-shm" 
-"*.db-wal" 
+
+# SQLite
+*.db
+*.db-shm
+*.db-wal
+
+# Telerik
+*.nupkg
+telerik-license.txt

@@ -5,12 +5,19 @@ using MyFirstRazorApp.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorPages();
+builder.Services.AddRazorPages()
+.AddJsonOptions(options =>
+options.JsonSerializerOptions.PropertyNamingPolicy = null);
 
-//  ADD THIS LINE - Registers DbContext
+// Add Telerik UI for ASP.NET Core
+builder.Services.AddKendo();
+
+// Register DbContext
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+options.UseSqlServer(
+builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Register application services
 builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<ITeacherService, TeacherService>();
 builder.Services.AddScoped<ICourseService, CourseService>();
@@ -22,12 +29,9 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    // The default HSTS value is 30 days.
     app.UseHsts();
 }
-
-
-//service register for Services || Setp: 2
 
 app.UseHttpsRedirection();
 
@@ -36,7 +40,8 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapStaticAssets();
+
 app.MapRazorPages()
-   .WithStaticAssets();
+.WithStaticAssets();
 
 app.Run();

@@ -1,62 +1,113 @@
 ﻿@page
 @model MyFirstRazorApp.Pages.Coordinators.IndexModel
 
-<h2>Coordinator List</h2>
+<div class="container-fluid mt-4 mb-5">
+    <!-- Header Section -->
+    <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+        <div>
+            <h2 class="text-dark fw-bold mb-0">Coordinator Directory</h2>
+            <p class="text-muted small mb-0">Manage department coordinators and contact details</p>
+        </div>
+        <a asp-page="Create" class="btn btn-primary shadow-sm d-flex align-items-center gap-2">
+            <i class="bi bi-person-plus-fill"></i> Add New Coordinator
+        </a>
+    </div>
 
-<p>
-    <a asp-page="Create" class="btn btn-primary">Add New Coordinator</a>
-</p>
-
-@if (Model.Coordinators.Any())
-{
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Department</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var coordinator in Model.Coordinators)
-            {
-                <tr>
-                    <td>@coordinator.Name</td>
-                    <td>@coordinator.Email</td>
-                    <td>@coordinator.Phone</td>
-                    <td>@coordinator.Department</td>
-                    <td>
-                        <a asp-page="Edit" asp-route-id="@coordinator.Id">Edit</a> |
-                        <a href="#" onclick="deleteCoordinator(@coordinator.Id, '@coordinator.Name'); return false;">Delete</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
-else
-{
-    <p>No coordinators found. Add one now!</p>
-}
+    <!-- Data Card -->
+    <div class="card shadow-sm border-0 rounded-4 overflow-hidden">
+        @if (Model.Coordinators.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="px-4 py-3 text-secondary fw-semibold">Name</th>
+                            <th class="py-3 text-secondary fw-semibold">Email</th>
+                            <th class="py-3 text-secondary fw-semibold">Phone</th>
+                            <th class="py-3 text-secondary fw-semibold">Department</th>
+                            <th class="px-4 py-3 text-secondary fw-semibold text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="border-top-0">
+                        @foreach (var coordinator in Model.Coordinators)
+                        {
+                            <tr>
+                                <td class="px-4 fw-medium text-dark">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                            <i class="bi bi-person-workspace text-primary"></i>
+                                        </div>
+                                        @coordinator.Name
+                                    </div>
+                                </td>
+                                <td class="text-muted">@coordinator.Email</td>
+                                <td class="text-muted">
+                                    <span class="d-inline-flex align-items-center gap-1">
+                                        <i class="bi bi-telephone text-secondary opacity-75 small"></i>
+                                        @coordinator.Phone
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary-subtle px-3 py-2 rounded-pill">
+                                        <i class="bi bi-building me-1"></i>@coordinator.Department
+                                    </span>
+                                </td>
+                                <td class="px-4 text-end">
+                                    <div class="btn-group shadow-sm" role="group">
+                                        <a asp-page="Edit" asp-route-id="@coordinator.Id" class="btn btn-sm btn-light border d-flex align-items-center gap-1 text-primary">
+                                            <i class="bi bi-pencil-square"></i> Edit
+                                        </a>
+                                        <button type="button" class="btn btn-sm btn-light border d-flex align-items-center gap-1 text-danger" onclick="deleteCoordinator(@coordinator.Id, '@coordinator.Name')">
+                                            <i class="bi bi-trash"></i> Delete
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <!-- Empty State -->
+            <div class="text-center py-5">
+                <div class="display-3 text-muted mb-3 opacity-50">
+                    <i class="bi bi-people"></i>
+                </div>
+                <h4 class="text-dark fw-bold">No coordinators found</h4>
+                <p class="text-muted mb-4">Your coordinator directory is currently empty. Get started by adding a new coordinator.</p>
+                <a asp-page="Create" class="btn btn-outline-primary rounded-pill px-4">
+                    Add First Coordinator
+                </a>
+            </div>
+        }
+    </div>
+</div>
 
 <!-- ✅ Delete Confirmation Modal -->
-<div class="modal fade" id="deleteModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Confirm Delete</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 border-top border-danger border-4 rounded-4 shadow-lg">
+            <div class="modal-header border-bottom-0 pb-0">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <p>Are you sure you want to delete <strong id="coordinatorName"></strong>?</p>
+            <div class="modal-body text-center pt-0 px-4">
+                <div class="d-inline-flex align-items-center justify-content-center bg-danger bg-opacity-10 text-danger rounded-circle mb-3" style="width: 70px; height: 70px;">
+                    <i class="bi bi-exclamation-triangle-fill display-5"></i>
+                </div>
+                <h4 class="text-dark fw-bold" id="deleteModalLabel">Confirm Deletion</h4>
+                <p class="text-muted mb-1">Are you sure you want to delete the record for</p>
+                <p><strong id="coordinatorName" class="text-dark fs-5"></strong>?</p>
+                <p class="text-danger small fw-semibold">This action cannot be undone.</p>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <form method="post" asp-page-handler="Delete" id="deleteForm">
+            <div class="modal-footer border-top-0 justify-content-center pb-4">
+                <button type="button" class="btn btn-light border px-4 rounded-pill text-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form method="post" asp-page-handler="Delete" id="deleteForm" class="m-0">
                     <input type="hidden" name="id" id="deleteId" />
-                    <button type="submit" class="btn btn-danger">Delete</button>
+                    <button type="submit" class="btn btn-danger px-4 shadow-sm rounded-pill d-flex align-items-center gap-2">
+                        <i class="bi bi-trash3-fill"></i> Yes, Delete
+                    </button>
                 </form>
             </div>
         </div>
