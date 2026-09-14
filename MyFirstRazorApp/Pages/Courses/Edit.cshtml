@@ -1,0 +1,25 @@
+﻿@page "{id:int}"
+@model MyFirstRazorApp.Pages.Courses.EditModel
+
+<h2>Edit Course</h2>
+
+<form method="post">
+    <input type="hidden" asp-for="Course.Id" />
+    <input type="hidden" asp-for="Course.CreatedDate" />
+    <input type="hidden" asp-for="Course.CreatedBy" />
+    <input type="hidden" asp-for="Course.UpdatedDate" value="@DateTime.Now" />
+    <input type="hidden" asp-for="Course.UpdatedBy" value="User" />
+
+    <partial name="_CourseForm" for="Course" />
+
+    <div class="form-group mt-3">
+        <input type="submit" value="Save" class="btn btn-primary" />
+        <a asp-page="Index" class="btn btn-secondary">Back to List</a>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

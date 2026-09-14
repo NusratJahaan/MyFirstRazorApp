@@ -1,0 +1,24 @@
+﻿@page
+@model MyFirstRazorApp.Pages.Coordinators.CreateModel
+
+<h2>Add New Coordinator</h2>
+
+<form method="post">
+    <input type="hidden" asp-for="Coordinator.CreatedDate" value="@DateTime.Now" />
+    <input type="hidden" asp-for="Coordinator.UpdatedDate" value="@DateTime.Now" />
+    <input type="hidden" asp-for="Coordinator.CreatedBy" value="User" />
+    <input type="hidden" asp-for="Coordinator.UpdatedBy" value="User" />
+
+    <partial name="_CoordinatorForm" for="Coordinator" />
+
+    <div class="form-group mt-3">
+        <input type="submit" value="Create" class="btn btn-primary" />
+        <a asp-page="Index" class="btn btn-secondary">Back to List</a>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

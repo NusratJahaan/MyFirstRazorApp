@@ -3,8 +3,6 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
-
 namespace MyFirstRazorApp.Migrations
 {
     /// <inheritdoc />
@@ -13,6 +11,26 @@ namespace MyFirstRazorApp.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Coordinators",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Department = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Coordinators", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Courses",
                 columns: table => new
@@ -82,21 +100,6 @@ namespace MyFirstRazorApp.Migrations
                         principalColumn: "Id");
                 });
 
-            migrationBuilder.InsertData(
-                table: "Courses",
-                columns: new[] { "Id", "CreatedBy", "CreatedDate", "Description", "Name", "UpdatedBy", "UpdatedDate" },
-                values: new object[,]
-                {
-                    { 1, "User", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Bengali Language", "Bangla", "User", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 2, "User", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "English Language", "English", "User", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 3, "User", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Mathematics", "Math", "User", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 4, "User", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "General Science", "Science", "User", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 5, "User", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "World History", "History", "User", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 6, "User", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Geography", "Geography", "User", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 7, "User", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Physics", "Physics", "User", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) },
-                    { 8, "User", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Chemistry", "Chemistry", "User", new DateTime(2026, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified) }
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_Students_CourseId",
                 table: "Students",
@@ -113,6 +116,9 @@ namespace MyFirstRazorApp.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Coordinators");
+
             migrationBuilder.DropTable(
                 name: "Students");
 

@@ -1,0 +1,75 @@
+﻿@page
+@model MyFirstRazorApp.Pages.Coordinators.IndexModel
+
+<h2>Coordinator List</h2>
+
+<p>
+    <a asp-page="Create" class="btn btn-primary">Add New Coordinator</a>
+</p>
+
+@if (Model.Coordinators.Any())
+{
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Department</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var coordinator in Model.Coordinators)
+            {
+                <tr>
+                    <td>@coordinator.Name</td>
+                    <td>@coordinator.Email</td>
+                    <td>@coordinator.Phone</td>
+                    <td>@coordinator.Department</td>
+                    <td>
+                        <a asp-page="Edit" asp-route-id="@coordinator.Id">Edit</a> |
+                        <a href="#" onclick="deleteCoordinator(@coordinator.Id, '@coordinator.Name'); return false;">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No coordinators found. Add one now!</p>
+}
+
+<!-- ✅ Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete <strong id="coordinatorName"></strong>?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form method="post" asp-page-handler="Delete" id="deleteForm">
+                    <input type="hidden" name="id" id="deleteId" />
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function deleteCoordinator(id, name) {
+            document.getElementById('deleteId').value = id;
+            document.getElementById('coordinatorName').textContent = name;
+            var modal = new bootstrap.Modal(document.getElementById('deleteModal'));
+            modal.show();
+        }
+    </script>
+}
