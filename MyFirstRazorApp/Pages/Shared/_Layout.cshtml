@@ -7,15 +7,15 @@
     <title>@ViewData["Title"] - MyFirstRazorApp</title>
     <script type="importmap"></script>
 
-    ```
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <!-- Site CSS -->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MyFirstRazorApp.styles.css" asp-append-version="true" />
 
-    <!-- Telerik CSS -->
-    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2026.3.811/styles/kendo.default-main.min.css" />
-    ```
-
+    <!-- Telerik Kendo UI CSS -->
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/themes/14.5.0/default/default-main.css" />
 </head>
 
 <body>
@@ -24,7 +24,6 @@
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-page="/Index">MyFirstRazorApp</a>
 
-                ```
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                         data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -74,17 +73,19 @@
             <a asp-area="" asp-page="/Privacy">Privacy</a>
         </div>
     </footer>
+    <!-- jQuery -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
-    <!-- Telerik JS -->
-    <script src="https://kendo.cdn.telerik.com/2026.3.811/js/jquery.min.js"></script>
+    <!-- Telerik Kendo UI -->
     <script src="https://kendo.cdn.telerik.com/2026.3.811/js/kendo.all.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2026.3.811/js/kendo.aspnetmvc.min.js"></script>
 
-    <!-- Bootstrap JS -->
+    <!-- Bootstrap -->
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Site JS -->
     <script src="~/js/site.js" asp-append-version="true"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
-    ```
-
 </body>
 </html>
