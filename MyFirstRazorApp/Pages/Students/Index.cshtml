@@ -1,4 +1,4 @@
-﻿@page
+@page
 @using Kendo.Mvc.UI
 @model MyFirstRazorApp.Pages.Students.IndexModel
 
@@ -61,14 +61,12 @@
                     .Filterable(false)
                     .ClientTemplate(
                         "<div class='btn-group shadow-sm'>" +
-                            "<a href='" + Url.Page("Edit") +
-                            "?id=#=Id#' " +
+                            "<a href='" + Url.Content("~/Students/Edit/") + "#=Id#' " +
                             "class='btn btn-sm btn-light border text-primary'>" +
                                 "<i class='bi bi-pencil-square'></i> Edit" +
                             "</a> " +
 
-                            "<a href='" + Url.Page("Delete") +
-                            "?id=#=Id#' " +
+                            "<a href='" + Url.Content("~/Students/Delete/") + "#=Id#' " +
                             "class='btn btn-sm btn-light border text-danger'>" +
                                 "<i class='bi bi-trash'></i> Delete" +
                             "</a>" +
@@ -80,6 +78,11 @@
             )
             .Sortable()
             .Filterable()
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .ServerOperation(false)
+                .PageSize(10)
+            )
             .NoRecords(n => n.Template(
                 "<div class='py-5 text-center'>" +
                     "<h4 class='text-dark fw-bold'>No students found</h4>" +
