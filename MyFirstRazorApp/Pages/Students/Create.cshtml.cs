@@ -9,33 +9,31 @@ namespace MyFirstRazorApp.Pages.Students
     public class CreateModel : PageModel
     {
         [BindProperty]
-        public Student Student { get; set; } = new Student();
+        public Student Student { get; set; }
 
-        public List<SelectListItem> CourseOptions { get; set; } = new();
+        public List<SelectListItem> CourseOptions { get; set; }
 
         private readonly IStudentService _studentService;
-        private readonly ICourseService _courseService;
 
-        public CreateModel(IStudentService studentService, ICourseService courseService)
+        public CreateModel(IStudentService studentService)
         {
             _studentService = studentService;
-            _courseService = courseService;
         }
 
         public async Task OnGetAsync()
         {
-            await LoadCoursesAsync();
+            Student = new();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
-            {
-                await LoadCoursesAsync();
-                return Page();
-            }
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return Page();
+                }
+
                 await _studentService.AddStudentAsync(Student);
 
                 return RedirectToPage("./Index");
@@ -43,23 +41,9 @@ namespace MyFirstRazorApp.Pages.Students
             catch (Exception ex)
             {
                 Console.WriteLine($"Error: {ex.Message}");
-                await LoadCoursesAsync();
                 return Page();
             }
         }
 
-        private async Task LoadCoursesAsync()
-        {
-            var courses = await _courseService.GetAllCoursesAsync();
-            foreach (var course in courses)
-            {
-                CourseOptions.Add(new SelectListItem
-                {
-                    Value = course.Id.ToString(),
-                    Text = course.Name
-                });
-            }
-            ViewData["CourseOptions"] = CourseOptions;
-        }
     }
 }

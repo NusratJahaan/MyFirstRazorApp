@@ -1,28 +1,36 @@
 ﻿@model MyFirstRazorApp.Models.Student
 @using Kendo.Mvc.UI
-@using Microsoft.AspNetCore.Mvc.Rendering
-
+@using MyFirstRazorApp.Models
 @using MyFirstRazorApp.Services
+
 @inject ICourseService _courseService
 
 @{
-    var courseList = await _courseService.GetAllCoursesAsync();
+    List<Course> courseList = await _courseService.GetAllCoursesAsync();
 }
 
 <!-- Hidden Fields -->
-<input type="hidden" asp-for="CreatedBy" value="Nusrat" />
+@if (Model.Id == 0)
+{
+    <input type="hidden" asp-for="CreatedBy" value="Nusrat" />
+    <input type="hidden" asp-for="UpdatedBy" value="@DateTime.Now" />
+}
+else
+{
+    <input type="hidden" asp-for="CreatedBy"/>
+    <input type="hidden" asp-for="CreatedDate" />
+}
+
 <input type="hidden" asp-for="UpdatedBy" value="Nusrat" />
-<input type="hidden" asp-for="CreatedDate" value="@DateTime.Now" />
 <input type="hidden" asp-for="UpdatedDate" value="@DateTime.Now" />
+<input type="hidden" asp-for="Id" />
+
 
 <!-- Name -->
 <div class="mb-4">
     <label asp-for="Name" class="form-label fw-semibold text-secondary"></label>
     <div>
-        @(Html.Kendo().TextBoxFor(m => m.Name)
-            .Placeholder("Enter student's full name")
-            .HtmlAttributes(new { @class = "w-100" })
-        )
+        @(Html.Kendo().TextBoxFor(m => m.Name).Placeholder("Enter student's full name").HtmlAttributes(new { @class = "w-100" }))
     </div>
     <span asp-validation-for="Name" class="text-danger small mt-1 d-block"></span>
 </div>
@@ -31,10 +39,7 @@
 <div class="mb-4">
     <label asp-for="Email" class="form-label fw-semibold text-secondary"></label>
     <div>
-        @(Html.Kendo().TextBoxFor(m => m.Email)
-            .Placeholder("name@example.com")
-            .HtmlAttributes(new { @class = "w-100" })
-        )
+        @(Html.Kendo().TextBoxFor(m => m.Email).Placeholder("name@example.com").HtmlAttributes(new { @class = "w-100" }))
     </div>
     <span asp-validation-for="Email" class="text-danger small mt-1 d-block"></span>
 </div>
@@ -59,12 +64,12 @@
     <label asp-for="CourseId" class="form-label fw-semibold text-secondary"></label>
     <div>
         @(Html.Kendo().DropDownListFor(m => m.CourseId)
-    .OptionLabel("-- Select Enrolled Course --")
-    .DataTextField("Name")
-    .DataValueField("Id")
-    .BindTo(courseList)
-    .HtmlAttributes(new { @class = "w-100" })
-)
+            .OptionLabel("-- Select Enrolled Course --")
+            .DataTextField("Name")
+            .DataValueField("Id")
+            .BindTo(courseList)
+            .HtmlAttributes(new { @class = "w-100" })
+        )
     </div>
     <span asp-validation-for="CourseId" class="text-danger small mt-1 d-block"></span>
 </div>
