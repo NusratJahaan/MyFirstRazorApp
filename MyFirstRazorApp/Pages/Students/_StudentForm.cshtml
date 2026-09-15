@@ -1,4 +1,5 @@
 ﻿@model MyFirstRazorApp.Models.Student
+@using Kendo.Mvc.UI
 @using Microsoft.AspNetCore.Mvc.Rendering
 
 <!-- Hidden Fields -->
@@ -10,11 +11,11 @@
 <!-- Name -->
 <div class="mb-4">
     <label asp-for="Name" class="form-label fw-semibold text-secondary"></label>
-    <div class="input-group shadow-sm">
-        <span class="input-group-text bg-white text-muted border-end-0 px-3">
-            <i class="bi bi-person"></i>
-        </span>
-        <input asp-for="Name" class="form-control py-2 border-start-0 ps-0" placeholder="Enter student's full name" />
+    <div>
+        @(Html.Kendo().TextBoxFor(m => m.Name)
+            .Placeholder("Enter student's full name")
+            .HtmlAttributes(new { @class = "w-100" })
+        )
     </div>
     <span asp-validation-for="Name" class="text-danger small mt-1 d-block"></span>
 </div>
@@ -22,11 +23,11 @@
 <!-- Email -->
 <div class="mb-4">
     <label asp-for="Email" class="form-label fw-semibold text-secondary"></label>
-    <div class="input-group shadow-sm">
-        <span class="input-group-text bg-white text-muted border-end-0 px-3">
-            <i class="bi bi-envelope"></i>
-        </span>
-        <input asp-for="Email" class="form-control py-2 border-start-0 ps-0" placeholder="name@example.com" />
+    <div>
+        @(Html.Kendo().TextBoxFor(m => m.Email)
+            .Placeholder("name@example.com")
+            .HtmlAttributes(new { @class = "w-100" })
+        )
     </div>
     <span asp-validation-for="Email" class="text-danger small mt-1 d-block"></span>
 </div>
@@ -34,11 +35,14 @@
 <!-- Age -->
 <div class="mb-4">
     <label asp-for="Age" class="form-label fw-semibold text-secondary"></label>
-    <div class="input-group shadow-sm">
-        <span class="input-group-text bg-white text-muted border-end-0 px-3">
-            <i class="bi bi-123"></i>
-        </span>
-        <input asp-for="Age" class="form-control py-2 border-start-0 ps-0" placeholder="Enter age" type="number" />
+    <div>
+        @(Html.Kendo().NumericTextBoxFor(m => m.Age)
+            .Placeholder("Enter age")
+            .Format("n0")
+            .Decimals(0)
+            .Min(0)
+            .HtmlAttributes(new { @class = "w-100" })
+        )
     </div>
     <span asp-validation-for="Age" class="text-danger small mt-1 d-block"></span>
 </div>
@@ -46,14 +50,14 @@
 <!-- Course -->
 <div class="mb-3">
     <label asp-for="CourseId" class="form-label fw-semibold text-secondary"></label>
-    <div class="input-group shadow-sm">
-        <span class="input-group-text bg-white text-muted border-end-0 px-3">
-            <i class="bi bi-journal-text"></i>
-        </span>
-        <select asp-for="CourseId" class="form-select py-2 border-start-0 ps-0"
-                asp-items="@(ViewData["CourseOptions"] as List<SelectListItem>)">
-            <option value="">-- Select Enrolled Course --</option>
-        </select>
+    <div>
+        @(Html.Kendo().DropDownListFor(m => m.CourseId)
+            .OptionLabel("-- Select Enrolled Course --")
+            .DataTextField("Text")
+            .DataValueField("Value")
+            .BindTo((IEnumerable<SelectListItem>)ViewData["CourseOptions"])
+            .HtmlAttributes(new { @class = "w-100" })
+        )
     </div>
     <span asp-validation-for="CourseId" class="text-danger small mt-1 d-block"></span>
 </div>
