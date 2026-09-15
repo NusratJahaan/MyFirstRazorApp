@@ -23,7 +23,10 @@
 
                         <!-- Essential Hidden Fields -->
                         <input type="hidden" asp-for="Student.Id" />
+                        <input type="hidden" asp-for="Student.CreatedDate" />
+                        <input type="hidden" asp-for="Student.CreatedBy" />
                         <input type="hidden" asp-for="Student.UpdatedDate" value="@DateTime.Now" />
+                        <input type="hidden" asp-for="Student.UpdatedBy" value="Nusrat" />
 
                         <!-- Form Fields Partial -->
                         <div class="mb-4">

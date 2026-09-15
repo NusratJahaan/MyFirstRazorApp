@@ -1,17 +1,13 @@
 ﻿@model MyFirstRazorApp.Models.Student
-@inject MyFirstRazorApp.Services.ICourseService _courseService
+@using Microsoft.AspNetCore.Mvc.Rendering
 
-@{
-    var courses = await _courseService.GetAllCoursesAsync();
-}
-
-<!-- Essential Hidden Fields -->
+<!-- Hidden Fields -->
 <input type="hidden" asp-for="CreatedBy" value="Nusrat" />
 <input type="hidden" asp-for="UpdatedBy" value="Nusrat" />
 <input type="hidden" asp-for="CreatedDate" value="@DateTime.Now" />
 <input type="hidden" asp-for="UpdatedDate" value="@DateTime.Now" />
 
-<!-- Name Field -->
+<!-- Name -->
 <div class="mb-4">
     <label asp-for="Name" class="form-label fw-semibold text-secondary"></label>
     <div class="input-group shadow-sm">
@@ -23,7 +19,7 @@
     <span asp-validation-for="Name" class="text-danger small mt-1 d-block"></span>
 </div>
 
-<!-- Email Field -->
+<!-- Email -->
 <div class="mb-4">
     <label asp-for="Email" class="form-label fw-semibold text-secondary"></label>
     <div class="input-group shadow-sm">
@@ -35,7 +31,7 @@
     <span asp-validation-for="Email" class="text-danger small mt-1 d-block"></span>
 </div>
 
-<!-- Age Field -->
+<!-- Age -->
 <div class="mb-4">
     <label asp-for="Age" class="form-label fw-semibold text-secondary"></label>
     <div class="input-group shadow-sm">
@@ -47,15 +43,15 @@
     <span asp-validation-for="Age" class="text-danger small mt-1 d-block"></span>
 </div>
 
-<!-- Course Selection Field -->
+<!-- Course -->
 <div class="mb-3">
     <label asp-for="CourseId" class="form-label fw-semibold text-secondary"></label>
     <div class="input-group shadow-sm">
         <span class="input-group-text bg-white text-muted border-end-0 px-3">
             <i class="bi bi-journal-text"></i>
         </span>
-        @* Successfully excluded ViewData and built the dropdown using the injected courses list *@
-        <select asp-for="CourseId" class="form-select py-2 border-start-0 ps-0" asp-items="@(new SelectList(courses, "Id", "Name"))">
+        <select asp-for="CourseId" class="form-select py-2 border-start-0 ps-0"
+                asp-items="@(ViewData["CourseOptions"] as List<SelectListItem>)">
             <option value="">-- Select Enrolled Course --</option>
         </select>
     </div>
