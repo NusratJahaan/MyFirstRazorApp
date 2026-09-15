@@ -2,6 +2,7 @@
 @using Kendo.Mvc.UI
 @using Microsoft.AspNetCore.Mvc.Rendering
 
+
 <!-- Hidden Fields -->
 <input type="hidden" asp-for="CreatedBy" value="Nusrat" />
 <input type="hidden" asp-for="UpdatedBy" value="Nusrat" />
@@ -55,7 +56,7 @@
             .OptionLabel("-- Select Enrolled Course --")
             .DataTextField("Text")
             .DataValueField("Value")
-            .BindTo((IEnumerable<SelectListItem>)ViewData["CourseOptions"])
+            .BindTo((IEnumerable<SelectListItem>)ViewData["CourseOptions"]) //Viewdata bad.
             .HtmlAttributes(new { @class = "w-100" })
         )
     </div>

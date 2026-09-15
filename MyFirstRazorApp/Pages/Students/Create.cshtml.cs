@@ -48,7 +48,7 @@ namespace MyFirstRazorApp.Pages.Students
             }
         }
 
-        private async Task LoadCoursesAsync()
+        private async Task LoadCoursesAsync() //bad
         {
             var courses = await _courseService.GetAllCoursesAsync();
             foreach (var course in courses)
