@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using MyFirstRazorApp.Data;
+using MyFirstRazorApp.Models;
 using MyFirstRazorApp.Services;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,13 +14,22 @@ builder.Services.AddRazorPages()
         options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
     });
 
-// Add Telerik UI for ASP.NET Core
+// Add Telerik UI
 builder.Services.AddKendo();
 
-// Register DbContext
+// ✅ ONE DbContext for everything
 builder.Services.AddDbContext<AppDbContext>(options =>
-options.UseSqlServer(
-builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// ✅ Register Identity (using same AppDbContext)
+builder.Services.AddDefaultIdentity<AppUser>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = false;  // ✅ No email confirmation needed
+    options.Password.RequireDigit = true;
+    options.Password.RequiredLength = 6;
+})
+.AddRoles<IdentityRole>()
+.AddEntityFrameworkStores<AppDbContext>();
 
 // Register application services
 builder.Services.AddScoped<IStudentService, StudentService>();
@@ -28,23 +39,21 @@ builder.Services.AddScoped<ICoordinatorService, CoordinatorService>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configure pipeline
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days.
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
-
+app.UseStaticFiles();       // ✅ Explicitly add (recommended)
 app.UseRouting();
 
+app.UseAuthentication();    // ✅ MUST be before UseAuthorization
 app.UseAuthorization();
 
 app.MapStaticAssets();
-
-app.MapRazorPages()
-.WithStaticAssets();
+app.MapRazorPages().WithStaticAssets();
 
 app.Run();
