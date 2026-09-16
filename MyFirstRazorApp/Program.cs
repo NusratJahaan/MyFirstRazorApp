@@ -38,6 +38,10 @@ builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<ICoordinatorService, CoordinatorService>();
 
 var app = builder.Build();
+using (var scope = app.Services.CreateScope())
+{
+    await RoleSeeder.SeedRolesAsync(scope.ServiceProvider);
+}
 
 // Configure pipeline
 if (!app.Environment.IsDevelopment())
