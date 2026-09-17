@@ -19,7 +19,7 @@ namespace MyFirstRazorApp.Pages.Account
             {
                 return Page();
             }
-
+            //Save to Account Service and redirect to login page
             // TODO: Registration logic will be added by mentor
             return RedirectToPage("/Account/Login");
         }

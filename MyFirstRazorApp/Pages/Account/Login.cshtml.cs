@@ -20,6 +20,10 @@ namespace MyFirstRazorApp.Pages.Account
                 return Page();
             }
 
+
+            //Id pass => DB user validate 
+            //Claims => UserName, Roles, Id 
+
             // TODO: Authentication logic will be added by mentor
             return RedirectToPage("/Index");
         }
