@@ -4,7 +4,6 @@
 <div class="container mt-5 mb-5">
     <div class="row justify-content-center">
         <div class="col-md-6 col-lg-5">
-
             <div class="card shadow-sm border-0 rounded-4 overflow-hidden">
                 <div class="card-body p-4 p-md-5">
 
@@ -24,6 +23,17 @@
                             <label asp-for="Input.Email" class="form-label fw-semibold text-secondary"></label>
                             <input asp-for="Input.Email" class="form-control" placeholder="name@example.com" />
                             <span asp-validation-for="Input.Email" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Input.Role" class="form-label fw-semibold text-secondary"></label>
+                            <select asp-for="Input.Role" class="form-select">
+                                <option value="">-- Select Role --</option>
+                                <option value="Coordinator">Coordinator</option>
+                                <option value="Teacher">Teacher</option>
+                                <option value="Student">Student</option>
+                            </select>
+                            <span asp-validation-for="Input.Role" class="text-danger small"></span>
                         </div>
 
                         <div class="mb-3">
@@ -49,10 +59,8 @@
                         Already have an account?
                         <a asp-page="/Account/Login" class="text-primary text-decoration-none fw-semibold">Login here</a>
                     </p>
-
                 </div>
             </div>
-
         </div>
     </div>
 </div>

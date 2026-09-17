@@ -1,8 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using MyFirstRazorApp.Data;
-using MyFirstRazorApp.Models;
 using MyFirstRazorApp.Services;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,41 +13,37 @@ builder.Services.AddRazorPages()
         options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
     });
 
-// Add Telerik UI
+// Add Telerik UI for ASP.NET Core
 builder.Services.AddKendo();
 
-//  ONE DbContext for everything
+// Register DbContext
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Register Identity (using same AppDbContext)
-builder.Services.AddDefaultIdentity<AppUser>(options =>
-{
-    options.SignIn.RequireConfirmedAccount = false;
-    options.Password.RequireDigit = true;
-    options.Password.RequiredLength = 6;
-})
-.AddRoles<IdentityRole>()
-.AddEntityFrameworkStores<AppDbContext>();
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("ScienceOnly", policy =>
-        policy.RequireClaim("Department", "Science"));
-});
+// ✅ Cookie Authentication
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Account/Login";
+        options.LogoutPath = "/Account/Logout";
+        options.AccessDeniedPath = "/Account/AccessDenied";
+        options.ExpireTimeSpan = TimeSpan.FromHours(8);
+        options.SlidingExpiration = true;
+    });
+
+// ✅ Authorization
+builder.Services.AddAuthorization();
 
 // Register application services
 builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<ITeacherService, TeacherService>();
 builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<ICoordinatorService, CoordinatorService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
-using (var scope = app.Services.CreateScope())
-{
-    await RoleSeeder.SeedRolesAsync(scope.ServiceProvider);
-}
 
-// Configure pipeline
+// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
@@ -56,10 +51,11 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();      
+app.UseStaticFiles();
 app.UseRouting();
 
-app.UseAuthentication();  
+// ✅ MUST be before UseAuthorization
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();
