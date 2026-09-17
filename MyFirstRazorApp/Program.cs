@@ -17,19 +17,24 @@ builder.Services.AddRazorPages()
 // Add Telerik UI
 builder.Services.AddKendo();
 
-// ✅ ONE DbContext for everything
+//  ONE DbContext for everything
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// ✅ Register Identity (using same AppDbContext)
+// Register Identity (using same AppDbContext)
 builder.Services.AddDefaultIdentity<AppUser>(options =>
 {
-    options.SignIn.RequireConfirmedAccount = false;  // ✅ No email confirmation needed
+    options.SignIn.RequireConfirmedAccount = false;
     options.Password.RequireDigit = true;
     options.Password.RequiredLength = 6;
 })
 .AddRoles<IdentityRole>()
 .AddEntityFrameworkStores<AppDbContext>();
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("ScienceOnly", policy =>
+        policy.RequireClaim("Department", "Science"));
+});
 
 // Register application services
 builder.Services.AddScoped<IStudentService, StudentService>();
@@ -51,10 +56,10 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();       // ✅ Explicitly add (recommended)
+app.UseStaticFiles();      
 app.UseRouting();
 
-app.UseAuthentication();    // ✅ MUST be before UseAuthorization
+app.UseAuthentication();  
 app.UseAuthorization();
 
 app.MapStaticAssets();
