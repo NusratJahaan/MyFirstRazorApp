@@ -61,12 +61,7 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-page="/Courses/Index">Courses</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-page="/Account/Login">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-page="/Account/Register">Register</a>
-                        </li>
+              
                         @if (User.Identity?.IsAuthenticated == true)
                         {
                             <li class="nav-item">

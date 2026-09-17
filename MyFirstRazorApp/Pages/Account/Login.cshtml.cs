@@ -1,11 +1,7 @@
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyFirstRazorApp.Services;
 using System;
-using System.Collections.Generic;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace MyFirstRazorApp.Pages.Account
@@ -13,10 +9,12 @@ namespace MyFirstRazorApp.Pages.Account
     public class LoginModel : PageModel
     {
         private readonly IUserService _userService;
+        private readonly IAuthService _authService;   // ✅ NEW
 
-        public LoginModel(IUserService userService)
+        public LoginModel(IUserService userService, IAuthService authService)
         {
             _userService = userService;
+            _authService = authService;
         }
 
         [BindProperty]
@@ -44,20 +42,8 @@ namespace MyFirstRazorApp.Pages.Account
                     return Page();
                 }
 
-                // ✅ Build claims: Id, UserName, Role
-                var claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                    new Claim(ClaimTypes.Name, user.FullName),
-                    new Claim(ClaimTypes.Email, user.Email),
-                    new Claim(ClaimTypes.Role, user.Role)
-                };
-
-                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                var principal = new ClaimsPrincipal(identity);
-
-                // ✅ Sign in with cookie
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+                // ✅ Delegate to AuthService
+                await _authService.SetupAuthClaims(user, HttpContext);
 
                 return RedirectToPage("/Index");
             }
@@ -71,13 +57,11 @@ namespace MyFirstRazorApp.Pages.Account
 
         public class LoginInputModel
         {
-            [BindProperty]
             [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "Email is required")]
             [System.ComponentModel.DataAnnotations.EmailAddress(ErrorMessage = "Please enter a valid email")]
             [System.ComponentModel.DataAnnotations.Display(Name = "Email Address")]
             public string Email { get; set; } = string.Empty;
 
-            [BindProperty]
             [System.ComponentModel.DataAnnotations.Required(ErrorMessage = "Password is required")]
             [System.ComponentModel.DataAnnotations.DataType(System.ComponentModel.DataAnnotations.DataType.Password)]
             [System.ComponentModel.DataAnnotations.Display(Name = "Password")]
