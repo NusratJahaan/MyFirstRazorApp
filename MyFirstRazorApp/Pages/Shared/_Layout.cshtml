@@ -7,18 +7,14 @@
     <title>@ViewData["Title"] - MyFirstRazorApp</title>
     <script type="importmap"></script>
 
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
 
-    <!-- Site CSS -->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MyFirstRazorApp.styles.css" asp-append-version="true" />
 
-    <!-- Telerik Kendo UI CSS -->
     <link rel="stylesheet" href="https://kendo.cdn.telerik.com/themes/14.5.0/default/default-main.css" />
 
-    <!-- jQuery & Telerik Kendo UI Scripts (Required in head for inline component rendering) -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="https://kendo.cdn.telerik.com/2026.2.520/js/kendo.all.min.js"></script>
     <script src="https://kendo.cdn.telerik.com/2026.2.520/js/kendo.aspnetmvc.min.js"></script>
@@ -65,15 +61,20 @@
                         @if (User.Identity?.IsAuthenticated == true)
                         {
                             <li class="nav-item">
-                                <form method="post" asp-page="/Account/Logout" class="d-inline">
-                                    <button type="submit" class="nav-link btn btn-link text-dark">Logout (@User.Identity.Name)</button>
-                                </form>
-                            </li>
+                            <a class="nav-link text-dark" asp-page="/Profile/Index">Profile</a>
+                           </li>
+                        <li class="nav-item">
+                            <form method="post" asp-page="/Account/Logout" class="d-inline">
+                                <button type="submit" class="nav-link btn btn-link text-dark">
+                                    Logout (@User.Identity.Name)
+                                </button>
+                            </form>
+                        </li>
                         }
                         else
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-page="/Account/Login">Login</a>
+                           <li class="nav-item">
+                            <a class="nav-link text-dark" asp-page="/Account/Login">Login</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-page="/Account/Register">Register</a>
@@ -97,10 +98,9 @@
             <a asp-area="" asp-page="/Privacy">Privacy</a>
         </div>
     </footer>
-    <!-- Bootstrap -->
+
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Site JS -->
     <script src="~/js/site.js" asp-append-version="true"></script>
 
     @await RenderSectionAsync("Scripts", required: false)

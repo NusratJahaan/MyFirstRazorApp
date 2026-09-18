@@ -1,10 +1,6 @@
-﻿using Microsoft.AspNetCore.Cors.Infrastructure;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using MyFirstRazorApp.Data;
 using MyFirstRazorApp.Models;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace MyFirstRazorApp.Services
 {

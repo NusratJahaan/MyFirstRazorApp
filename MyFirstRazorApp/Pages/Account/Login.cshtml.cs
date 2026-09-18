@@ -8,7 +8,7 @@ namespace MyFirstRazorApp.Pages.Account
     public class LoginModel : PageModel
     {
         private readonly IUserService _userService;
-        private readonly IAuthService _authService;   // ✅ NEW
+        private readonly IAuthService _authService;
 
         public LoginModel(IUserService userService, IAuthService authService)
         {
@@ -32,7 +32,7 @@ namespace MyFirstRazorApp.Pages.Account
 
             try
             {
-                // ✅ Validate user against DB
+                //Validate user against DB
                 var user = await _userService.ValidateUserAsync(Input.Email, Input.Password);
 
                 if (user == null)
@@ -41,7 +41,7 @@ namespace MyFirstRazorApp.Pages.Account
                     return Page();
                 }
 
-                // ✅ Delegate to AuthService
+                //Delegate to AuthService
                 await _authService.SetupAuthClaims(user, HttpContext);
 
                 return RedirectToPage("/Index");

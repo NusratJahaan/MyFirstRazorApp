@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+//services to the container.
 builder.Services.AddRazorPages()
     .AddJsonOptions(options =>
     {
@@ -13,14 +13,14 @@ builder.Services.AddRazorPages()
         options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
     });
 
-// Add Telerik UI for ASP.NET Core
+//Telerik UI for ASP.NET Core
 builder.Services.AddKendo();
 
-// Register DbContext
+//Register DbContext
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// ✅ Cookie Authentication
+//Cookie Authentication
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
@@ -31,10 +31,10 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.SlidingExpiration = true;
     });
 
-// ✅ Authorization
+//Authorization
 builder.Services.AddAuthorization();
 
-// Register application services
+//Register application services
 builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<ITeacherService, TeacherService>();
 builder.Services.AddScoped<ICourseService, CourseService>();
@@ -44,7 +44,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+//HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
@@ -55,7 +55,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
-// ✅ MUST be before UseAuthorization
+//Before UseAuthorization
 app.UseAuthentication();
 app.UseAuthorization();
 

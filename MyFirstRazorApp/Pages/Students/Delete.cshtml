@@ -6,7 +6,6 @@
     <div class="row justify-content-center">
         <div class="col-md-8 col-lg-6">
 
-            <!-- Header Section -->
             <div class="d-flex align-items-center mb-4 pb-2 border-bottom">
                 <a asp-page="Index" class="btn btn-light border shadow-sm text-muted me-3 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; border-radius: 50%;" title="Back to List">
                     <i class="bi bi-arrow-left"></i>
@@ -17,11 +16,9 @@
                 </div>
             </div>
 
-            <!-- Warning & Details Card -->
             <div class="card shadow-sm border-0 border-top border-danger border-4 rounded-4 overflow-hidden">
                 <div class="card-body p-4 p-md-5">
 
-                    <!-- Alert Icon & Message -->
                     <div class="text-center mb-4 pb-2">
                         <div class="d-inline-flex align-items-center justify-content-center bg-danger bg-opacity-10 text-danger rounded-circle mb-3" style="width: 80px; height: 80px;">
                             <i class="bi bi-exclamation-triangle-fill display-4"></i>
@@ -30,7 +27,6 @@
                         <p class="text-muted">You are about to permanently delete the record for <strong class="text-dark">@Model.Student.Name</strong>.</p>
                     </div>
 
-                    <!-- Read-Only Data Display -->
                     <div class="bg-light rounded-4 p-4 mb-4 border border-light-subtle">
                         <dl class="row gy-3 mb-0">
                             <dt class="col-sm-4 text-muted fw-semibold">Name</dt>
@@ -64,7 +60,6 @@
                         </dl>
                     </div>
 
-                    <!-- Action Buttons -->
                     <form method="post">
                         <input type="hidden" asp-for="Student.Id" />
                         <div class="d-flex justify-content-center gap-3 mt-2">

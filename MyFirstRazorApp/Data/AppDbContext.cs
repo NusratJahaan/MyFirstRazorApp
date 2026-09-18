@@ -4,7 +4,7 @@ using Telerik.SvgIcons;
 
 namespace MyFirstRazorApp.Data
 {
-    public class AppDbContext : DbContext  // plain DbContext
+    public class AppDbContext : DbContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)

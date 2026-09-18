@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Http;
 using MyFirstRazorApp.Models;
-using System.Collections.Generic;
 using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace MyFirstRazorApp.Services
 {

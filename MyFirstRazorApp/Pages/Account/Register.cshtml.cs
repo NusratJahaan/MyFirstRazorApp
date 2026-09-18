@@ -2,8 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyFirstRazorApp.Models;
 using MyFirstRazorApp.Services;
-using System;
-using System.Threading.Tasks;
 
 namespace MyFirstRazorApp.Pages.Account
 {
@@ -39,7 +37,7 @@ namespace MyFirstRazorApp.Pages.Account
                     return Page();
                 }
 
-                // ✅ Build SystemUser from input
+                // Build SystemUser from input
                 var user = new SystemUser
                 {
                     FullName = Input.FullName,
@@ -47,7 +45,7 @@ namespace MyFirstRazorApp.Pages.Account
                     Role = Input.Role
                 };
 
-                // ✅ Save via service
+                // Save via service
                 await _userService.RegisterAsync(user, Input.Password);
 
                 return RedirectToPage("/Account/Login");

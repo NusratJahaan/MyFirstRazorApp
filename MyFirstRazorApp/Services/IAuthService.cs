@@ -1,8 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using MyFirstRazorApp.Models;
-using System.Collections.Generic;
+﻿using MyFirstRazorApp.Models;
 using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace MyFirstRazorApp.Services
 {

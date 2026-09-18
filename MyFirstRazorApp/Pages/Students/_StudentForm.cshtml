@@ -9,7 +9,6 @@
     List<Course> courseList = await _courseService.GetAllCoursesAsync();
 }
 
-<!-- Hidden Fields -->
 @if (Model.Id == 0)
 {
     <input type="hidden" asp-for="CreatedBy" value="Nusrat" />
@@ -26,7 +25,6 @@ else
 <input type="hidden" asp-for="Id" />
 
 
-<!-- Name -->
 <div class="mb-4">
     <label asp-for="Name" class="form-label fw-semibold text-secondary"></label>
     <div>
@@ -35,7 +33,6 @@ else
     <span asp-validation-for="Name" class="text-danger small mt-1 d-block"></span>
 </div>
 
-<!-- Email -->
 <div class="mb-4">
     <label asp-for="Email" class="form-label fw-semibold text-secondary"></label>
     <div>
@@ -44,7 +41,6 @@ else
     <span asp-validation-for="Email" class="text-danger small mt-1 d-block"></span>
 </div>
 
-<!-- Age -->
 <div class="mb-4">
     <label asp-for="Age" class="form-label fw-semibold text-secondary"></label>
     <div>
@@ -59,7 +55,6 @@ else
     <span asp-validation-for="Age" class="text-danger small mt-1 d-block"></span>
 </div>
 
-<!-- Course -->
 <div class="mb-3">
     <label asp-for="CourseId" class="form-label fw-semibold text-secondary"></label>
     <div>

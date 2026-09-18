@@ -1,12 +1,10 @@
 ﻿@model MyFirstRazorApp.Models.Teacher
 
-<!-- Essential Hidden Fields -->
 <input type="hidden" asp-for="CreatedBy" value="Teacher" />
 <input type="hidden" asp-for="UpdatedBy" value="Teacher" />
 <input type="hidden" asp-for="CreatedDate" value="@DateTime.Now" />
 <input type="hidden" asp-for="UpdatedDate" value="@DateTime.Now" />
 
-<!-- Name Field -->
 <div class="mb-4">
     <label asp-for="Name" class="form-label fw-semibold text-secondary"></label>
     <div class="input-group shadow-sm">
@@ -18,7 +16,6 @@
     <span asp-validation-for="Name" class="text-danger small mt-1 d-block"></span>
 </div>
 
-<!-- Email Field -->
 <div class="mb-4">
     <label asp-for="Email" class="form-label fw-semibold text-secondary"></label>
     <div class="input-group shadow-sm">
@@ -30,7 +27,6 @@
     <span asp-validation-for="Email" class="text-danger small mt-1 d-block"></span>
 </div>
 
-<!-- Specialization Field -->
 <div class="mb-4">
     <label asp-for="Specialization" class="form-label fw-semibold text-secondary"></label>
     <div class="input-group shadow-sm">
@@ -42,7 +38,6 @@
     <span asp-validation-for="Specialization" class="text-danger small mt-1 d-block"></span>
 </div>
 
-<!-- Course Selection Field -->
 <div class="mb-3">
     <label asp-for="CourseId" class="form-label fw-semibold text-secondary"></label>
     <div class="input-group shadow-sm">
