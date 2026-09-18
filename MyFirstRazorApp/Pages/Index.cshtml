@@ -1,14 +1,32 @@
 ﻿@page
-@model IndexModel
+@model MyFirstRazorApp.Pages.IndexModel
+@using System.Security.Claims
+
 @{
-    ViewData["Title"] = "Home page";
+    int userId = int.Parse(User.Claims.FirstOrDefault(s => s.Type == "UserId")?.Value ?? "0");
+    string userName = User.Claims.FirstOrDefault(s => s.Type == ClaimTypes.Name)?.Value ?? "";
+    string userEmail = User.Claims.FirstOrDefault(s => s.Type == ClaimTypes.Email)?.Value ?? "";
+    string userRole = User.Claims.FirstOrDefault(s => s.Type == ClaimTypes.Role)?.Value ?? "";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-4">
+    <h1>Home</h1>
+
+    @if (User.Identity?.IsAuthenticated == true)
+    {
+        <div class="alert alert-info">
+            <h5>Welcome, @userName!</h5>
+            <ul class="mb-0">
+                <li><strong>User ID:</strong> @userId</li>
+                <li><strong>Email:</strong> @userEmail</li>
+                <li><strong>Role:</strong> @userRole</li>
+            </ul>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning">
+            You are not logged in.
+        </div>
+    }
 </div>
-@foreach (var claim in User.Claims)
-{
-    <p>@claim.Type = @claim.Value</p>
-}
