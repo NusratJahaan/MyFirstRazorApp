@@ -1,6 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyFirstRazorApp.Data;
 using MyFirstRazorApp.Models;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MyFirstRazorApp.Services
 {
@@ -17,7 +20,9 @@ namespace MyFirstRazorApp.Services
         {
             try
             {
-                return await _context.Coordinators.ToListAsync();
+                return await _context.Coordinators
+                    .Include(c => c.SystemUser)
+                    .ToListAsync();
             }
             catch (Exception ex)
             {
@@ -29,7 +34,9 @@ namespace MyFirstRazorApp.Services
         {
             try
             {
-                return await _context.Coordinators.FindAsync(id);
+                return await _context.Coordinators
+                    .Include(c => c.SystemUser)
+                    .FirstOrDefaultAsync(c => c.Id == id);
             }
             catch (Exception ex)
             {
@@ -37,13 +44,31 @@ namespace MyFirstRazorApp.Services
             }
         }
 
-        public async Task<bool> AddCoordinatorAsync(Coordinator coordinator)
+        public async Task<Coordinator?> GetCoordinatorBySystemUserIdAsync(int systemUserId)
         {
             try
             {
+                return await _context.Coordinators
+                    .Include(c => c.SystemUser)
+                    .FirstOrDefaultAsync(c => c.SystemUserId == systemUserId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error getting coordinator by user id: {ex.Message}");
+            }
+        }
+
+        public async Task AddCoordinatorAsync(Coordinator coordinator)
+        {
+            try
+            {
+                coordinator.CreatedDate = DateTime.Now;
+                coordinator.CreatedBy = "System";
+                coordinator.UpdatedDate = DateTime.Now;
+                coordinator.UpdatedBy = "System";
+
                 await _context.Coordinators.AddAsync(coordinator);
                 await _context.SaveChangesAsync();
-                return true;
             }
             catch (Exception ex)
             {
@@ -51,13 +76,22 @@ namespace MyFirstRazorApp.Services
             }
         }
 
-        public async Task<bool> UpdateCoordinatorAsync(Coordinator coordinator)
+        public async Task UpdateCoordinatorAsync(Coordinator coordinator)
         {
             try
             {
-                _context.Coordinators.Update(coordinator);
+                var existing = await _context.Coordinators.FindAsync(coordinator.Id);
+                if (existing == null)
+                {
+                    throw new Exception("Coordinator not found");
+                }
+
+                existing.Name = coordinator.Name;
+                existing.Email = coordinator.Email;
+                existing.UpdatedDate = DateTime.Now;
+                existing.UpdatedBy = "System";
+
                 await _context.SaveChangesAsync();
-                return true;
             }
             catch (Exception ex)
             {
@@ -65,7 +99,7 @@ namespace MyFirstRazorApp.Services
             }
         }
 
-        public async Task<bool> DeleteCoordinatorAsync(int id)
+        public async Task DeleteCoordinatorAsync(int id)
         {
             try
             {
@@ -74,9 +108,7 @@ namespace MyFirstRazorApp.Services
                 {
                     _context.Coordinators.Remove(coordinator);
                     await _context.SaveChangesAsync();
-                    return true;
                 }
-                return false;
             }
             catch (Exception ex)
             {

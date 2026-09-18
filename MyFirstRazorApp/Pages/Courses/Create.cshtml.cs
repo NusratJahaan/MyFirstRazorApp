@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyFirstRazorApp.Models;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace MyFirstRazorApp.Pages.Courses
 {
+    [Authorize(Roles = "Coordinator")]
     public class CreateModel : PageModel
     {
         private readonly ICourseService _courseService;
@@ -19,17 +21,11 @@ namespace MyFirstRazorApp.Pages.Courses
         [BindProperty]
         public Course Course { get; set; } = new Course();
 
-        public IActionResult OnGet()
-        {
-            return Page();
-        }
+        public IActionResult OnGet() => Page();
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
+            if (!ModelState.IsValid) return Page();
 
             try
             {

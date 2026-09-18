@@ -1,10 +1,14 @@
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyFirstRazorApp.Models;
 using MyFirstRazorApp.Services;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MyFirstRazorApp.Pages.Coordinators
 {
+    [Authorize]
     public class IndexModel : PageModel
     {
         private readonly ICoordinatorService _coordinatorService;
@@ -26,22 +30,6 @@ namespace MyFirstRazorApp.Pages.Coordinators
             {
                 Console.WriteLine($"Error: {ex.Message}");
                 Coordinators = new List<Coordinator>();
-            }
-        }
-
-        public async Task<IActionResult> OnPostDeleteAsync(int id)
-        {
-            try
-            {
-                await _coordinatorService.DeleteCoordinatorAsync(id);
-                return RedirectToPage("./Index");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error: {ex.Message}");
-                ModelState.AddModelError("", "An error occurred while deleting.");
-                await OnGetAsync();
-                return Page();
             }
         }
     }

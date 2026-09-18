@@ -16,5 +16,6 @@ namespace MyFirstRazorApp.Data
         public DbSet<Course> Courses { get; set; }
         public DbSet<Coordinator> Coordinators { get; set; }
         public DbSet<SystemUser> SystemUsers { get; set; }
+        public DbSet<StudentCourse> StudentCourses { get; set; }
     }
 }

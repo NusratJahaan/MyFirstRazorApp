@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using MyFirstRazorApp.Data;
 using MyFirstRazorApp.Models;
+using System;
+using System.Threading.Tasks;
 
 namespace MyFirstRazorApp.Services
 {
@@ -20,13 +22,65 @@ namespace MyFirstRazorApp.Services
         {
             try
             {
+                // ✅ Hash password
                 user.PasswordHash = _passwordHasher.HashPassword(user, plainPassword);
+
+                // ✅ Audit
                 user.CreatedDate = DateTime.Now;
                 user.CreatedBy = "System";
                 user.UpdatedDate = DateTime.Now;
                 user.UpdatedBy = "System";
 
+                // ✅ Save SystemUser
                 await _context.SystemUsers.AddAsync(user);
+                await _context.SaveChangesAsync();
+
+                // ✅ Create role-specific record
+                switch (user.Role)
+                {
+                    case "Student":
+                        var student = new Student
+                        {
+                            Name = user.FullName,
+                            Email = user.Email,
+                            SystemUserId = user.Id,
+                            CreatedDate = DateTime.Now,
+                            CreatedBy = "System",
+                            UpdatedDate = DateTime.Now,
+                            UpdatedBy = "System"
+                        };
+                        await _context.Students.AddAsync(student);
+                        break;
+
+                    case "Teacher":
+                        var teacher = new Teacher
+                        {
+                            Name = user.FullName,
+                            Email = user.Email,
+                            SystemUserId = user.Id,
+                            CreatedDate = DateTime.Now,
+                            CreatedBy = "System",
+                            UpdatedDate = DateTime.Now,
+                            UpdatedBy = "System"
+                        };
+                        await _context.Teachers.AddAsync(teacher);
+                        break;
+
+                    case "Coordinator":
+                        var coordinator = new Coordinator
+                        {
+                            Name = user.FullName,
+                            Email = user.Email,
+                            SystemUserId = user.Id,
+                            CreatedDate = DateTime.Now,
+                            CreatedBy = "System",
+                            UpdatedDate = DateTime.Now,
+                            UpdatedBy = "System"
+                        };
+                        await _context.Coordinators.AddAsync(coordinator);
+                        break;
+                }
+
                 await _context.SaveChangesAsync();
                 return true;
             }
@@ -43,11 +97,19 @@ namespace MyFirstRazorApp.Services
                 var user = await _context.SystemUsers
                     .FirstOrDefaultAsync(u => u.Email == email);
 
-                if (user == null) return null;
+                if (user == null)
+                {
+                    return null;
+                }
 
                 var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, password);
 
-                return result == PasswordVerificationResult.Success ? user : null;
+                if (result == PasswordVerificationResult.Success)
+                {
+                    return user;
+                }
+
+                return null;
             }
             catch (Exception ex)
             {

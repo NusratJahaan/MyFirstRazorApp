@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyFirstRazorApp.Models;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace MyFirstRazorApp.Pages.Courses
 {
+    [Authorize(Roles = "Coordinator")]
     public class EditModel : PageModel
     {
         private readonly ICourseService _courseService;
@@ -24,12 +26,7 @@ namespace MyFirstRazorApp.Pages.Courses
             try
             {
                 Course = await _courseService.GetCourseByIdAsync(id) ?? new Course();
-
-                if (Course.Id == 0)
-                {
-                    return NotFound();
-                }
-
+                if (Course.Id == 0) return NotFound();
                 return Page();
             }
             catch (Exception ex)
@@ -41,26 +38,11 @@ namespace MyFirstRazorApp.Pages.Courses
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
+            if (!ModelState.IsValid) return Page();
 
             try
             {
-                var existing = await _courseService.GetCourseByIdAsync(Course.Id);
-
-                if (existing == null)
-                {
-                    return NotFound();
-                }
-
-                existing.Name = Course.Name;
-                existing.Description = Course.Description;
-                existing.UpdatedDate = DateTime.Now;
-                existing.UpdatedBy = "User";
-
-                await _courseService.UpdateCourseAsync(existing);
+                await _courseService.UpdateCourseAsync(Course);
                 return RedirectToPage("./Index");
             }
             catch (Exception ex)

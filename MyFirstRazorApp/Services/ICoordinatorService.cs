@@ -1,4 +1,6 @@
 ﻿using MyFirstRazorApp.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MyFirstRazorApp.Services
 {
@@ -6,8 +8,9 @@ namespace MyFirstRazorApp.Services
     {
         Task<List<Coordinator>> GetAllCoordinatorsAsync();
         Task<Coordinator?> GetCoordinatorByIdAsync(int id);
-        Task<bool> AddCoordinatorAsync(Coordinator coordinator);
-        Task<bool> UpdateCoordinatorAsync(Coordinator coordinator);
-        Task<bool> DeleteCoordinatorAsync(int id);
+        Task<Coordinator?> GetCoordinatorBySystemUserIdAsync(int systemUserId);
+        Task AddCoordinatorAsync(Coordinator coordinator);
+        Task UpdateCoordinatorAsync(Coordinator coordinator);
+        Task DeleteCoordinatorAsync(int id);
     }
 }

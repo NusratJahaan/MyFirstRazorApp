@@ -1,0 +1,101 @@
+﻿@page "{id:int}"
+@model MyFirstRazorApp.Pages.Courses.DetailsModel
+
+<div class="container-fluid mt-4 mb-5">
+    <div class="d-flex align-items-center mb-4 pb-2 border-bottom">
+        <a asp-page="Index" class="btn btn-light border shadow-sm text-muted me-3 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; border-radius: 50%;" title="Back">
+            <i class="bi bi-arrow-left"></i>
+        </a>
+        <div>
+            <h2 class="text-dark fw-bold mb-0">@Model.Course.Name</h2>
+            <p class="text-muted small mb-0">Course details and enrolled students</p>
+        </div>
+    </div>
+
+    <!-- Course Info Card -->
+    <div class="card shadow-sm border-0 rounded-4 overflow-hidden mb-4">
+        <div class="card-body p-4">
+            <h5 class="text-dark fw-bold mb-3">Course Information</h5>
+            <dl class="row mb-0">
+                <dt class="col-sm-3 text-muted fw-semibold">Course Name</dt>
+                <dd class="col-sm-9 text-dark fw-medium">@Model.Course.Name</dd>
+
+                <dt class="col-sm-3 text-muted fw-semibold">Description</dt>
+                <dd class="col-sm-9 text-dark">@(string.IsNullOrEmpty(Model.Course.Description) ? "—" : Model.Course.Description)</dd>
+
+                <dt class="col-sm-3 text-muted fw-semibold">Teacher</dt>
+                <dd class="col-sm-9">
+                    @if (Model.Course.Teacher != null)
+                    {
+                        <a asp-page="/Teachers/Details" asp-route-id="@Model.Course.Teacher.Id" class="text-primary text-decoration-none">
+                            <i class="bi bi-person-badge me-1"></i>@Model.Course.Teacher.Name
+                        </a>
+                    }
+                    else
+                    {
+                        <span class="text-muted small fst-italic">Unassigned</span>
+                    }
+                </dd>
+
+                <dt class="col-sm-3 text-muted fw-semibold">Total Students</dt>
+                <dd class="col-sm-9">
+                    <span class="badge bg-info bg-opacity-10 text-info border border-info-subtle px-3 py-2 rounded-pill">
+                        @Model.Students.Count
+                    </span>
+                </dd>
+            </dl>
+        </div>
+    </div>
+
+    <!-- Students List -->
+    <div class="card shadow-sm border-0 rounded-4 overflow-hidden">
+        <div class="card-body p-4 pb-3">
+            <h5 class="text-dark fw-bold mb-0">Enrolled Students</h5>
+        </div>
+
+        @if (Model.Students.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="px-4 py-3 text-secondary fw-semibold">Name</th>
+                            <th class="py-3 text-secondary fw-semibold">Email</th>
+                            <th class="px-4 py-3 text-secondary fw-semibold text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var student in Model.Students)
+                        {
+                            <tr>
+                                <td class="px-4 fw-medium text-dark">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                            <i class="bi bi-person text-primary"></i>
+                                        </div>
+                                        @student.Name
+                                    </div>
+                                </td>
+                                <td class="text-muted">@student.Email</td>
+                                <td class="px-4 text-end">
+                                    <a asp-page="/Students/Details" asp-route-id="@student.Id" class="btn btn-sm btn-light border text-primary">
+                                        <i class="bi bi-eye"></i> View
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="text-center py-4">
+                <div class="display-6 text-muted mb-2 opacity-50">
+                    <i class="bi bi-people"></i>
+                </div>
+                <p class="text-muted mb-0">No students enrolled in this course yet.</p>
+            </div>
+        }
+    </div>
+</div>

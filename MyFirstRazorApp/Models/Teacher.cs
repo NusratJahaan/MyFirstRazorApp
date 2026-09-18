@@ -1,22 +1,25 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
 namespace MyFirstRazorApp.Models
 {
     public class Teacher : BaseEntity
     {
-        [Required(ErrorMessage = "Teacher name is required")]
+        [Required(ErrorMessage = "Name is required")]
+        [StringLength(100, MinimumLength = 2)]
+        [Display(Name = "Teacher Name")]
         public string Name { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Email is required")]
-        [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$",
-            ErrorMessage = "Please enter a valid email address")]
+        [EmailAddress(ErrorMessage = "Please enter a valid email")]
         [Display(Name = "Email Address")]
         public string Email { get; set; } = string.Empty;
-        public string? Specialization { get; set; }
 
-        // Foreign Key to Course
-        public int? CourseId { get; set; }
+        // Link to login user
+        public int? SystemUserId { get; set; }
+        public SystemUser? SystemUser { get; set; }
 
-        // Navigation Property
-        public virtual Course? Course { get; set; }
+        // One teacher → many courses
+        public virtual ICollection<Course> Courses { get; set; } = new List<Course>();
     }
 }

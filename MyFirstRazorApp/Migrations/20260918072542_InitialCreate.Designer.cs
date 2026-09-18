@@ -12,7 +12,7 @@ using MyFirstRazorApp.Data;
 namespace MyFirstRazorApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260917060036_InitialCreate")]
+    [Migration("20260918072542_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -40,9 +40,6 @@ namespace MyFirstRazorApp.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Department")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -52,8 +49,8 @@ namespace MyFirstRazorApp.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("SystemUserId")
+                        .HasColumnType("int");
 
                     b.Property<string>("UpdatedBy")
                         .IsRequired()
@@ -63,6 +60,8 @@ namespace MyFirstRazorApp.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("SystemUserId");
 
                     b.ToTable("Coordinators");
                 });
@@ -83,12 +82,15 @@ namespace MyFirstRazorApp.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int?>("TeacherId")
+                        .HasColumnType("int");
 
                     b.Property<string>("UpdatedBy")
                         .IsRequired()
@@ -98,6 +100,8 @@ namespace MyFirstRazorApp.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TeacherId");
 
                     b.ToTable("Courses");
                 });
@@ -109,12 +113,6 @@ namespace MyFirstRazorApp.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("Age")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
@@ -132,6 +130,44 @@ namespace MyFirstRazorApp.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<int?>("SystemUserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UpdatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SystemUserId");
+
+                    b.ToTable("Students");
+                });
+
+            modelBuilder.Entity("MyFirstRazorApp.Models.StudentCourse", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
                     b.Property<string>("UpdatedBy")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -143,7 +179,9 @@ namespace MyFirstRazorApp.Migrations
 
                     b.HasIndex("CourseId");
 
-                    b.ToTable("Students");
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("StudentCourses");
                 });
 
             modelBuilder.Entity("MyFirstRazorApp.Models.SystemUser", b =>
@@ -198,9 +236,6 @@ namespace MyFirstRazorApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("CourseId")
-                        .HasColumnType("int");
-
                     b.Property<string>("CreatedBy")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -214,10 +249,11 @@ namespace MyFirstRazorApp.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("Specialization")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("SystemUserId")
+                        .HasColumnType("int");
 
                     b.Property<string>("UpdatedBy")
                         .IsRequired()
@@ -228,38 +264,79 @@ namespace MyFirstRazorApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CourseId")
-                        .IsUnique()
-                        .HasFilter("[CourseId] IS NOT NULL");
+                    b.HasIndex("SystemUserId");
 
                     b.ToTable("Teachers");
                 });
 
-            modelBuilder.Entity("MyFirstRazorApp.Models.Student", b =>
+            modelBuilder.Entity("MyFirstRazorApp.Models.Coordinator", b =>
                 {
-                    b.HasOne("MyFirstRazorApp.Models.Course", "Course")
-                        .WithMany("Students")
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("MyFirstRazorApp.Models.SystemUser", "SystemUser")
+                        .WithMany()
+                        .HasForeignKey("SystemUserId");
 
-                    b.Navigation("Course");
-                });
-
-            modelBuilder.Entity("MyFirstRazorApp.Models.Teacher", b =>
-                {
-                    b.HasOne("MyFirstRazorApp.Models.Course", "Course")
-                        .WithOne("Teacher")
-                        .HasForeignKey("MyFirstRazorApp.Models.Teacher", "CourseId");
-
-                    b.Navigation("Course");
+                    b.Navigation("SystemUser");
                 });
 
             modelBuilder.Entity("MyFirstRazorApp.Models.Course", b =>
                 {
-                    b.Navigation("Students");
+                    b.HasOne("MyFirstRazorApp.Models.Teacher", "Teacher")
+                        .WithMany("Courses")
+                        .HasForeignKey("TeacherId");
 
                     b.Navigation("Teacher");
+                });
+
+            modelBuilder.Entity("MyFirstRazorApp.Models.Student", b =>
+                {
+                    b.HasOne("MyFirstRazorApp.Models.SystemUser", "SystemUser")
+                        .WithMany()
+                        .HasForeignKey("SystemUserId");
+
+                    b.Navigation("SystemUser");
+                });
+
+            modelBuilder.Entity("MyFirstRazorApp.Models.StudentCourse", b =>
+                {
+                    b.HasOne("MyFirstRazorApp.Models.Course", "Course")
+                        .WithMany("StudentCourses")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MyFirstRazorApp.Models.Student", "Student")
+                        .WithMany("StudentCourses")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+
+                    b.Navigation("Student");
+                });
+
+            modelBuilder.Entity("MyFirstRazorApp.Models.Teacher", b =>
+                {
+                    b.HasOne("MyFirstRazorApp.Models.SystemUser", "SystemUser")
+                        .WithMany()
+                        .HasForeignKey("SystemUserId");
+
+                    b.Navigation("SystemUser");
+                });
+
+            modelBuilder.Entity("MyFirstRazorApp.Models.Course", b =>
+                {
+                    b.Navigation("StudentCourses");
+                });
+
+            modelBuilder.Entity("MyFirstRazorApp.Models.Student", b =>
+                {
+                    b.Navigation("StudentCourses");
+                });
+
+            modelBuilder.Entity("MyFirstRazorApp.Models.Teacher", b =>
+                {
+                    b.Navigation("Courses");
                 });
 #pragma warning restore 612, 618
         }

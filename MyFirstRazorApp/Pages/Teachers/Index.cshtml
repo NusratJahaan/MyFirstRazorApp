@@ -5,11 +5,8 @@
     <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
         <div>
             <h2 class="text-dark fw-bold mb-0">Teacher Directory</h2>
-            <p class="text-muted small mb-0">Manage faculty and course assignments</p>
+            <p class="text-muted small mb-0">View all registered teachers and their courses</p>
         </div>
-        <a asp-page="Create" class="btn btn-primary shadow-sm d-flex align-items-center gap-2">
-            <i class="bi bi-person-plus-fill"></i> Add New Teacher
-        </a>
     </div>
 
     <div class="card shadow-sm border-0 rounded-4 overflow-hidden">
@@ -21,53 +18,32 @@
                         <tr>
                             <th class="px-4 py-3 text-secondary fw-semibold">Name</th>
                             <th class="py-3 text-secondary fw-semibold">Email</th>
-                            <th class="py-3 text-secondary fw-semibold">Specialization</th>
-                            <th class="py-3 text-secondary fw-semibold">Course</th>
+                            <th class="py-3 text-secondary fw-semibold">Courses</th>
                             <th class="px-4 py-3 text-secondary fw-semibold text-end">Actions</th>
                         </tr>
                     </thead>
-                    <tbody class="border-top-0">
+                    <tbody>
                         @foreach (var teacher in Model.Teachers)
                         {
                             <tr>
                                 <td class="px-4 fw-medium text-dark">
                                     <div class="d-flex align-items-center gap-3">
-                                        <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
-                                            <i class="bi bi-person-badge"></i>
+                                        <div class="bg-success bg-opacity-10 text-success rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                            <i class="bi bi-person-badge text-success"></i>
                                         </div>
                                         @teacher.Name
                                     </div>
                                 </td>
                                 <td class="text-muted">@teacher.Email</td>
                                 <td>
-                                    <span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary-subtle px-2 py-1 rounded-pill">
-                                        <i class="bi bi-award me-1"></i>@teacher.Specialization
+                                    <span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary-subtle px-3 py-2 rounded-pill">
+                                        @(teacher.Courses?.Count ?? 0) course(s)
                                     </span>
                                 </td>
-                                <td>
-                                    @if (teacher.Course?.Name != null)
-                                    {
-                                        <a asp-page="/Students/ByCourse"
-                                           asp-route-courseId="@teacher.CourseId"
-                                           asp-route-courseName="@teacher.Course?.Name"
-                                           class="badge bg-info bg-opacity-10 text-info border border-info-subtle px-3 py-2 rounded-pill text-decoration-none shadow-sm transition" title="View Students in Course">
-                                            <i class="bi bi-box-arrow-up-right me-1"></i> @teacher.Course.Name
-                                        </a>
-                                    }
-                                    else
-                                    {
-                                        <span class="text-muted small fst-italic">Unassigned</span>
-                                    }
-                                </td>
                                 <td class="px-4 text-end">
-                                    <div class="btn-group shadow-sm" role="group">
-                                        <a asp-page="Edit" asp-route-id="@teacher.Id" class="btn btn-sm btn-light border d-flex align-items-center gap-1 text-primary">
-                                            <i class="bi bi-pencil-square"></i> Edit
-                                        </a>
-                                        <button type="button" class="btn btn-sm btn-light border d-flex align-items-center gap-1 text-danger" onclick="deleteTeacher(@teacher.Id, '@teacher.Name')">
-                                            <i class="bi bi-trash"></i> Delete
-                                        </button>
-                                    </div>
+                                    <a asp-page="/Teachers/Details" asp-route-id="@teacher.Id" class="btn btn-sm btn-light border text-primary">
+                                        <i class="bi bi-eye"></i> View
+                                    </a>
                                 </td>
                             </tr>
                         }
@@ -77,56 +53,12 @@
         }
         else
         {
-            <!-- Empty State -->
             <div class="text-center py-5">
                 <div class="display-3 text-muted mb-3 opacity-50">
-                    <i class="bi bi-person-video3"></i>
+                    <i class="bi bi-person-badge"></i>
                 </div>
                 <h4 class="text-dark fw-bold">No teachers found</h4>
-                <p class="text-muted mb-4">Your faculty directory is currently empty. Get started by adding a new teacher.</p>
-                <a asp-page="Create" class="btn btn-outline-primary rounded-pill px-4">
-                    Add First Teacher
-                </a>
             </div>
         }
     </div>
 </div>
-
-<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0 border-top border-danger border-4 rounded-4 shadow-lg">
-            <div class="modal-header border-bottom-0 pb-0">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body text-center pt-0 px-4">
-                <div class="d-inline-flex align-items-center justify-content-center bg-danger bg-opacity-10 text-danger rounded-circle mb-3" style="width: 70px; height: 70px;">
-                    <i class="bi bi-exclamation-triangle-fill display-5"></i>
-                </div>
-                <h4 class="text-dark fw-bold" id="deleteModalLabel">Confirm Deletion</h4>
-                <p class="text-muted mb-1">Are you sure you want to delete the record for</p>
-                <p><strong id="teacherName" class="text-dark fs-5"></strong>?</p>
-                <p class="text-danger small fw-semibold">This action cannot be undone.</p>
-            </div>
-            <div class="modal-footer border-top-0 justify-content-center pb-4">
-                <button type="button" class="btn btn-light border px-4 rounded-pill text-secondary" data-bs-dismiss="modal">Cancel</button>
-                <form method="post" asp-page-handler="Delete" id="deleteForm" class="m-0">
-                    <input type="hidden" name="id" id="deleteId" />
-                    <button type="submit" class="btn btn-danger px-4 shadow-sm rounded-pill d-flex align-items-center gap-2">
-                        <i class="bi bi-trash3-fill"></i> Yes, Delete
-                    </button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-@section Scripts {
-    <script>
-        function deleteTeacher(id, name) {
-            document.getElementById('deleteId').value = id;
-            document.getElementById('teacherName').textContent = name;
-            var modal = new bootstrap.Modal(document.getElementById('deleteModal'));
-            modal.show();
-        }
-    </script>
-}
