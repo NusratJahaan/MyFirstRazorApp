@@ -70,9 +70,9 @@ namespace MyFirstRazorApp.Services
             try
             {
                 course.CreatedDate = DateTime.Now;
-                course.CreatedBy = "System";
+                course.CreatedBy = course.CreatedBy;
                 course.UpdatedDate = DateTime.Now;
-                course.UpdatedBy = "System";
+                course.UpdatedBy = course.UpdatedBy;
 
                 await _context.Courses.AddAsync(course);
                 await _context.SaveChangesAsync();
@@ -98,7 +98,7 @@ namespace MyFirstRazorApp.Services
                 existing.Description = course.Description;
                 // TeacherId is NOT updated here — that's for Teacher claim/release
                 existing.UpdatedDate = DateTime.Now;
-                existing.UpdatedBy = "System";
+                existing.UpdatedBy = course.UpdatedBy;
 
                 await _context.SaveChangesAsync();
                 return true;

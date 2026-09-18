@@ -4,10 +4,6 @@
 <h2>Add New Course</h2>
 
 <form method="post">
-    <input type="hidden" asp-for="Course.CreatedDate" value="@DateTime.Now" />
-    <input type="hidden" asp-for="Course.UpdatedDate" value="@DateTime.Now" />
-    <input type="hidden" asp-for="Course.CreatedBy" value="User" />
-    <input type="hidden" asp-for="Course.UpdatedBy" value="User" />
 
     <partial name="_CourseForm" for="Course" />
 
