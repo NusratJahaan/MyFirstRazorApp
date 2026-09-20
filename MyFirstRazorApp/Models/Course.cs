@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace MyFirstRazorApp.Models
 {
@@ -15,9 +16,12 @@ namespace MyFirstRazorApp.Models
 
         // One teacher per course (nullable — coordinator creates without teacher)
         public int? TeacherId { get; set; }
+
+        [JsonIgnore]
         public Teacher? Teacher { get; set; }
 
         // Many-to-many with Student
+        [JsonIgnore]
         public virtual ICollection<StudentCourse> StudentCourses { get; set; } = new List<StudentCourse>();
     }
 }

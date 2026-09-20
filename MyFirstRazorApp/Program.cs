@@ -7,11 +7,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 //services to the container.
 builder.Services.AddRazorPages()
-    .AddJsonOptions(options =>
-    {
-        options.JsonSerializerOptions.PropertyNamingPolicy = null;
-        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
-    });
+     .AddJsonOptions(options =>
+     {
+         options.JsonSerializerOptions.PropertyNamingPolicy = null;
+         options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+     });
 
 //Telerik UI for ASP.NET Core
 builder.Services.AddKendo();
