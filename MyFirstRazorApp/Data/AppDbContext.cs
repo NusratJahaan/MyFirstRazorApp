@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyFirstRazorApp.Models;
-using MyFirstRazorApp.Models.CourtCase;
 using MyFirstRazorApp.Models.StudentModels;
 
 namespace MyFirstRazorApp.Data

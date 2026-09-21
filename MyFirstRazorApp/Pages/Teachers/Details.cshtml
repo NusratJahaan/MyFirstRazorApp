@@ -39,7 +39,7 @@
         {
             var students = Model.CourseStudents.ContainsKey(course.Id) 
                 ? Model.CourseStudents[course.Id] 
-                : new List<MyFirstRazorApp.Models.Student>();
+                : new List<MyFirstRazorApp.Models.StudentModels.Student>();
 
             <div class="card shadow-sm border-0 rounded-4 overflow-hidden mb-4">
                 <div class="card-body p-4 pb-3 d-flex justify-content-between align-items-center">

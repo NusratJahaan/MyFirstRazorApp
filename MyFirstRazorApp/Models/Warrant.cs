@@ -2,7 +2,7 @@
 
 namespace MyFirstRazorApp.Models
 {
-    public class Warrant
+    public class Warrant : BaseEntity
     {
         public int ComplaintId { get; set; }
         public string CaseNumbers { get; set; }

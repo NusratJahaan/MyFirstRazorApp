@@ -1,4 +1,4 @@
-﻿using MyFirstRazorApp.Models;
+﻿using MyFirstRazorApp.Models.StudentModels;
 
 namespace MyFirstRazorApp.Services
 {

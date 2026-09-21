@@ -2,7 +2,7 @@
 
 namespace MyFirstRazorApp.Models
 {
-    public class ReturnOfService
+    public class ReturnOfService : BaseEntity
     {
         public int WarrantId { get; set; }
         public DateTime ServedDate { get; set; }

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using MyFirstRazorApp.Models;
+using MyFirstRazorApp.Models.StudentModels;
 using System.Security.Claims;
 
 namespace MyFirstRazorApp.Services

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using MyFirstRazorApp.Models;
+using MyFirstRazorApp.Models.StudentModels;
 using MyFirstRazorApp.Services;
 using System;
 using System.Collections.Generic;

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using MyFirstRazorApp.Data;
 using MyFirstRazorApp.Models;
+using MyFirstRazorApp.Models.StudentModels;
 using System;
 using System.Threading.Tasks;
 

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using MyFirstRazorApp.Models;
+using MyFirstRazorApp.Models.StudentModels;
 using MyFirstRazorApp.Services;
 
 namespace MyFirstRazorApp.Pages.Account

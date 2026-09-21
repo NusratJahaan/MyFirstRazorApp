@@ -1,0 +1,25 @@
+﻿@model MyFirstRazorApp.Models.Complaint
+
+<div class="mb-4">
+    <label asp-for="DefendantName" class="form-label fw-semibold text-secondary">Defendant Name</label>
+    <input asp-for="DefendantName" class="form-control" placeholder="Enter defendant's full name" />
+    <span asp-validation-for="DefendantName" class="text-danger small"></span>
+</div>
+
+<div class="mb-4">
+    <label asp-for="DefendantPhone" class="form-label fw-semibold text-secondary">Defendant Phone</label>
+    <input asp-for="DefendantPhone" class="form-control" placeholder="Enter phone number" />
+    <span asp-validation-for="DefendantPhone" class="text-danger small"></span>
+</div>
+
+<div class="mb-4">
+    <label asp-for="DefendantAddress" class="form-label fw-semibold text-secondary">Defendant Address</label>
+    <input asp-for="DefendantAddress" class="form-control" placeholder="Enter address" />
+    <span asp-validation-for="DefendantAddress" class="text-danger small"></span>
+</div>
+
+<div class="mb-4">
+    <label asp-for="Description" class="form-label fw-semibold text-secondary">Description</label>
+    <textarea asp-for="Description" class="form-control" rows="4" placeholder="Describe the complaint..."></textarea>
+    <span asp-validation-for="Description" class="text-danger small"></span>
+</div>

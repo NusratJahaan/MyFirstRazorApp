@@ -1,4 +1,4 @@
-﻿using MyFirstRazorApp.Models;
+﻿using MyFirstRazorApp.Models.StudentModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

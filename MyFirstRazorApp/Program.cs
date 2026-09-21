@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using MyFirstRazorApp.Data;
 using MyFirstRazorApp.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using MyFirstRazorApp.Services.CourtCase;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,6 +42,10 @@ builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<ICoordinatorService, CoordinatorService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+// Court Case Services
+builder.Services.AddScoped<IComplaintService, ComplaintService>();
+builder.Services.AddScoped<IOffenceLookUpService, OffenceLookUpService>();
+builder.Services.AddScoped<IOffenceService, OffenceService>();
 
 var app = builder.Build();
 

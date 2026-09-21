@@ -1,9 +1,8 @@
-﻿using MyFirstRazorApp.Models.CourtCase;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace MyFirstRazorApp.Models
 {
-    public class CaseHistory
+    public class CaseHistory : BaseEntity
     {
         public int OffenceId { get; set; }
         public string Action { get; set; }
