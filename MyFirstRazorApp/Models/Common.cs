@@ -1,4 +1,4 @@
-﻿namespace MyFirstRazorApp.Models.CourtCase
+﻿namespace MyFirstRazorApp.Models
 {
     public enum OffenceStatus
     {
@@ -7,7 +7,7 @@
         Declined = 3,
     }
 
-    public enum  CaseStatus
+    public enum CaseStatus
     {
         Inactive = 0,
         Active = 1,

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace MyFirstRazorApp.Models
+namespace MyFirstRazorApp.Models.StudentModels
 {
     public class Course : BaseEntity
     {

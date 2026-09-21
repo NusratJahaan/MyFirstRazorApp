@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MyFirstRazorApp.Models
+namespace MyFirstRazorApp.Models.StudentModels
 {
     public class Coordinator : BaseEntity
     {

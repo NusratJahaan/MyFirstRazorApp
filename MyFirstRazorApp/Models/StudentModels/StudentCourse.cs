@@ -1,4 +1,4 @@
-﻿namespace MyFirstRazorApp.Models
+﻿namespace MyFirstRazorApp.Models.StudentModels
 {
     public class StudentCourse : BaseEntity
     {
