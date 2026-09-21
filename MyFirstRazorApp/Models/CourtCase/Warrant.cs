@@ -9,28 +9,18 @@ namespace MyFirstRazorApp.Models.CourtCase
         public int ComplaintId { get; set; }
         public virtual Complaint? Complaint { get; set; }
 
-        [Required]
-        [StringLength(50)]
-        [Display(Name = "Warrant Number")]
-        public string WarrantNumber { get; set; } = string.Empty;
-
-        [StringLength(50)]
-        [Display(Name = "Warrant Type")]
-        public string? WarrantType { get; set; }
-
         [Display(Name = "Case Numbers")]
-        public string? CaseNumbers { get; set; }
+        public string CaseNumbers { get; set; }
 
         [Display(Name = "Issued Date")]
-        public DateTime IssuedDate { get; set; } = DateTime.Now;
+        public DateTime IssuedDate { get; set; }
 
-        [Display(Name = "Status")]
-        public WarrantStatus Status { get; set; } = WarrantStatus.Issued;
+        //Official Info
+        public string OfficialName { get; set; }
+        public DateTime OfficialSignDate { get; set; }
 
         [Display(Name = "Is Finished")]
-        public bool IsFinished { get; set; } = false;
+        public bool FinishedAndLocked { get; set; }
 
-        // Navigation
-        public virtual ICollection<ReturnOfService> ReturnsOfService { get; set; } = new List<ReturnOfService>();
     }
 }

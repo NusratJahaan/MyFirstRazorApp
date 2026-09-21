@@ -4,14 +4,13 @@ namespace MyFirstRazorApp.Models.CourtCase
 {
     public class Witness : BaseEntity
     {
-        [Required]
-        public int OffenceId { get; set; }
-        public virtual Offence? Offence { get; set; }
+        public int ComplaintId { get; set; }
+        public virtual Complaint Complaint { get; set; }
 
         [Required]
         [StringLength(100)]
         [Display(Name = "Name")]
-        public string Name { get; set; } = string.Empty;
+        public string Name { get; set; }
 
         [StringLength(20)]
         [Display(Name = "Phone")]
@@ -22,7 +21,7 @@ namespace MyFirstRazorApp.Models.CourtCase
         public string? Address { get; set; }
 
         [Display(Name = "Is Victim")]
-        public bool IsVictim { get; set; } = false;
+        public bool IsVictim { get; set; }
 
         [Display(Name = "Statement")]
         public string? Statement { get; set; }
