@@ -1,0 +1,35 @@
+﻿@page "{id:int}"
+@model MyFirstRazorApp.Pages.CourtCase.Complaints.DetailsModel
+@{
+    Layout = "_CaseLayout";
+    ViewData["Title"] = "Defendant Summary";
+    ViewData["ComplaintId"] = Model.Complaint.Id;
+}
+
+<h2 class="fw-bold mb-1">@Model.Complaint.DefendantName</h2>
+<p class="text-muted small mb-4">Complaint #@Model.Complaint.ComplaintNumber</p>
+
+<div class="card shadow-sm border-0 rounded-4">
+    <div class="card-body p-4">
+        <dl class="row mb-0">
+            <dt class="col-sm-3 text-muted fw-semibold">Defendant Name</dt>
+            <dd class="col-sm-9 text-dark fw-medium">@Model.Complaint.DefendantName</dd>
+
+            <dt class="col-sm-3 text-muted fw-semibold">Phone</dt>
+            <dd class="col-sm-9">@Model.Complaint.DefendantPhone</dd>
+
+            <dt class="col-sm-3 text-muted fw-semibold">Address</dt>
+            <dd class="col-sm-9">@Model.Complaint.DefendantAddress</dd>
+
+            <dt class="col-sm-3 text-muted fw-semibold">Description</dt>
+            <dd class="col-sm-9">@Model.Complaint.Description</dd>
+
+            <dt class="col-sm-3 text-muted fw-semibold">Complaint #</dt>
+            <dd class="col-sm-9">
+                <span class="badge bg-primary bg-opacity-10 text-primary border border-primary-subtle px-3 py-2 rounded-pill">
+                    @Model.Complaint.ComplaintNumber
+                </span>
+            </dd>
+        </dl>
+    </div>
+</div>

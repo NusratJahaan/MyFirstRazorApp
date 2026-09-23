@@ -27,6 +27,12 @@ namespace MyFirstRazorApp.Pages.CourtCase.Complaints
 
         public async Task<IActionResult> OnPostAsync()
         {
+            ModelState.Remove("Complaint.ComplaintNumber");
+            ModelState.Remove("Complaint.CreatedBy");
+            ModelState.Remove("Complaint.UpdatedBy");
+            ModelState.Remove("Complaint.CreatedDate");
+            ModelState.Remove("Complaint.UpdatedDate");
+
             if (!ModelState.IsValid)
             {
                 return Page();

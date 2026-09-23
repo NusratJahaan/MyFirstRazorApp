@@ -63,7 +63,7 @@
                                 <td class="text-muted small">@complaint.DefendantPhone</td>
                                 <td class="text-muted small">@complaint.DefendantAddress</td>
                                 <td class="px-4 text-end">
-                                    <a asp-page="/CourtCase/Cases/Index" asp-route-complaintId="@complaint.Id"
+                                    <a asp-page="Details" asp-route-id="@complaint.Id"
                                        class="btn btn-sm btn-light border text-primary">
                                         <i class="bi bi-eye"></i> View
                                     </a>
