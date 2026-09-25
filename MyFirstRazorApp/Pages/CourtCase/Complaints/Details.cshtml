@@ -6,23 +6,32 @@
     ViewData["ComplaintId"] = Model.Complaint.Id;
 }
 
-<h2 class="fw-bold mb-1">@Model.Complaint.DefendantName</h2>
-<p class="text-muted small mb-4">Complaint #@Model.Complaint.ComplaintNumber</p>
+<div class="d-flex align-items-center mb-4 pb-2 border-bottom">
+    <a asp-page="Index" class="btn btn-light border shadow-sm text-muted me-3 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; border-radius: 50%;" title="Back">
+        <i class="bi bi-arrow-left"></i>
+    </a>
+    <div>
+        <h2 class="text-dark fw-bold mb-0">@Model.Complaint.DefendantName</h2>
+        <p class="text-muted small mb-0">Complaint #@Model.Complaint.ComplaintNumber</p>
+    </div>
+</div>
 
-<div class="card shadow-sm border-0 rounded-4">
+<!-- Defendant Summary Card -->
+<div class="card shadow-sm border-0 rounded-4 overflow-hidden mb-4">
     <div class="card-body p-4">
+        <h5 class="text-dark fw-bold mb-3">
+            <i class="bi bi-person-vcard me-2 text-primary"></i>Defendant Information
+        </h5>
+
         <dl class="row mb-0">
             <dt class="col-sm-3 text-muted fw-semibold">Defendant Name</dt>
             <dd class="col-sm-9 text-dark fw-medium">@Model.Complaint.DefendantName</dd>
 
             <dt class="col-sm-3 text-muted fw-semibold">Phone</dt>
-            <dd class="col-sm-9">@Model.Complaint.DefendantPhone</dd>
+            <dd class="col-sm-9">@(string.IsNullOrEmpty(Model.Complaint.DefendantPhone) ? "—" : Model.Complaint.DefendantPhone)</dd>
 
             <dt class="col-sm-3 text-muted fw-semibold">Address</dt>
-            <dd class="col-sm-9">@Model.Complaint.DefendantAddress</dd>
-
-            <dt class="col-sm-3 text-muted fw-semibold">Description</dt>
-            <dd class="col-sm-9">@Model.Complaint.Description</dd>
+            <dd class="col-sm-9">@(string.IsNullOrEmpty(Model.Complaint.DefendantAddress) ? "—" : Model.Complaint.DefendantAddress)</dd>
 
             <dt class="col-sm-3 text-muted fw-semibold">Complaint #</dt>
             <dd class="col-sm-9">
@@ -30,6 +39,45 @@
                     @Model.Complaint.ComplaintNumber
                 </span>
             </dd>
+
+            <dt class="col-sm-3 text-muted fw-semibold">Description</dt>
+            <dd class="col-sm-9">@(string.IsNullOrEmpty(Model.Complaint.Description) ? "—" : Model.Complaint.Description)</dd>
         </dl>
+    </div>
+</div>
+
+<!-- Audit Info -->
+<div class="card shadow-sm border-0 rounded-4 overflow-hidden">
+    <div class="card-body p-4">
+        <h6 class="text-secondary fw-semibold mb-3">
+            <i class="bi bi-info-circle me-2"></i>Record Information
+        </h6>
+
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label class="form-label fw-semibold text-secondary small mb-1">Created By</label>
+                <p class="text-dark mb-0 small">
+                    <i class="bi bi-person-circle me-1 text-muted"></i>@(Model.Complaint.CreatedBy ?? "—")
+                </p>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label fw-semibold text-secondary small mb-1">Created Date</label>
+                <p class="text-dark mb-0 small">
+                    <i class="bi bi-calendar me-1 text-muted"></i>@(Model.Complaint.CreatedDate.ToString("MMM dd, yyyy hh:mm tt"))
+                </p>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label fw-semibold text-secondary small mb-1">Last Updated By</label>
+                <p class="text-dark mb-0 small">
+                    <i class="bi bi-person-circle me-1 text-muted"></i>@(Model.Complaint.UpdatedBy ?? "—")
+                </p>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label fw-semibold text-secondary small mb-1">Last Updated Date</label>
+                <p class="text-dark mb-0 small">
+                    <i class="bi bi-calendar me-1 text-muted"></i>@(Model.Complaint.UpdatedDate?.ToString("MMM dd, yyyy hh:mm tt") ?? "—")
+                </p>
+            </div>
+        </div>
     </div>
 </div>

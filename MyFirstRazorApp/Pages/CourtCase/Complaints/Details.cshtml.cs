@@ -23,7 +23,10 @@ namespace MyFirstRazorApp.Pages.CourtCase.Complaints
         public async Task<IActionResult> OnGetAsync(int id)
         {
             var complaint = await _complaintService.GetComplaintByIdAsync(id);
-            if (complaint == null) return NotFound();
+            if (complaint == null)
+            {
+                return NotFound();
+            }
 
             Complaint = complaint;
             return Page();
