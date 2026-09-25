@@ -9,6 +9,8 @@ namespace MyFirstRazorApp.Pages.CourtCase.Complaints
     [Authorize]
     public class CreateModel : PageModel
     {
+        //Suru te variable
+
         private readonly IComplaintService _complaintService;
 
         public CreateModel(IComplaintService complaintService)
@@ -17,10 +19,11 @@ namespace MyFirstRazorApp.Pages.CourtCase.Complaints
         }
 
         [BindProperty]
-        public Complaint Complaint { get; set; } = new Complaint();
+        public Complaint Complaint { get; set; } = new Complaint(); //object build kora jabe na
 
         public IActionResult OnGet()
         {
+            //object build eikhane hbe
             return Page();
         }
 
@@ -36,7 +39,7 @@ namespace MyFirstRazorApp.Pages.CourtCase.Complaints
             try
             {
                 await _complaintService.AddComplaintAsync(Complaint);
-                return RedirectToPage("./Index");
+                return RedirectToPage($"{Navigator.Index}");
             }
             catch (Exception ex)
             {
@@ -44,7 +47,14 @@ namespace MyFirstRazorApp.Pages.CourtCase.Complaints
             }
 
             return Page();
-            }
         }
     }
 
+}
+
+public class Navigator
+{ 
+    public const string Index = "./Index";
+    //public const string WarrentOld = "/Warrent/AddWarrent"; // /Warrent/AddWarrent
+    public const string Warrent = "/Warrent/AddWarrentNEw"; // /Warrent/AddWarrent
+}
