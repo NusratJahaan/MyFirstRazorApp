@@ -44,7 +44,7 @@ namespace MyFirstRazorApp.Pages.Account
                 //Delegate to AuthService
                 await _authService.SetupAuthClaims(user, HttpContext);
 
-                return RedirectToPage("/Index");
+                return RedirectToPage("/CourtCase/Complaints/List");
             }
             catch (Exception ex)
             {

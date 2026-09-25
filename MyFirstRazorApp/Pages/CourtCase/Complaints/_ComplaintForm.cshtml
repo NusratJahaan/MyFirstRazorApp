@@ -1,8 +1,9 @@
 ﻿@model MyFirstRazorApp.Models.Complaint
 @using System.Security.Claims
 
-@{ //no var use 
-    var currentUserName = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value ?? "System"; //system bad.
+@{
+    //no var use 
+    var currentUserName = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
 }
 //Logical changes
 <input type="hidden" asp-for="CreatedDate" value="@DateTime.Now" />

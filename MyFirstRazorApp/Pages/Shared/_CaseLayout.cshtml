@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Court Case</title>
+    <title>@ViewData["Title"] - Judico</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
@@ -17,7 +17,7 @@
     <header class="bg-dark text-white py-2 px-3 d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center gap-3">
             <i class="bi bi-bank2 fs-4"></i>
-            <span class="fw-bold">Court Case Management</span>
+            <span class="fw-bold">Judico</span>
         </div>
         <div class="d-flex align-items-center gap-3 small">
             <span><i class="bi bi-person-circle me-1"></i>@User.Identity?.Name</span>
@@ -34,40 +34,44 @@
         <!-- Sidebar -->
         <aside class="bg-light border-end" style="width: 240px; min-width: 240px;">
             <nav class="nav flex-column p-2">
-                <a class="nav-link text-dark py-2 px-3 rounded mb-1" 
-                   asp-page="/CourtCase/Complaints/Details" 
-                   asp-route-id="@ViewData["ComplaintId"]">
-                    <i class="bi bi-person-vcard me-2"></i> Defendant Summary
+                <!-- ✅ Dashboard — moved to TOP -->
+                <a class="nav-link text-dark py-2 px-3 rounded mb-1 fw-semibold"
+                   asp-page="/CourtCase/Complaints/List">
+                    Dashboard
                 </a>
-                <a class="nav-link text-dark py-2 px-3 rounded mb-1" 
-                   asp-page="/CourtCase/Offences/Index" 
-                   asp-route-complaintId="@ViewData["ComplaintId"]">
-                    <i class="bi bi-exclamation-triangle me-2"></i> Offences
-                </a>
-                <a class="nav-link text-dark py-2 px-3 rounded mb-1" 
-                   asp-page="/CourtCase/Witnesses/Index" 
-                   asp-route-complaintId="@ViewData["ComplaintId"]">
-                    <i class="bi bi-people me-2"></i> Witnesses
-                </a>
-                <a class="nav-link text-dark py-2 px-3 rounded mb-1" 
-                   asp-page="/CourtCase/Warrants/Index" 
-                   asp-route-complaintId="@ViewData["ComplaintId"]">
-                    <i class="bi bi-file-earmark-text me-2"></i> Warrants
-                </a>
-                <a class="nav-link text-dark py-2 px-3 rounded mb-1" 
-                   asp-page="/CourtCase/Judgements/Index" 
-                   asp-route-complaintId="@ViewData["ComplaintId"]">
-                    <i class="bi bi-hammer me-2"></i> Judgements
-                </a>
-                <a class="nav-link text-dark py-2 px-3 rounded mb-1" 
-                   asp-page="/CourtCase/Complaints/Manage" 
-                   asp-route-id="@ViewData["ComplaintId"]">
-                    <i class="bi bi-gear me-2"></i> Manage Case
-                </a>
+
                 <hr />
-                <a class="nav-link text-muted py-2 px-3 rounded mb-1" 
-                   asp-page="/CourtCase/Complaints/Index">
-                    <i class="bi bi-arrow-left me-2"></i> Back to Dashboard
+
+                <!-- Case Sections (no icons) -->
+                <a class="nav-link text-dark py-2 px-3 rounded mb-1"
+                   asp-page="/CourtCase/Complaints/Details"
+                   asp-route-id="@ViewData["ComplaintId"]">
+                    Defendant Summary
+                </a>
+                <a class="nav-link text-dark py-2 px-3 rounded mb-1"
+                   asp-page="/CourtCase/Offences/List"
+                   asp-route-complaintId="@ViewData["ComplaintId"]">
+                    Offences
+                </a>
+                <a class="nav-link text-dark py-2 px-3 rounded mb-1"
+                   asp-page="/CourtCase/Witnesses/List"
+                   asp-route-complaintId="@ViewData["ComplaintId"]">
+                    Witnesses
+                </a>
+                <a class="nav-link text-dark py-2 px-3 rounded mb-1"
+                   asp-page="/CourtCase/Warrants/List"
+                   asp-route-complaintId="@ViewData["ComplaintId"]">
+                    Warrants
+                </a>
+                <a class="nav-link text-dark py-2 px-3 rounded mb-1"
+                   asp-page="/CourtCase/Judgements/List"
+                   asp-route-complaintId="@ViewData["ComplaintId"]">
+                    Judgements
+                </a>
+                <a class="nav-link text-dark py-2 px-3 rounded mb-1"
+                   asp-page="/CourtCase/Complaints/Manage"
+                   asp-route-id="@ViewData["ComplaintId"]">
+                    Manage Case
                 </a>
             </nav>
         </aside>

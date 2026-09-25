@@ -63,7 +63,7 @@ namespace MyFirstRazorApp.Pages.CourtCase.Complaints
                 Complaint.UpdatedDate = DateTime.Now;
 
                 await _complaintService.UpdateComplaintAsync(Complaint);
-                return RedirectToPage("./Index");
+                return RedirectToPage("./List");
             }
             catch (Exception ex)
             {

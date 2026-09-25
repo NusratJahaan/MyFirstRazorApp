@@ -28,4 +28,21 @@
     }
 
     //navigator
+    // Navigator — central place for all navigation URLs
+    public static class Navigator
+    {
+        public const string Index = "./Index";
+
+        // Complaint
+        public const string ComplaintList = "/CourtCase/Complaints/List";
+        public const string ComplaintAdd = "/CourtCase/Complaints/Add";
+        public const string ComplaintDetails = "/CourtCase/Complaints/Details";
+        public const string ComplaintEdit = "/CourtCase/Complaints/Edit";
+
+        // Future (for later)
+        // public const string OffenceList = "/CourtCase/Offences/List";
+        // public const string WarrantList = "/CourtCase/Warrants/List";
+        // public const string WitnessList = "/CourtCase/Witnesses/List";
+        // public const string JudgementList = "/CourtCase/Judgements/List";
+    }
 }

@@ -7,7 +7,7 @@
 }
 
 <div class="d-flex align-items-center mb-4 pb-2 border-bottom">
-    <a asp-page="Index" class="btn btn-light border shadow-sm text-muted me-3 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; border-radius: 50%;" title="Back">
+    <a asp-page="List" class="btn btn-light border shadow-sm text-muted me-3 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; border-radius: 50%;" title="Back">
         <i class="bi bi-arrow-left"></i>
     </a>
     <div>
@@ -17,66 +17,84 @@
 </div>
 
 <!-- Defendant Summary Card -->
-<div class="card shadow-sm border-0 rounded-4 overflow-hidden mb-4">
-    <div class="card-body p-4">
-        <h5 class="text-dark fw-bold mb-3">
-            <i class="bi bi-person-vcard me-2 text-primary"></i>Defendant Information
-        </h5>
+<div class="p-4 rounded-3 border mb-4" style="background-color: #eceeef;">
+    <h5 class="text-dark fw-bold mb-3">
+        <i class="bi bi-person-vcard me-2 text-primary"></i>Defendant Information
+    </h5>
 
-        <dl class="row mb-0">
-            <dt class="col-sm-3 text-muted fw-semibold">Defendant Name</dt>
-            <dd class="col-sm-9 text-dark fw-medium">@Model.Complaint.DefendantName</dd>
+    <div class="bg-white p-3 rounded border">
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label class="form-label fw-semibold text-muted small mb-1">Defendant Name</label>
+                <div class="p-2 rounded text-dark fw-medium border" style="background-color: #e9ecef;">
+                    @Model.Complaint.DefendantName
+                </div>
+            </div>
 
-            <dt class="col-sm-3 text-muted fw-semibold">Phone</dt>
-            <dd class="col-sm-9">@(string.IsNullOrEmpty(Model.Complaint.DefendantPhone) ? "—" : Model.Complaint.DefendantPhone)</dd>
+            <div class="col-md-6">
+                <label class="form-label fw-semibold text-muted small mb-1">Phone</label>
+                <div class="p-2 rounded text-dark border" style="background-color: #e9ecef;">
+                    @(string.IsNullOrEmpty(Model.Complaint.DefendantPhone) ? "—" : Model.Complaint.DefendantPhone)
+                </div>
+            </div>
 
-            <dt class="col-sm-3 text-muted fw-semibold">Address</dt>
-            <dd class="col-sm-9">@(string.IsNullOrEmpty(Model.Complaint.DefendantAddress) ? "—" : Model.Complaint.DefendantAddress)</dd>
+            <div class="col-md-12">
+                <label class="form-label fw-semibold text-muted small mb-1">Address</label>
+                <div class="p-2 rounded text-dark border" style="background-color: #e9ecef;">
+                    @(string.IsNullOrEmpty(Model.Complaint.DefendantAddress) ? "—" : Model.Complaint.DefendantAddress)
+                </div>
+            </div>
 
-            <dt class="col-sm-3 text-muted fw-semibold">Complaint #</dt>
-            <dd class="col-sm-9">
-                <span class="badge bg-primary bg-opacity-10 text-primary border border-primary-subtle px-3 py-2 rounded-pill">
-                    @Model.Complaint.ComplaintNumber
-                </span>
-            </dd>
+            <div class="col-md-6">
+                <label class="form-label fw-semibold text-muted small mb-1">Complaint #</label>
+                <div class="p-2 rounded text-dark border" style="background-color: #e9ecef;">
+                    <span class="badge bg-primary bg-opacity-10 text-primary border border-primary-subtle px-3 py-1 rounded-pill">
+                        @Model.Complaint.ComplaintNumber
+                    </span>
+                </div>
+            </div>
 
-            <dt class="col-sm-3 text-muted fw-semibold">Description</dt>
-            <dd class="col-sm-9">@(string.IsNullOrEmpty(Model.Complaint.Description) ? "—" : Model.Complaint.Description)</dd>
-        </dl>
+            <div class="col-md-12">
+                <label class="form-label fw-semibold text-muted small mb-1">Description</label>
+                <div class="p-2 rounded text-dark border" style="background-color: #e9ecef;">
+                    @(string.IsNullOrEmpty(Model.Complaint.Description) ? "—" : Model.Complaint.Description)
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
-<!-- Audit Info -->
-<div class="card shadow-sm border-0 rounded-4 overflow-hidden">
-    <div class="card-body p-4">
-        <h6 class="text-secondary fw-semibold mb-3">
-            <i class="bi bi-info-circle me-2"></i>Record Information
-        </h6>
+<!-- Audit Info Card -->
+<div class="p-4 rounded-3 border" style="background-color: #eceeef;">
+    <h6 class="text-secondary fw-semibold mb-3">
+        <i class="bi bi-info-circle me-2"></i>Record Information
+    </h6>
 
+    <div class="bg-white p-3 rounded border">
         <div class="row g-3">
             <div class="col-md-6">
                 <label class="form-label fw-semibold text-secondary small mb-1">Created By</label>
-                <p class="text-dark mb-0 small">
+                <div class="p-2 rounded text-dark small border" style="background-color: #e9ecef;">
                     <i class="bi bi-person-circle me-1 text-muted"></i>@(Model.Complaint.CreatedBy ?? "—")
-                </p>
+                </div>
             </div>
             <div class="col-md-6">
                 <label class="form-label fw-semibold text-secondary small mb-1">Created Date</label>
-                <p class="text-dark mb-0 small">
+                <div class="p-2 rounded text-dark small border" style="background-color: #e9ecef;">
                     <i class="bi bi-calendar me-1 text-muted"></i>@(Model.Complaint.CreatedDate.ToString("MMM dd, yyyy hh:mm tt"))
-                </p>
+                </div>
             </div>
             <div class="col-md-6">
                 <label class="form-label fw-semibold text-secondary small mb-1">Last Updated By</label>
-                <p class="text-dark mb-0 small">
+                <div class="p-2 rounded text-dark small border" style="background-color: #e9ecef;">
                     <i class="bi bi-person-circle me-1 text-muted"></i>@(Model.Complaint.UpdatedBy ?? "—")
-                </p>
+                </div>
             </div>
             <div class="col-md-6">
                 <label class="form-label fw-semibold text-secondary small mb-1">Last Updated Date</label>
-                <p class="text-dark mb-0 small">
+                <div class="p-2 rounded text-dark small border" style="background-color: #e9ecef;">
                     <i class="bi bi-calendar me-1 text-muted"></i>@(Model.Complaint.UpdatedDate?.ToString("MMM dd, yyyy hh:mm tt") ?? "—")
-                </p>
+                </div>
             </div>
         </div>
     </div>

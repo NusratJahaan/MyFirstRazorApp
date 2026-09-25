@@ -1,0 +1,142 @@
+﻿@page
+@using MyFirstRazorApp.Models
+@model MyFirstRazorApp.Pages.CourtCase.Offences.ListModel
+@{
+    Layout = "_CaseLayout";
+    ViewData["Title"] = "Offences";
+    ViewData["ComplaintId"] = Model.Complaint.Id;
+
+    string GetOffenceTypeName(int lookupId)
+    {
+        return Model.OffenceLookUps.FirstOrDefault(l => l.Id == lookupId)?.Description ?? "Unknown";
+    }
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+    <div>
+        <h2 class="text-dark fw-bold mb-0">Offences</h2>
+        <p class="text-muted small mb-0">Complaint #@Model.Complaint.ComplaintNumber — @Model.Complaint.DefendantName</p>
+    </div>
+    <a asp-page="Add" asp-route-complaintId="@Model.Complaint.Id"
+       class="btn btn-primary shadow-sm d-flex align-items-center gap-2">
+        <i class="bi bi-plus-circle"></i> Add New Offence
+    </a>
+</div>
+
+<!-- Hidden Forms for Approve/Decline -->
+<form method="post" asp-page-handler="Approve" id="approveForm" class="d-none">
+    <input type="hidden" name="id" id="approveId" />
+    <input type="hidden" name="complaintId" value="@Model.Complaint.Id" />
+</form>
+<form method="post" asp-page-handler="Decline" id="declineForm" class="d-none">
+    <input type="hidden" name="id" id="declineId" />
+    <input type="hidden" name="complaintId" value="@Model.Complaint.Id" />
+</form>
+
+<!-- Offences Table -->
+<div class="card shadow-sm border-0 rounded-4 overflow-hidden">
+    @if (Model.Offences.Any())
+    {
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th class="px-4 py-3 text-secondary fw-semibold">File Number</th>
+                        <th class="py-3 text-secondary fw-semibold">Offence Type</th>
+                        <th class="py-3 text-secondary fw-semibold">Description</th>
+                        <th class="py-3 text-secondary fw-semibold">Status</th>
+                        <th class="py-3 text-secondary fw-semibold">Case</th>
+                        <th class="px-4 py-3 text-secondary fw-semibold text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var offence in Model.Offences)
+                    {
+                        <tr>
+                            <td class="px-4">
+                                <span class="badge bg-primary bg-opacity-10 text-primary border border-primary-subtle px-3 py-2 rounded-pill">
+                                    @offence.FileNumber
+                                </span>
+                            </td>
+                            <td class="text-dark fw-medium">@GetOffenceTypeName(offence.OffenceLookUpId)</td>
+                            <td class="text-muted small">@offence.Description</td>
+                            <td>
+                                @if (offence.OffenceStatus == OffenceStatus.Pending)
+                                {
+                                    <span class="badge bg-warning bg-opacity-10 text-warning border border-warning-subtle px-3 py-2 rounded-pill">Pending</span>
+                                }
+                                else if (offence.OffenceStatus == OffenceStatus.Approved)
+                                {
+                                    <span class="badge bg-success bg-opacity-10 text-success border border-success-subtle px-3 py-2 rounded-pill">Approved</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger bg-opacity-10 text-danger border border-danger-subtle px-3 py-2 rounded-pill">Declined</span>
+                                }
+                            </td>
+                            <td>
+                                @if (offence.CaseStatus == CaseStatus.Active)
+                                {
+                                    <span class="badge bg-success bg-opacity-10 text-success border border-success-subtle px-3 py-2 rounded-pill">Active</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary-subtle px-3 py-2 rounded-pill">Inactive</span>
+                                }
+                            </td>
+                            <td class="px-4 text-end">
+                                <a asp-page="Details" asp-route-id="@offence.Id"
+                                   class="btn btn-sm btn-light border text-primary me-1">
+                                    <i class="bi bi-eye"></i> View
+                                </a>
+                                <a asp-page="Edit" asp-route-id="@offence.Id"
+                                   class="btn btn-sm btn-light border text-warning me-1">
+                                    <i class="bi bi-pencil"></i> Edit
+                                </a>
+                                @if (!offence.IsApproved && offence.OffenceStatus == OffenceStatus.Pending)
+                                {
+                                    <button type="button" class="btn btn-sm btn-light border text-success me-1"
+                                            onclick="approveOffence(@offence.Id);">
+                                        <i class="bi bi-check-circle"></i> Approve
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-light border text-danger"
+                                            onclick="declineOffence(@offence.Id);">
+                                        <i class="bi bi-x-circle"></i> Decline
+                                    </button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="text-center py-5">
+            <div class="display-3 text-muted mb-3 opacity-50">
+                <i class="bi bi-exclamation-triangle"></i>
+            </div>
+            <h4 class="text-dark fw-bold">No offences found</h4>
+            <p class="text-muted">Click "Add New Offence" to create one.</p>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        function approveOffence(id) {
+            if (confirm('Approve this offence?')) {
+                document.getElementById('approveId').value = id;
+                document.getElementById('approveForm').submit();
+            }
+        }
+
+        function declineOffence(id) {
+            if (confirm('Decline this offence?')) {
+                document.getElementById('declineId').value = id;
+                document.getElementById('declineForm').submit();
+            }
+        }
+    </script>
+}

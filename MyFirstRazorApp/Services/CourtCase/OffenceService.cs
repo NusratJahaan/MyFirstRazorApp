@@ -48,6 +48,13 @@ namespace MyFirstRazorApp.Services.CourtCase
         {
             try
             {
+                // ✅ Auto-generate FileNumber
+                if (string.IsNullOrEmpty(offence.FileNumber))
+                {
+                    offence.FileNumber = await GenerateFileNumberAsync();
+                }
+
+                // ✅ Set defaults for new offence
                 offence.OffenceStatus = OffenceStatus.Pending;
                 offence.CaseStatus = CaseStatus.Active;
                 offence.IsApproved = false;
@@ -59,7 +66,7 @@ namespace MyFirstRazorApp.Services.CourtCase
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error adding offence: {ex.Message}");
+                throw new Exception($"Error adding offence: {ex.Message}", ex);
             }
         }
 
@@ -77,13 +84,15 @@ namespace MyFirstRazorApp.Services.CourtCase
 
                 existing.OffenceLookUpId = offence.OffenceLookUpId;
                 existing.Description = offence.Description;
+                existing.UpdatedBy = offence.UpdatedBy;
+                existing.UpdatedDate = offence.UpdatedDate;
 
                 await _context.SaveChangesAsync();
                 return true;
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error updating offence: {ex.Message}");
+                throw new Exception($"Error updating offence: {ex.Message}", ex);
             }
         }
 
@@ -105,7 +114,7 @@ namespace MyFirstRazorApp.Services.CourtCase
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error deleting offence: {ex.Message}");
+                throw new Exception($"Error deleting offence: {ex.Message}", ex);
             }
         }
 
@@ -123,7 +132,7 @@ namespace MyFirstRazorApp.Services.CourtCase
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error approving offence: {ex.Message}");
+                throw new Exception($"Error approving offence: {ex.Message}", ex);
             }
         }
 
@@ -141,7 +150,7 @@ namespace MyFirstRazorApp.Services.CourtCase
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error declining offence: {ex.Message}");
+                throw new Exception($"Error declining offence: {ex.Message}", ex);
             }
         }
 
@@ -161,7 +170,40 @@ namespace MyFirstRazorApp.Services.CourtCase
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error toggling offence status: {ex.Message}");
+                throw new Exception($"Error toggling offence status: {ex.Message}", ex);
+            }
+        }
+
+        // ✅ NEW METHOD — Auto-generate FileNumber in format FN-YYYY-MM-NNNN
+        public async Task<string> GenerateFileNumberAsync()
+        {
+            try
+            {
+                var year = DateTime.Now.Year;
+                var month = DateTime.Now.Month;
+                var prefix = $"FN-{year}-{month:D2}-";
+
+                var lastNumber = await _context.Offences
+                    .Where(o => o.FileNumber.StartsWith(prefix))
+                    .OrderByDescending(o => o.FileNumber)
+                    .Select(o => o.FileNumber)
+                    .FirstOrDefaultAsync();
+
+                int nextNumber = 1;
+                if (!string.IsNullOrEmpty(lastNumber))
+                {
+                    var lastPart = lastNumber.Substring(prefix.Length);
+                    if (int.TryParse(lastPart, out int lastNum))
+                    {
+                        nextNumber = lastNum + 1;
+                    }
+                }
+
+                return $"{prefix}{nextNumber:D4}";
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error generating file number: {ex.Message}", ex);
             }
         }
     }

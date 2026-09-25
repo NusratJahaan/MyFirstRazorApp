@@ -7,13 +7,13 @@ using MyFirstRazorApp.Services.CourtCase;
 namespace MyFirstRazorApp.Pages.CourtCase.Complaints
 {
     [Authorize]
-    public class CreateModel : PageModel
+    public class AddModel : PageModel
     {
         //Suru te variable
 
         private readonly IComplaintService _complaintService;
 
-        public CreateModel(IComplaintService complaintService)
+        public AddModel(IComplaintService complaintService)
         {
             _complaintService = complaintService;
         }
@@ -50,11 +50,4 @@ namespace MyFirstRazorApp.Pages.CourtCase.Complaints
         }
     }
 
-}
-
-public class Navigator
-{ 
-    public const string Index = "./Index";
-    //public const string WarrentOld = "/Warrent/AddWarrent"; // /Warrent/AddWarrent
-    public const string Warrent = "/Warrent/AddWarrentNEw"; // /Warrent/AddWarrent
 }

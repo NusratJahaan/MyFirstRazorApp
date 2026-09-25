@@ -6,11 +6,11 @@ using MyFirstRazorApp.Services.CourtCase;
 namespace MyFirstRazorApp.Pages.CourtCase.Complaints
 {
     [Authorize]
-    public class IndexModel : PageModel
+    public class ListModel : PageModel
     {
         private readonly IComplaintService _complaintService;
 
-        public IndexModel(IComplaintService complaintService)
+        public ListModel(IComplaintService complaintService)
         {
             _complaintService = complaintService;
         }
