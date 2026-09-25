@@ -1,10 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyFirstRazorApp.Data;
 using MyFirstRazorApp.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MyFirstRazorApp.Services.CourtCase
 {
@@ -80,7 +76,8 @@ namespace MyFirstRazorApp.Services.CourtCase
             }
             catch (Exception ex)
             {
-                throw new Exception($"Error adding complaint: {ex.Message}");
+                // ✅ Pass original as inner exception
+                throw new Exception($"Error adding complaint: {ex.Message}", ex);
             }
         }
 

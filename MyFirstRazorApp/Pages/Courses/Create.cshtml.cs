@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyFirstRazorApp.Models.StudentModels;
 using MyFirstRazorApp.Services;
-using System;
-using System.Threading.Tasks;
 
 namespace MyFirstRazorApp.Pages.Courses
 {

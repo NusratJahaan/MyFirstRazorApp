@@ -1,9 +1,8 @@
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyFirstRazorApp.Models;
 using MyFirstRazorApp.Services.CourtCase;
-
 
 namespace MyFirstRazorApp.Pages.CourtCase.Complaints
 {
@@ -28,10 +27,6 @@ namespace MyFirstRazorApp.Pages.CourtCase.Complaints
         public async Task<IActionResult> OnPostAsync()
         {
             ModelState.Remove("Complaint.ComplaintNumber");
-            ModelState.Remove("Complaint.CreatedBy");
-            ModelState.Remove("Complaint.UpdatedBy");
-            ModelState.Remove("Complaint.CreatedDate");
-            ModelState.Remove("Complaint.UpdatedDate");
 
             if (!ModelState.IsValid)
             {
@@ -45,10 +40,11 @@ namespace MyFirstRazorApp.Pages.CourtCase.Complaints
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
-                ModelState.AddModelError("", "An error occurred. Please try again.");
-                return Page();
+                throw new Exception($"Error adding complaint: {ex.Message}", ex);
+            }
+
+            return Page();
             }
         }
     }
-}
+

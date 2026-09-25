@@ -1,4 +1,15 @@
 ﻿@model MyFirstRazorApp.Models.Complaint
+@using System.Security.Claims
+
+@{
+    var currentUserName = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value ?? "System";
+}
+<input type="hidden" asp-for="CreatedDate" value="@DateTime.Now" />
+<input type="hidden" asp-for="UpdatedDate" value="@DateTime.Now" />
+<input type="hidden" asp-for="CreatedBy" value="@currentUserName" />
+<input type="hidden" asp-for="UpdatedBy" value="@currentUserName" />
+<input type="hidden" asp-for="ComplaintNumber" />
+
 
 <div class="mb-4">
     <label asp-for="DefendantName" class="form-label fw-semibold text-secondary">Defendant Name</label>
