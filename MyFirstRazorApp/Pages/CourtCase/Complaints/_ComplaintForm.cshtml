@@ -5,7 +5,6 @@
     //no var use 
     var currentUserName = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
 }
-//Logical changes
 <input type="hidden" asp-for="CreatedDate" value="@DateTime.Now" />
 <input type="hidden" asp-for="UpdatedDate" value="@DateTime.Now" />
 <input type="hidden" asp-for="CreatedBy" value="@currentUserName" />

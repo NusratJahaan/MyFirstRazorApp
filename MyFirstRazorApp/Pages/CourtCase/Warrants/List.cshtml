@@ -63,6 +63,10 @@
                                    class="btn btn-sm btn-light border text-primary me-1">
                                     <i class="bi bi-eye"></i> View
                                 </a>
+                                <a asp-page="Details" asp-route-id="@warrant.Id" asp-fragment="ros-section"
+                                   class="btn btn-sm btn-light border text-info me-1">
+                                    <i class="bi bi-file-check"></i> ROS
+                                </a>
                                 @if (!warrant.FinishedAndLocked)
                                 {
                                     <a asp-page="Edit" asp-route-id="@warrant.Id"

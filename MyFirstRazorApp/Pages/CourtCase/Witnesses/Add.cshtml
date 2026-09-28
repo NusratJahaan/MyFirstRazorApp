@@ -6,27 +6,21 @@
     ViewData["ComplaintId"] = Model.Complaint.Id;
 }
 
+<style>
+    /* Centers the layout footer text */
+    footer {
+        text-align: center !important;
+    }
+</style>
+
 <div class="container-fluid mt-4 mb-5">
     <div class="row justify-content-center">
         <div class="col-md-10 col-lg-8">
 
-            <div class="d-flex align-items-center mb-4 pb-2 border-bottom">
-                <a asp-page="List" asp-route-complaintId="@Model.Complaint.Id"
-                   class="btn btn-light border shadow-sm text-muted me-3 d-flex align-items-center justify-content-center"
-                   style="width: 40px; height: 40px; border-radius: 50%;" title="Back">
-                    <i class="bi bi-arrow-left"></i>
-                </a>
-                <div>
-                    <h2 class="text-dark fw-bold mb-0">Add New Witness</h2>
-                    <p class="text-muted small mb-0">Complaint #@Model.Complaint.ComplaintNumber — @Model.Complaint.DefendantName</p>
-                </div>
-            </div>
-
             <div class="card shadow-sm border-0 rounded-4 overflow-hidden">
                 <div class="card-body p-4 p-md-5">
                     <form method="post">
-                        <div asp-validation-summary="All" class="alert alert-danger" role="alert"></div>
-
+                        <!-- Hidden field required for model binding -->
                         <input type="hidden" asp-for="Witness.ComplaintId" />
 
                         <partial name="_WitnessForm" for="Witness" />
@@ -34,7 +28,7 @@
                         <hr class="text-secondary opacity-25 my-4">
 
                         <div class="d-flex justify-content-end gap-3">
-                            <a asp-page="List" asp-route-complaintId="@Model.Complaint.Id"
+                            <a asp-page="./List" asp-route-complaintId="@Model.Complaint.Id"
                                class="btn btn-light border px-4 text-secondary rounded-pill">
                                 Cancel
                             </a>

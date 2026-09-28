@@ -1,6 +1,18 @@
 ﻿@page
 @model MyFirstRazorApp.Pages.Account.LoginModel
 
+<style>
+    /* Hides the layout header / navbar on this page only */
+    header, nav {
+        display: none !important;
+    }
+
+    /* Centers the layout footer text */
+    footer {
+        text-align: center !important;
+    }
+</style>
+
 <div class="container mt-5 mb-5">
     <div class="row justify-content-center">
         <div class="col-md-6 col-lg-5">

@@ -39,7 +39,7 @@ namespace MyFirstRazorApp.Pages.CourtCase.Complaints
             try
             {
                 await _complaintService.AddComplaintAsync(Complaint);
-                return RedirectToPage($"{Navigator.Index}");
+                return Redirect("/CourtCase/Complaints/List");  //using Navigator
             }
             catch (Exception ex)
             {
