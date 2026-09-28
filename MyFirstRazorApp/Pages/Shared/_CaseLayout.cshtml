@@ -68,11 +68,7 @@
                    asp-route-complaintId="@ViewData["ComplaintId"]">
                     Judgements
                 </a>
-                <a class="nav-link text-dark py-2 px-3 rounded mb-1"
-                   asp-page="/CourtCase/Complaints/Manage"
-                   asp-route-id="@ViewData["ComplaintId"]">
-                    Manage Case
-                </a>
+                <a class="nav-link text-dark py-2 px-3 rounded mb-1" asp-page="/CourtCase/Complaints/Manage" asp-route-complaintId="@ViewData["ComplaintId"]">Manage Case</a>
             </nav>
         </aside>
 

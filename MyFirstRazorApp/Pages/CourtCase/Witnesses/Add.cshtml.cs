@@ -1,0 +1,73 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using MyFirstRazorApp.Models;
+using MyFirstRazorApp.Services.CourtCase;
+using System;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+
+namespace MyFirstRazorApp.Pages.CourtCase.Witnesses
+{
+    [Authorize]
+    public class AddModel : PageModel
+    {
+        private readonly IWitnessService _witnessService;
+        private readonly IComplaintService _complaintService;
+
+        public AddModel(IWitnessService witnessService, IComplaintService complaintService)
+        {
+            _witnessService = witnessService;
+            _complaintService = complaintService;
+        }
+
+        [BindProperty]
+        public Witness Witness { get; set; } = new Witness();
+
+        public Complaint Complaint { get; set; } = new Complaint();
+
+        public async Task<IActionResult> OnGetAsync(int complaintId)
+        {
+            var complaint = await _complaintService.GetComplaintByIdAsync(complaintId);
+            if (complaint == null) return NotFound();
+
+            Complaint = complaint;
+            Witness.ComplaintId = complaintId;
+            return Page();
+        }
+
+        public async Task<IActionResult> OnPostAsync()
+        {
+            // ✅ Remove auto-managed fields from validation
+            ModelState.Remove("Witness.CreatedBy");
+            ModelState.Remove("Witness.UpdatedBy");
+            ModelState.Remove("Witness.CreatedDate");
+            ModelState.Remove("Witness.UpdatedDate");
+
+            if (!ModelState.IsValid)
+            {
+                Complaint = await _complaintService.GetComplaintByIdAsync(Witness.ComplaintId) ?? new Complaint();
+                return Page();
+            }
+
+            try
+            {
+                var userName = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value ?? "System";
+                Witness.CreatedBy = userName;
+                Witness.UpdatedBy = userName;
+                Witness.CreatedDate = DateTime.Now;
+                Witness.UpdatedDate = DateTime.Now;
+
+                await _witnessService.AddWitnessAsync(Witness);
+                return RedirectToPage("./List", new { complaintId = Witness.ComplaintId });
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", $"Error: {ex.Message}");
+                Complaint = await _complaintService.GetComplaintByIdAsync(Witness.ComplaintId) ?? new Complaint();
+                return Page();
+            }
+        }
+    }
+}

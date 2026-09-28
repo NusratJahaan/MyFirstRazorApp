@@ -1,0 +1,154 @@
+﻿@page
+@using MyFirstRazorApp.Models
+@model MyFirstRazorApp.Pages.CourtCase.Complaints.ManageModel
+@{
+    Layout = "_CaseLayout";
+    ViewData["Title"] = "Manage Case";
+    ViewData["ComplaintId"] = Model.Complaint.Id;
+
+    string GetOffenceTypeName(int lookupId)
+    {
+        return Model.OffenceLookUps.FirstOrDefault(l => l.Id == lookupId)?.Description ?? "Unknown";
+    }
+}
+
+<div class="d-flex align-items-center mb-4 pb-2 border-bottom">
+    <a asp-page="/CourtCase/Complaints/Details" asp-route-id="@Model.Complaint.Id"
+       class="btn btn-light border shadow-sm text-muted me-3 d-flex align-items-center justify-content-center"
+       style="width: 40px; height: 40px; border-radius: 50%;" title="Back">
+        <i class="bi bi-arrow-left"></i>
+    </a>
+    <div>
+        <h2 class="text-dark fw-bold mb-0">Manage Case</h2>
+        <p class="text-muted small mb-0">Complaint #@Model.Complaint.ComplaintNumber — @Model.Complaint.DefendantName</p>
+    </div>
+</div>
+
+<!-- Hidden Toggle Form -->
+<form method="post" asp-page-handler="Toggle" id="toggleForm" class="d-none">
+    <input type="hidden" name="id" id="toggleId" />
+    <input type="hidden" name="complaintId" value="@Model.Complaint.Id" />
+</form>
+
+<!-- ============ ACTIVE CASES SECTION ============ -->
+<div class="card shadow-sm border-0 rounded-4 overflow-hidden mb-4">
+    <div class="card-body p-4 pb-3 d-flex align-items-center justify-content-between">
+        <h5 class="text-dark fw-bold mb-0">
+            <i class="bi bi-check-circle-fill text-success me-2"></i>Active Cases
+            <span class="badge bg-success bg-opacity-10 text-success border border-success-subtle ms-2 px-3 py-2 rounded-pill">
+                @Model.ActiveOffences.Count
+            </span>
+        </h5>
+    </div>
+
+    @if (Model.ActiveOffences.Any())
+    {
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th class="px-4 py-3 text-secondary fw-semibold">File Number</th>
+                        <th class="py-3 text-secondary fw-semibold">Offence Type</th>
+                        <th class="py-3 text-secondary fw-semibold">Description</th>
+                        <th class="px-4 py-3 text-secondary fw-semibold text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var offence in Model.ActiveOffences)
+                    {
+                        <tr>
+                            <td class="px-4">
+                                <span class="badge bg-primary bg-opacity-10 text-primary border border-primary-subtle px-3 py-2 rounded-pill">
+                                    @offence.FileNumber
+                                </span>
+                            </td>
+                            <td class="text-dark fw-medium">@GetOffenceTypeName(offence.OffenceLookUpId)</td>
+                            <td class="text-muted small">@offence.Description</td>
+                            <td class="px-4 text-end">
+                                <button type="button" class="btn btn-sm btn-light border text-danger"
+                                        onclick="toggleCase(@offence.Id, 'deactivate');">
+                                    <i class="bi bi-x-circle"></i> Deactivate
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="text-center py-4">
+            <p class="text-muted mb-0">No active cases.</p>
+        </div>
+    }
+</div>
+
+<!-- ============ INACTIVE CASES SECTION ============ -->
+<div class="card shadow-sm border-0 rounded-4 overflow-hidden mb-4">
+    <div class="card-body p-4 pb-3 d-flex align-items-center justify-content-between">
+        <h5 class="text-dark fw-bold mb-0">
+            <i class="bi bi-x-circle-fill text-secondary me-2"></i>Inactive Cases
+            <span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary-subtle ms-2 px-3 py-2 rounded-pill">
+                @Model.InactiveOffences.Count
+            </span>
+        </h5>
+    </div>
+
+    @if (Model.InactiveOffences.Any())
+    {
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th class="px-4 py-3 text-secondary fw-semibold">File Number</th>
+                        <th class="py-3 text-secondary fw-semibold">Offence Type</th>
+                        <th class="py-3 text-secondary fw-semibold">Description</th>
+                        <th class="px-4 py-3 text-secondary fw-semibold text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var offence in Model.InactiveOffences)
+                    {
+                        <tr>
+                            <td class="px-4">
+                                <span class="badge bg-primary bg-opacity-10 text-primary border border-primary-subtle px-3 py-2 rounded-pill">
+                                    @offence.FileNumber
+                                </span>
+                            </td>
+                            <td class="text-dark fw-medium">@GetOffenceTypeName(offence.OffenceLookUpId)</td>
+                            <td class="text-muted small">@offence.Description</td>
+                            <td class="px-4 text-end">
+                                <button type="button" class="btn btn-sm btn-light border text-success"
+                                        onclick="toggleCase(@offence.Id, 'activate');">
+                                    <i class="bi bi-check-circle"></i> Activate
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="text-center py-4">
+            <p class="text-muted mb-0">No inactive cases.</p>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        function toggleCase(id, action) {
+            var message = action === 'activate'
+                ? 'Activate this case?'
+                : 'Deactivate this case?';
+
+            if (confirm(message)) {
+                document.getElementById('toggleId').value = id;
+                document.getElementById('toggleForm').submit();
+            }
+        }
+    </script>
+}

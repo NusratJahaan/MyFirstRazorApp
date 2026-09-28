@@ -46,6 +46,10 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IComplaintService, ComplaintService>();
 builder.Services.AddScoped<IOffenceLookUpService, OffenceLookUpService>();
 builder.Services.AddScoped<IOffenceService, OffenceService>();
+builder.Services.AddScoped<IWitnessService, WitnessService>();
+builder.Services.AddScoped<IWarrantService, WarrantService>();
+builder.Services.AddScoped<IReturnOfServiceService, ReturnOfServiceService>();
+builder.Services.AddScoped<IJudgementService, JudgementService>();
 
 var app = builder.Build();
 

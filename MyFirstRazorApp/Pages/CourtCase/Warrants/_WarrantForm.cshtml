@@ -1,0 +1,30 @@
+﻿@model MyFirstRazorApp.Models.Warrant
+
+<!-- Case Numbers (readonly, pre-filled) -->
+<div class="mb-4">
+    <label class="form-label fw-semibold text-secondary">Case Numbers</label>
+    <input type="text" class="form-control" value="@Model.CaseNumbers" readonly />
+    <input type="hidden" asp-for="CaseNumbers" />
+    <small class="text-muted">Auto-filled from the complaint number.</small>
+</div>
+
+<!-- Issued Date -->
+<div class="mb-4">
+    <label asp-for="IssuedDate" class="form-label fw-semibold text-secondary">Issued Date</label>
+    <input asp-for="IssuedDate" class="form-control" type="date" />
+    <span asp-validation-for="IssuedDate" class="text-danger small"></span>
+</div>
+
+<!-- Official Name -->
+<div class="mb-4">
+    <label asp-for="OfficialName" class="form-label fw-semibold text-secondary">Official Name</label>
+    <input asp-for="OfficialName" class="form-control" placeholder="Name of issuing official" />
+    <span asp-validation-for="OfficialName" class="text-danger small"></span>
+</div>
+
+<!-- Official Sign Date -->
+<div class="mb-4">
+    <label asp-for="OfficialSignDate" class="form-label fw-semibold text-secondary">Official Sign Date</label>
+    <input asp-for="OfficialSignDate" class="form-control" type="date" />
+    <span asp-validation-for="OfficialSignDate" class="text-danger small"></span>
+</div>

@@ -1,0 +1,43 @@
+﻿@model MyFirstRazorApp.Models.Judgement
+
+<!-- Judgement Disposition -->
+<div class="mb-4">
+    <label asp-for="JudgementDisposition" class="form-label fw-semibold text-secondary">Judgement Disposition</label>
+    <input asp-for="JudgementDisposition" class="form-control" placeholder="e.g., Convicted, Acquitted, Dismissed" />
+    <span asp-validation-for="JudgementDisposition" class="text-danger small"></span>
+</div>
+
+<!-- Description -->
+<div class="mb-4">
+    <label asp-for="Description" class="form-label fw-semibold text-secondary">Description</label>
+    <textarea asp-for="Description" class="form-control" rows="4" placeholder="Describe the judgement..."></textarea>
+    <span asp-validation-for="Description" class="text-danger small"></span>
+</div>
+
+<!-- Judgement Date -->
+<div class="mb-4">
+    <label asp-for="JudgementDate" class="form-label fw-semibold text-secondary">Judgement Date</label>
+    <input asp-for="JudgementDate" class="form-control" type="date" />
+    <span asp-validation-for="JudgementDate" class="text-danger small"></span>
+</div>
+
+<!-- Judge Name -->
+<div class="mb-4">
+    <label asp-for="JudgeName" class="form-label fw-semibold text-secondary">Judge Name</label>
+    <input asp-for="JudgeName" class="form-control" placeholder="Name of the judge" />
+    <span asp-validation-for="JudgeName" class="text-danger small"></span>
+</div>
+
+<!-- Signed Date -->
+<div class="mb-4">
+    <label asp-for="SignedDate" class="form-label fw-semibold text-secondary">Signed Date</label>
+    <input asp-for="SignedDate" class="form-control" type="date" />
+    <span asp-validation-for="SignedDate" class="text-danger small"></span>
+</div>
+
+<!-- Signature Info -->
+<div class="mb-4">
+    <label asp-for="SignatureInfo" class="form-label fw-semibold text-secondary">Signature Info</label>
+    <input asp-for="SignatureInfo" class="form-control" placeholder="Signature details" />
+    <span asp-validation-for="SignatureInfo" class="text-danger small"></span>
+</div>

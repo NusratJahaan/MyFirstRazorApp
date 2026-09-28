@@ -1,0 +1,83 @@
+﻿@page
+@using MyFirstRazorApp.Models
+@model MyFirstRazorApp.Pages.CourtCase.ReturnOfServices.AddModel
+@{
+    Layout = "_CaseLayout";
+    ViewData["Title"] = "Add Return of Service";
+    ViewData["ComplaintId"] = Model.Complaint.Id;
+}
+
+<div class="container-fluid mt-4 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+
+            <div class="d-flex align-items-center mb-4 pb-2 border-bottom">
+                <a asp-page="/CourtCase/Warrants/Details" asp-route-id="@Model.Warrant.Id"
+                   class="btn btn-light border shadow-sm text-muted me-3 d-flex align-items-center justify-content-center"
+                   style="width: 40px; height: 40px; border-radius: 50%;" title="Back">
+                    <i class="bi bi-arrow-left"></i>
+                </a>
+                <div>
+                    <h2 class="text-dark fw-bold mb-0">Add Return of Service</h2>
+                    <p class="text-muted small mb-0">Warrant Case #@Model.Warrant.CaseNumbers</p>
+                </div>
+            </div>
+
+            <div class="card shadow-sm border-0 rounded-4 overflow-hidden">
+                <div class="card-body p-4 p-md-5">
+                    <form method="post">
+                        <div asp-validation-summary="All" class="alert alert-danger" role="alert"></div>
+
+                        <input type="hidden" asp-for="ReturnOfService.WarrantId" />
+
+                        <!-- Served Date -->
+                        <div class="mb-4">
+                            <label asp-for="ReturnOfService.ServedDate" class="form-label fw-semibold text-secondary">Served Date</label>
+                            <input asp-for="ReturnOfService.ServedDate" class="form-control" type="date" />
+                            <span asp-validation-for="ReturnOfService.ServedDate" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Service Status -->
+                        <div class="mb-4">
+                            <label asp-for="ReturnOfService.ServiceStatus" class="form-label fw-semibold text-secondary">Service Status</label>
+                            <select asp-for="ReturnOfService.ServiceStatus" class="form-select">
+                                <option value="1">Pending</option>
+                                <option value="2">Served</option>
+                                <option value="3">Not Served</option>
+                            </select>
+                            <span asp-validation-for="ReturnOfService.ServiceStatus" class="text-danger small"></span>
+                            <small class="text-muted">Once marked as Served, no further returns can be added.</small>
+                        </div>
+
+                        <!-- Remarks -->
+                        <div class="mb-4">
+                            <label asp-for="ReturnOfService.Remarks" class="form-label fw-semibold text-secondary">Remarks</label>
+                            <textarea asp-for="ReturnOfService.Remarks" class="form-control" rows="3" placeholder="Any remarks..."></textarea>
+                            <span asp-validation-for="ReturnOfService.Remarks" class="text-danger small"></span>
+                        </div>
+
+                        <hr class="text-secondary opacity-25 my-4">
+
+                        <div class="d-flex justify-content-end gap-3">
+                            <a asp-page="/CourtCase/Warrants/Details" asp-route-id="@Model.Warrant.Id"
+                               class="btn btn-light border px-4 text-secondary rounded-pill">
+                                Cancel
+                            </a>
+                            <button type="submit"
+                                    class="btn btn-primary px-4 shadow-sm rounded-pill d-flex align-items-center gap-2">
+                                <i class="bi bi-check-circle"></i> Add Return
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

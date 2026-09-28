@@ -1,0 +1,100 @@
+﻿@page
+@using MyFirstRazorApp.Models
+@model MyFirstRazorApp.Pages.CourtCase.Witnesses.ListModel
+@{
+    Layout = "_CaseLayout";
+    ViewData["Title"] = "Witnesses";
+    ViewData["ComplaintId"] = Model.Complaint.Id;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+    <div>
+        <h2 class="text-dark fw-bold mb-0">Witnesses</h2>
+        <p class="text-muted small mb-0">Complaint #@Model.Complaint.ComplaintNumber — @Model.Complaint.DefendantName</p>
+    </div>
+    <a asp-page="Add" asp-route-complaintId="@Model.Complaint.Id"
+       class="btn btn-primary shadow-sm d-flex align-items-center gap-2">
+        <i class="bi bi-plus-circle"></i> Add New Witness
+    </a>
+</div>
+
+<!-- Hidden Delete Form -->
+<form method="post" asp-page-handler="Delete" id="deleteForm" class="d-none">
+    <input type="hidden" name="id" id="deleteId" />
+    <input type="hidden" name="complaintId" value="@Model.Complaint.Id" />
+</form>
+
+<!-- Witnesses Table -->
+<div class="card shadow-sm border-0 rounded-4 overflow-hidden">
+    @if (Model.Witnesses.Any())
+    {
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th class="px-4 py-3 text-secondary fw-semibold">Name</th>
+                        <th class="py-3 text-secondary fw-semibold">Phone</th>
+                        <th class="py-3 text-secondary fw-semibold">Address</th>
+                        <th class="py-3 text-secondary fw-semibold">Role</th>
+                        <th class="px-4 py-3 text-secondary fw-semibold text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var witness in Model.Witnesses)
+                    {
+                        <tr>
+                            <td class="px-4 fw-medium text-dark">@witness.Name</td>
+                            <td class="text-muted small">@witness.Phone</td>
+                            <td class="text-muted small">@witness.Address</td>
+                            <td>
+                                @if (witness.IsVictim)
+                                {
+                                    <span class="badge bg-danger bg-opacity-10 text-danger border border-danger-subtle px-3 py-2 rounded-pill">
+                                        <i class="bi bi-shield-fill-exclamation me-1"></i>Victim
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-info bg-opacity-10 text-info border border-info-subtle px-3 py-2 rounded-pill">
+                                        <i class="bi bi-eye me-1"></i>Witness
+                                    </span>
+                                }
+                            </td>
+                            <td class="px-4 text-end">
+                                <a asp-page="Edit" asp-route-id="@witness.Id"
+                                   class="btn btn-sm btn-light border text-warning me-1">
+                                    <i class="bi bi-pencil"></i> Edit
+                                </a>
+                                <button type="button" class="btn btn-sm btn-light border text-danger"
+                                        onclick="deleteWitness(@witness.Id, '@witness.Name');">
+                                    <i class="bi bi-trash"></i> Delete
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="text-center py-5">
+            <div class="display-3 text-muted mb-3 opacity-50">
+                <i class="bi bi-people"></i>
+            </div>
+            <h4 class="text-dark fw-bold">No witnesses found</h4>
+            <p class="text-muted">Click "Add New Witness" to create one.</p>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        function deleteWitness(id, name) {
+            if (confirm('Delete witness "' + name + '"?')) {
+                document.getElementById('deleteId').value = id;
+                document.getElementById('deleteForm').submit();
+            }
+        }
+    </script>
+}

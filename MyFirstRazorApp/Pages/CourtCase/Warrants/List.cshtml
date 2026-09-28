@@ -1,0 +1,105 @@
+﻿@page
+@using MyFirstRazorApp.Models
+@model MyFirstRazorApp.Pages.CourtCase.Warrants.ListModel
+@{
+    Layout = "_CaseLayout";
+    ViewData["Title"] = "Warrants";
+    ViewData["ComplaintId"] = Model.Complaint.Id;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+    <div>
+        <h2 class="text-dark fw-bold mb-0">Warrants</h2>
+        <p class="text-muted small mb-0">Complaint #@Model.Complaint.ComplaintNumber — @Model.Complaint.DefendantName</p>
+    </div>
+    <a asp-page="Add" asp-route-complaintId="@Model.Complaint.Id"
+       class="btn btn-primary shadow-sm d-flex align-items-center gap-2">
+        <i class="bi bi-plus-circle"></i> Add New Warrant
+    </a>
+</div>
+
+<!-- Hidden Delete Form -->
+<form method="post" asp-page-handler="Delete" id="deleteForm" class="d-none">
+    <input type="hidden" name="id" id="deleteId" />
+    <input type="hidden" name="complaintId" value="@Model.Complaint.Id" />
+</form>
+
+<!-- Warrants Table -->
+<div class="card shadow-sm border-0 rounded-4 overflow-hidden">
+    @if (Model.Warrants.Any())
+    {
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th class="px-4 py-3 text-secondary fw-semibold">Case Numbers</th>
+                        <th class="py-3 text-secondary fw-semibold">Issued Date</th>
+                        <th class="py-3 text-secondary fw-semibold">Official</th>
+                        <th class="py-3 text-secondary fw-semibold">Status</th>
+                        <th class="px-4 py-3 text-secondary fw-semibold text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var warrant in Model.Warrants)
+                    {
+                        <tr>
+                            <td class="px-4 fw-medium text-dark">@warrant.CaseNumbers</td>
+                            <td class="text-muted small">@warrant.IssuedDate.ToString("MMM dd, yyyy")</td>
+                            <td class="text-muted small">@warrant.OfficialName</td>
+                            <td>
+                                @if (warrant.FinishedAndLocked)
+                                {
+                                    <span class="badge bg-danger bg-opacity-10 text-danger border border-danger-subtle px-3 py-2 rounded-pill">
+                                        <i class="bi bi-lock-fill me-1"></i>Locked
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-success bg-opacity-10 text-success border border-success-subtle px-3 py-2 rounded-pill">Open</span>
+                                }
+                            </td>
+                            <td class="px-4 text-end">
+                                <a asp-page="Details" asp-route-id="@warrant.Id"
+                                   class="btn btn-sm btn-light border text-primary me-1">
+                                    <i class="bi bi-eye"></i> View
+                                </a>
+                                @if (!warrant.FinishedAndLocked)
+                                {
+                                    <a asp-page="Edit" asp-route-id="@warrant.Id"
+                                       class="btn btn-sm btn-light border text-warning me-1">
+                                        <i class="bi bi-pencil"></i> Edit
+                                    </a>
+                                    <button type="button" class="btn btn-sm btn-light border text-danger"
+                                            onclick="deleteWarrant(@warrant.Id);">
+                                        <i class="bi bi-trash"></i> Delete
+                                    </button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="text-center py-5">
+            <div class="display-3 text-muted mb-3 opacity-50">
+                <i class="bi bi-file-earmark-text"></i>
+            </div>
+            <h4 class="text-dark fw-bold">No warrants found</h4>
+            <p class="text-muted">Click "Add New Warrant" to create one.</p>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        function deleteWarrant(id) {
+            if (confirm('Delete this warrant?')) {
+                document.getElementById('deleteId').value = id;
+                document.getElementById('deleteForm').submit();
+            }
+        }
+    </script>
+}
