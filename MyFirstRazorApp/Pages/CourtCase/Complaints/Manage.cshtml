@@ -24,13 +24,11 @@
     </div>
 </div>
 
-<!-- Hidden Toggle Form -->
 <form method="post" asp-page-handler="Toggle" id="toggleForm" class="d-none">
     <input type="hidden" name="id" id="toggleId" />
     <input type="hidden" name="complaintId" value="@Model.Complaint.Id" />
 </form>
 
-<!-- ============ ACTIVE CASES SECTION ============ -->
 <div class="card shadow-sm border-0 rounded-4 overflow-hidden mb-4">
     <div class="card-body p-4 pb-3 d-flex align-items-center justify-content-between">
         <h5 class="text-dark fw-bold mb-0">
@@ -84,7 +82,6 @@
     }
 </div>
 
-<!-- ============ INACTIVE CASES SECTION ============ -->
 <div class="card shadow-sm border-0 rounded-4 overflow-hidden mb-4">
     <div class="card-body p-4 pb-3 d-flex align-items-center justify-content-between">
         <h5 class="text-dark fw-bold mb-0">

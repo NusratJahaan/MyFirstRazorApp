@@ -1,10 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyFirstRazorApp.Data;
 using MyFirstRazorApp.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MyFirstRazorApp.Services.CourtCase
 {
@@ -109,7 +105,7 @@ namespace MyFirstRazorApp.Services.CourtCase
             }
         }
 
-        // ✅ Lock the warrant (bypasses the FinishedAndLocked guard)
+        //  Lock the warrant (bypasses the FinishedAndLocked guard)
         public async Task<bool> LockWarrantAsync(int id, string userName)
         {
             try

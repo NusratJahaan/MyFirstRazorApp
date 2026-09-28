@@ -1,10 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyFirstRazorApp.Data;
 using MyFirstRazorApp.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MyFirstRazorApp.Services.CourtCase
 {
@@ -141,7 +137,7 @@ namespace MyFirstRazorApp.Services.CourtCase
             }
         }
 
-        // ✅ Finalize: lock judgement + mark offence finished + set case inactive
+        //  Finalize: lock judgement + mark offence finished + set case inactive
         public async Task<bool> FinalizeJudgementAsync(int id, string userName)
         {
             try
@@ -159,7 +155,7 @@ namespace MyFirstRazorApp.Services.CourtCase
                 judgement.UpdatedBy = userName;
                 judgement.UpdatedDate = DateTime.Now;
 
-                // ✅ Cascade to Offence
+                //  Cascade to Offence
                 var offence = await _context.Offences.FindAsync(judgement.OffenceId);
                 if (offence != null)
                 {

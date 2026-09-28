@@ -45,7 +45,7 @@ namespace MyFirstRazorApp.Pages.CourtCase.Complaints
 
         public async Task<IActionResult> OnPostAsync()
         {
-            // ✅ Remove auto-managed fields from validation
+            //  Remove auto-managed fields from validation
             ModelState.Remove("Complaint.ComplaintNumber");
             ModelState.Remove("Complaint.CreatedBy");
             ModelState.Remove("Complaint.CreatedDate");
@@ -57,7 +57,7 @@ namespace MyFirstRazorApp.Pages.CourtCase.Complaints
 
             try
             {
-                // ✅ Update audit fields
+                //  Update audit fields
                 var userName = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value ?? "System";
                 Complaint.UpdatedBy = userName;
                 Complaint.UpdatedDate = DateTime.Now;

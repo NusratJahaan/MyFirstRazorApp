@@ -76,7 +76,7 @@ namespace MyFirstRazorApp.Services.CourtCase
             }
             catch (Exception ex)
             {
-                // ✅ Pass original as inner exception
+                // Pass original as inner exception
                 throw new Exception($"Error adding complaint: {ex.Message}", ex);
             }
         }

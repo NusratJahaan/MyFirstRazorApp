@@ -1,10 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyFirstRazorApp.Data;
 using MyFirstRazorApp.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MyFirstRazorApp.Services.CourtCase
 {
@@ -48,7 +44,7 @@ namespace MyFirstRazorApp.Services.CourtCase
         {
             try
             {
-                // ✅ Block if already served
+                //  Block if already served
                 var alreadyServed = await _context.ReturnsOfService
                     .AnyAsync(r => r.WarrantId == returnOfService.WarrantId
                                 && r.ServiceStatus == ServiceStatus.Served);

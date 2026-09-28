@@ -3,9 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyFirstRazorApp.Models;
 using MyFirstRazorApp.Services.CourtCase;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace MyFirstRazorApp.Pages.CourtCase.Offences
 {

@@ -48,13 +48,13 @@ namespace MyFirstRazorApp.Services.CourtCase
         {
             try
             {
-                // ✅ Auto-generate FileNumber
+                //  Auto-generate FileNumber
                 if (string.IsNullOrEmpty(offence.FileNumber))
                 {
                     offence.FileNumber = await GenerateFileNumberAsync();
                 }
 
-                // ✅ Set defaults for new offence
+                // Set defaults for new offence
                 offence.OffenceStatus = OffenceStatus.Pending;
                 offence.CaseStatus = CaseStatus.Active;
                 offence.IsApproved = false;
@@ -174,7 +174,7 @@ namespace MyFirstRazorApp.Services.CourtCase
             }
         }
 
-        // ✅ NEW METHOD — Auto-generate FileNumber in format FN-YYYY-MM-NNNN
+        //  NEW METHOD — Auto-generate FileNumber in format FN-YYYY-MM-NNNN
         public async Task<string> GenerateFileNumberAsync()
         {
             try

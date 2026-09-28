@@ -3,10 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyFirstRazorApp.Models;
 using MyFirstRazorApp.Services.CourtCase;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MyFirstRazorApp.Pages.CourtCase.Complaints
 {
@@ -48,7 +44,7 @@ namespace MyFirstRazorApp.Pages.CourtCase.Complaints
             return Page();
         }
 
-        // ✅ Toggle — flip the status
+        //  Toggle — flip the status
         public async Task<IActionResult> OnPostToggleAsync(int id, int complaintId)
         {
             try
