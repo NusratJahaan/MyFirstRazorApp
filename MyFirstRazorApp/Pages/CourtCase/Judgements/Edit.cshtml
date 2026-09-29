@@ -1,9 +1,18 @@
-﻿@page "{id:int}"
+﻿@page
+@using MyFirstRazorApp.Models
 @model MyFirstRazorApp.Pages.CourtCase.Judgements.EditModel
 @{
     Layout = "_CaseLayout";
     ViewData["Title"] = "Edit Judgement";
     ViewData["ComplaintId"] = Model.Complaint.Id;
+
+    string GetOffenceTypeName(int lookupId)
+    {
+        return Model.OffenceLookUps.FirstOrDefault(l => l.Id == lookupId)?.Description ?? "Unknown";
+    }
+
+    // Map existing judgements by offence id for prefill
+    var existingMap = Model.BatchJudgements.ToDictionary(j => j.OffenceId, j => j);
 }
 
 <style>
@@ -17,33 +26,105 @@
     <div class="row justify-content-center">
         <div class="col-md-10 col-lg-8">
 
-            <div class="card shadow-sm border-0 rounded-4 overflow-hidden">
-                <div class="card-body p-4 p-md-5">
-                    <form method="post">
-                        <!-- Hidden fields required for model state on post -->
-                        <input type="hidden" asp-for="Judgement.Id" />
-                        <input type="hidden" asp-for="Judgement.OffenceId" />
-                        <input type="hidden" asp-for="Judgement.CreatedBy" />
-                        <input type="hidden" asp-for="Judgement.CreatedDate" />
-                        <input type="hidden" asp-for="Judgement.FinishedAndLocked" />
+            <form method="post">
+                <!-- Hidden inputs required for batch state -->
+                <input type="hidden" name="BatchCreatedDate" value="@Model.BatchCreatedDate.ToString("o")" />
+                <input type="hidden" name="BatchJudgeName" value="@Model.BatchJudgeName" />
+                <input type="hidden" name="FirstJudgementId" value="@Model.BatchJudgements.FirstOrDefault()?.Id" />
 
-                        <partial name="_JudgementForm" for="Judgement" />
+                <!-- Shared Fields -->
+                <div class="card shadow-sm border-0 rounded-4 mb-4">
+                    <div class="card-body p-4 p-md-5">
+                        <h5 class="text-dark fw-bold mb-3">
+                            <i class="bi bi-info-circle me-2 text-primary"></i>Judgement Information
+                        </h5>
 
-                        <hr class="text-secondary opacity-25 my-4">
-
-                        <div class="d-flex justify-content-end gap-3">
-                            <a asp-page="./List" asp-route-complaintId="@Model.Complaint.Id"
-                               class="btn btn-light border px-4 text-secondary rounded-pill">
-                                Cancel
-                            </a>
-                            <button type="submit"
-                                    class="btn btn-primary px-4 shadow-sm rounded-pill d-flex align-items-center gap-2">
-                                <i class="bi bi-save"></i> Save Changes
-                            </button>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label asp-for="JudgeName" class="form-label fw-semibold text-secondary small">Judge Name</label>
+                                <input asp-for="JudgeName" class="form-control" />
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="JudgementDate" class="form-label fw-semibold text-secondary small">Judgement Date</label>
+                                <input asp-for="JudgementDate" type="date" class="form-control" />
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="SignedDate" class="form-label fw-semibold text-secondary small">Signed Date</label>
+                                <input asp-for="SignedDate" type="date" class="form-control" />
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="SignatureInfo" class="form-label fw-semibold text-secondary small">Signature Info</label>
+                                <input asp-for="SignatureInfo" class="form-control" />
+                            </div>
                         </div>
-                    </form>
+                    </div>
                 </div>
-            </div>
+
+                <!-- Cases Table -->
+                <div class="card shadow-sm border-0 rounded-4 overflow-hidden mb-4">
+                    <div class="card-body p-4 pb-3">
+                        <h5 class="text-dark fw-bold mb-0">
+                            <i class="bi bi-list-check me-2 text-primary"></i>Cases
+                        </h5>
+                        <small class="text-muted">Uncheck a case to remove its judgement from this batch.</small>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th style="width: 40px;" class="px-4 py-3"></th>
+                                    <th class="py-3 text-secondary fw-semibold" style="width: 160px;">File Number</th>
+                                    <th class="py-3 text-secondary fw-semibold" style="width: 200px;">Offence Type</th>
+                                    <th class="py-3 text-secondary fw-semibold">Disposition</th>
+                                    <th class="py-3 text-secondary fw-semibold">Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < Model.AvailableOffences.Count; i++)
+                                {
+                                    var offence = Model.AvailableOffences[i];
+                                    var isExisting = existingMap.ContainsKey(offence.Id);
+                                    var existing = isExisting ? existingMap[offence.Id] : null;
+
+                                    <tr>
+                                        <td class="px-4">
+                                            <input type="checkbox" name="SelectedOffenceIds" value="@offence.Id"
+                                                   class="form-check-input" @(isExisting ? "checked" : "") />
+                                            <input type="hidden" name="RowOffenceIds[@i]" value="@offence.Id" />
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-primary bg-opacity-10 text-primary border border-primary-subtle px-3 py-2 rounded-pill">
+                                                @offence.FileNumber
+                                            </span>
+                                        </td>
+                                        <td class="text-dark fw-medium">@GetOffenceTypeName(offence.OffenceLookUpId)</td>
+                                        <td>
+                                            <input type="text" name="Dispositions[@i]" class="form-control form-control-sm"
+                                                   value="@(existing?.JudgementDisposition ?? "")" />
+                                        </td>
+                                        <td>
+                                            <input type="text" name="Descriptions[@i]" class="form-control form-control-sm"
+                                                   value="@(existing?.Description ?? "")" />
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="d-flex justify-content-end gap-3">
+                    <a asp-page="./List" asp-route-complaintId="@Model.Complaint.Id"
+                       class="btn btn-light border px-4 text-secondary rounded-pill">
+                        Cancel
+                    </a>
+                    <button type="submit" class="btn btn-primary px-4 shadow-sm rounded-pill d-flex align-items-center gap-2">
+                        <i class="bi bi-save"></i> Save Changes
+                    </button>
+                </div>
+            </form>
 
         </div>
     </div>
