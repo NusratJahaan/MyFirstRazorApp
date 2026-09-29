@@ -3,11 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyFirstRazorApp.Models;
 using MyFirstRazorApp.Services.CourtCase;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace MyFirstRazorApp.Pages.CourtCase.Judgements
 {
@@ -51,7 +47,7 @@ namespace MyFirstRazorApp.Pages.CourtCase.Judgements
             OffenceLookUps = await _offenceLookUpService.GetAllAsync();
             Offences = (await _offenceService.GetOffencesByComplaintIdAsync(complaint.Id)).ToList();
 
-            // ✅ Load entire batch
+            // Load entire batch
             var batchDate = TruncateToSecond(judgement.CreatedDate);
             var allJudgements = await _judgementService.GetJudgementsByComplaintIdAsync(complaint.Id);
             BatchJudgements = allJudgements
@@ -71,7 +67,7 @@ namespace MyFirstRazorApp.Pages.CourtCase.Judgements
 
                 var userName = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value ?? "System";
 
-                // ✅ Finalize all judgements in the batch
+                //  Finalize all judgements in the batch
                 var batchDate = TruncateToSecond(judgement.CreatedDate);
                 var allJudgements = await _judgementService.GetJudgementsByComplaintIdAsync(judgement.OffenceId == 0 ? 0 : 0);
                 // Reload based on complaint

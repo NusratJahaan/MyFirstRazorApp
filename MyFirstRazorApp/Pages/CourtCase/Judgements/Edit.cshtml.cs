@@ -3,11 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyFirstRazorApp.Models;
 using MyFirstRazorApp.Services.CourtCase;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace MyFirstRazorApp.Pages.CourtCase.Judgements
 {
@@ -78,7 +74,7 @@ namespace MyFirstRazorApp.Pages.CourtCase.Judgements
             if (judgement.FinishedAndLocked)
                 return RedirectToPage("./Details", new { id });
 
-            // ✅ Load the batch (same created-second + judge name)
+            //  Load the batch (same created-second + judge name)
             BatchCreatedDate = TruncateToSecond(judgement.CreatedDate);
             BatchJudgeName = judgement.JudgeName;
 
@@ -123,7 +119,7 @@ namespace MyFirstRazorApp.Pages.CourtCase.Judgements
             if (SelectedOffenceIds == null)
                 SelectedOffenceIds = new List<int>();
 
-            // ✅ Load the FIRST judgement to find complaint context
+            //  Load the FIRST judgement to find complaint context
             var firstIdStr = Request.Form["FirstJudgementId"].ToString();
             if (!int.TryParse(firstIdStr, out int firstId))
             {
@@ -144,7 +140,7 @@ namespace MyFirstRazorApp.Pages.CourtCase.Judgements
                 var userName = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value ?? "System";
                 var now = DateTime.Now;
 
-                // ✅ Load existing judgements for THIS batch (same created-second + judge)
+                //  Load existing judgements for THIS batch (same created-second + judge)
                 var batchDate = new DateTime(
                     firstJudgement.CreatedDate.Year,
                     firstJudgement.CreatedDate.Month,
@@ -161,7 +157,7 @@ namespace MyFirstRazorApp.Pages.CourtCase.Judgements
                              && j.JudgeName == firstJudgement.JudgeName)
                     .ToList();
 
-                // ✅ DELETE unchecked judgements
+                // DELETE unchecked judgements
                 foreach (var existing in batch)
                 {
                     if (!SelectedOffenceIds.Contains(existing.OffenceId))
@@ -170,7 +166,7 @@ namespace MyFirstRazorApp.Pages.CourtCase.Judgements
                     }
                 }
 
-                // ✅ Loop through rows
+                //  Loop through rows
                 for (int i = 0; i < RowOffenceIds.Count; i++)
                 {
                     var offenceId = RowOffenceIds[i];
@@ -186,7 +182,7 @@ namespace MyFirstRazorApp.Pages.CourtCase.Judgements
 
                     if (existingJudgement != null)
                     {
-                        // ✅ UPDATE
+                        //  UPDATE
                         existingJudgement.JudgementDisposition = disposition;
                         existingJudgement.Description = description;
                         existingJudgement.JudgeName = JudgeName;
@@ -200,7 +196,7 @@ namespace MyFirstRazorApp.Pages.CourtCase.Judgements
                     }
                     else
                     {
-                        // ✅ INSERT new — but with the ORIGINAL batch's CreatedDate to stay in same group
+                        // INSERT new — but with the ORIGINAL batch's CreatedDate to stay in same group
                         var newJudgement = new Judgement
                         {
                             OffenceId = offenceId,
@@ -213,7 +209,7 @@ namespace MyFirstRazorApp.Pages.CourtCase.Judgements
                             FinishedAndLocked = false,
                             CreatedBy = userName,
                             UpdatedBy = userName,
-                            CreatedDate = firstJudgement.CreatedDate,  // ✅ Same as batch!
+                            CreatedDate = firstJudgement.CreatedDate,  // Same as batch!
                             UpdatedDate = now
                         };
 

@@ -3,10 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyFirstRazorApp.Models;
 using MyFirstRazorApp.Services.CourtCase;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MyFirstRazorApp.Pages.CourtCase.Judgements
 {
@@ -41,7 +37,7 @@ namespace MyFirstRazorApp.Pages.CourtCase.Judgements
 
             var judgements = await _judgementService.GetJudgementsByComplaintIdAsync(complaintId);
 
-            // ✅ Group by CreatedDate (rounded to the second) + JudgeName
+            // Group by CreatedDate (rounded to the second) + JudgeName
             JudgementBatches = judgements
                 .GroupBy(j => new
                 {

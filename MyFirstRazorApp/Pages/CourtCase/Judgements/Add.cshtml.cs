@@ -3,11 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyFirstRazorApp.Models;
 using MyFirstRazorApp.Services.CourtCase;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace MyFirstRazorApp.Pages.CourtCase.Judgements
 {
@@ -35,7 +31,7 @@ namespace MyFirstRazorApp.Pages.CourtCase.Judgements
         public List<Offence> AvailableOffences { get; set; } = new();
         public List<OffenceLookUp> OffenceLookUps { get; set; } = new();
 
-        // ✅ Shared fields
+        // Shared fields
         [BindProperty]
         public string JudgeName { get; set; } = string.Empty;
 
@@ -48,7 +44,7 @@ namespace MyFirstRazorApp.Pages.CourtCase.Judgements
         [BindProperty]
         public string SignatureInfo { get; set; } = string.Empty;
 
-        // ✅ Row-aligned fields (parallel lists)
+        // Row-aligned fields (parallel lists)
         [BindProperty]
         public List<int> SelectedOffenceIds { get; set; } = new();
 
@@ -83,7 +79,7 @@ namespace MyFirstRazorApp.Pages.CourtCase.Judgements
             var offences = await _offenceService.GetOffencesByComplaintIdAsync(complaintId);
             AvailableOffences = offences.Where(o => o.IsApproved && !o.FinishedAndLocked).ToList();
 
-            // ✅ Validate at least one selected
+            // Validate at least one selected
             if (SelectedOffenceIds == null || !SelectedOffenceIds.Any())
             {
                 ModelState.AddModelError("", "Please select at least one case.");
@@ -95,7 +91,7 @@ namespace MyFirstRazorApp.Pages.CourtCase.Judgements
                 var userName = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value ?? "System";
                 int created = 0;
 
-                // ✅ Loop through row-aligned lists
+                // Loop through row-aligned lists
                 for (int i = 0; i < RowOffenceIds.Count; i++)
                 {
                     var offenceId = RowOffenceIds[i];
