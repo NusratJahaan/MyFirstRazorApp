@@ -1,4 +1,5 @@
 ﻿@page
+@using Kendo.Mvc.UI
 @using MyFirstRazorApp.Models
 @model MyFirstRazorApp.Pages.CourtCase.Offences.ListModel
 @{
@@ -6,20 +7,72 @@
     ViewData["Title"] = "Offences";
     ViewData["ComplaintId"] = Model.Complaint.Id;
 
-    string GetOffenceTypeName(int lookupId)
-    {
-        return Model.OffenceLookUps.FirstOrDefault(l => l.Id == lookupId)?.Description ?? "Unknown";
-    }
+    var offenceTypes = Model.OffenceLookUps.ToDictionary(l => l.Id, l => l.Description);
+
+    var detailsUrl = Url.Page("Details", new { id = 0 })?.Replace("/0", "/#= Id #");
+    var editUrl = Url.Page("Edit", new { id = 0 })?.Replace("/0", "/#= Id #");
+
+    var isPending = "(OffenceStatus == " + (int)OffenceStatus.Pending + " || OffenceStatus == 'Pending')";
+    var isApproved = "(OffenceStatus == " + (int)OffenceStatus.Approved + " || OffenceStatus == 'Approved')";
+    var isActive = "(CaseStatus == " + (int)CaseStatus.Active + " || CaseStatus == 'Active')";
 }
 
-<div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+<style>
+    .k-grid {
+        font-size: 13px;
+    }
+
+        .k-grid td {
+            vertical-align: middle;
+        }
+
+    .st-pending {
+        color: #b26a00;
+    }
+
+    .st-approved {
+        color: #1b7f3b;
+    }
+
+    .st-declined {
+        color: #c62828;
+    }
+
+    .st-inactive {
+        color: #6c757d;
+    }
+
+    .row-actions a, .row-actions button {
+        background: none;
+        border: 0;
+        padding: 0;
+        margin-right: 12px;
+        color: #0d6efd;
+        cursor: pointer;
+        text-decoration: none;
+        font-size: 13px;
+    }
+
+        .row-actions a:hover, .row-actions button:hover {
+            text-decoration: underline;
+        }
+
+    .row-actions .act-approve {
+        color: #1b7f3b;
+    }
+
+    .row-actions .act-decline {
+        color: #c62828;
+    }
+</style>
+
+<div class="d-flex justify-content-between align-items-end mb-3">
     <div>
-        <h2 class="text-dark fw-bold mb-0">Offences</h2>
-        <p class="text-muted small mb-0">Complaint #@Model.Complaint.ComplaintNumber — @Model.Complaint.DefendantName</p>
+        <h4 class="mb-0">Offences</h4>
+        <div class="text-muted small">Complaint #@Model.Complaint.ComplaintNumber — @Model.Complaint.DefendantName</div>
     </div>
-    <a asp-page="Add" asp-route-complaintId="@Model.Complaint.Id"
-       class="btn btn-primary shadow-sm d-flex align-items-center gap-2">
-        <i class="bi bi-plus-circle"></i> Add New Offence
+    <a asp-page="Add" asp-route-complaintId="@Model.Complaint.Id" class="k-button k-button-solid k-button-solid-primary">
+        Add New Offence
     </a>
 </div>
 
@@ -33,95 +86,58 @@
     <input type="hidden" name="complaintId" value="@Model.Complaint.Id" />
 </form>
 
-<!-- Offences Table -->
-<div class="card shadow-sm border-0 rounded-4 overflow-hidden">
-    @if (Model.Offences.Any())
+<script>
+    var offenceTypes = @Html.Raw(Json.Serialize(offenceTypes));
+</script>
+
+@(Html.Kendo().Grid(Model.Offences)
+    .Name("offencesGrid")
+    .Columns(columns =>
     {
-        <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
-                <thead class="table-light">
-                    <tr>
-                        <th class="px-4 py-3 text-secondary fw-semibold">File Number</th>
-                        <th class="py-3 text-secondary fw-semibold">Offence Type</th>
-                        <th class="py-3 text-secondary fw-semibold">Description</th>
-                        <th class="py-3 text-secondary fw-semibold">Status</th>
-                        <th class="py-3 text-secondary fw-semibold">Case</th>
-                        <th class="px-4 py-3 text-secondary fw-semibold text-end">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var offence in Model.Offences)
-                    {
-                        <tr>
-                            <td class="px-4">
-                                <span class="badge bg-primary bg-opacity-10 text-primary border border-primary-subtle px-3 py-2 rounded-pill">
-                                    @offence.FileNumber
-                                </span>
-                            </td>
-                            <td class="text-dark fw-medium">@GetOffenceTypeName(offence.OffenceLookUpId)</td>
-                            <td class="text-muted small">@offence.Description</td>
-                            <td>
-                                @if (offence.OffenceStatus == OffenceStatus.Pending)
-                                {
-                                    <span class="badge bg-warning bg-opacity-10 text-warning border border-warning-subtle px-3 py-2 rounded-pill">Pending</span>
-                                }
-                                else if (offence.OffenceStatus == OffenceStatus.Approved)
-                                {
-                                    <span class="badge bg-success bg-opacity-10 text-success border border-success-subtle px-3 py-2 rounded-pill">Approved</span>
-                                }
-                                else
-                                {
-                                    <span class="badge bg-danger bg-opacity-10 text-danger border border-danger-subtle px-3 py-2 rounded-pill">Declined</span>
-                                }
-                            </td>
-                            <td>
-                                @if (offence.CaseStatus == CaseStatus.Active)
-                                {
-                                    <span class="badge bg-success bg-opacity-10 text-success border border-success-subtle px-3 py-2 rounded-pill">Active</span>
-                                }
-                                else
-                                {
-                                    <span class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary-subtle px-3 py-2 rounded-pill">Inactive</span>
-                                }
-                            </td>
-                            <td class="px-4 text-end">
-                                <a asp-page="Details" asp-route-id="@offence.Id"
-                                   class="btn btn-sm btn-light border text-primary me-1">
-                                    <i class="bi bi-eye"></i> View
-                                </a>
-                                <a asp-page="Edit" asp-route-id="@offence.Id"
-                                   class="btn btn-sm btn-light border text-warning me-1">
-                                    <i class="bi bi-pencil"></i> Edit
-                                </a>
-                                @if (!offence.IsApproved && offence.OffenceStatus == OffenceStatus.Pending)
-                                {
-                                    <button type="button" class="btn btn-sm btn-light border text-success me-1"
-                                            onclick="approveOffence(@offence.Id);">
-                                        <i class="bi bi-check-circle"></i> Approve
-                                    </button>
-                                    <button type="button" class="btn btn-sm btn-light border text-danger"
-                                            onclick="declineOffence(@offence.Id);">
-                                        <i class="bi bi-x-circle"></i> Decline
-                                    </button>
-                                }
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    }
-    else
-    {
-        <div class="text-center py-5">
-            <div class="display-3 text-muted mb-3 opacity-50">
-                <i class="bi bi-exclamation-triangle"></i>
-            </div>
-            <h4 class="text-dark fw-bold">No offences found</h4>
-            <p class="text-muted">Click "Add New Offence" to create one.</p>
-        </div>
-    }
-</div>
+        columns.Bound(o => o.FileNumber).Title("File Number").Width(150);
+
+        columns.Bound(o => o.OffenceLookUpId).Title("Offence Type").Width(200)
+            .Filterable(false)
+            .ClientTemplate("#= offenceTypes[OffenceLookUpId] || 'Unknown' #");
+
+        columns.Bound(o => o.Description).Title("Description");
+
+        columns.Bound(o => o.OffenceStatus).Title("Status").Width(110)
+            .Filterable(false)
+            .ClientTemplate(
+                "# if (" + isPending + ") { #<span class='st-pending'>Pending</span># } " +
+                "else if (" + isApproved + ") { #<span class='st-approved'>Approved</span># } " +
+                "else { #<span class='st-declined'>Declined</span># } #"
+            );
+
+        columns.Bound(o => o.CaseStatus).Title("Case").Width(90)
+            .Filterable(false)
+            .ClientTemplate(
+                "# if (" + isActive + ") { #<span class='st-approved'>Active</span># } " +
+                "else { #<span class='st-inactive'>Inactive</span># } #"
+            );
+
+        columns.Bound(o => o.Id).Title("Actions")
+            .Sortable(false).Filterable(false).Width(240)
+            .ClientTemplate(
+                "<div class='row-actions'>" +
+                "<a href='" + detailsUrl + "'>View</a>" +
+                "<a href='" + editUrl + "'>Edit</a>" +
+                "# if (!IsApproved && " + isPending + ") { #" +
+                    "<button type='button' class='act-approve' onclick='approveOffence(#= Id #);'>Approve</button>" +
+                    "<button type='button' class='act-decline' onclick='declineOffence(#= Id #);'>Decline</button>" +
+                "# } #" +
+                "</div>"
+            );
+    })
+    .Pageable(p => p.PageSizes(new[] { 10, 20, 50 }))
+    .Sortable()
+    .Filterable()
+    .DataSource(ds => ds.Ajax().ServerOperation(false).PageSize(10))
+    .NoRecords(n => n.Template(
+        "<div class='py-4 text-center text-muted'>No offences found. Click \"Add New Offence\" to create one.</div>"
+    ))
+)
 
 @section Scripts {
     <script>

@@ -1,89 +1,74 @@
 ﻿@page
+@using Kendo.Mvc.UI
 @model MyFirstRazorApp.Pages.CourtCase.Judgements.ListModel
 @{
     Layout = "_CaseLayout";
     ViewData["Title"] = "Judgements";
     ViewData["ComplaintId"] = Model.Complaint.Id;
+
+    var detailsUrl = Url.Page("Details", new { id = "__ID__" })?.Replace("__ID__", "#= FirstJudgementId #");
+    var editUrl = Url.Page("Edit", new { id = "__ID__" })?.Replace("__ID__", "#= FirstJudgementId #");
 }
 
-<div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+<style>
+    .k-grid { font-size: 13px; }
+    .k-grid td { vertical-align: middle; }
+    .st-final { color: #1b7f3b; }
+    .st-draft { color: #b26a00; }
+    .row-actions a {
+        color: #0d6efd; text-decoration: none; font-size: 13px; margin-right: 12px;
+    }
+    .row-actions a:hover { text-decoration: underline; }
+</style>
+
+<div class="d-flex justify-content-between align-items-end mb-3">
     <div>
-        <h2 class="text-dark fw-bold mb-0">Judgements</h2>
-        <p class="text-muted small mb-0">Complaint #@Model.Complaint.ComplaintNumber — @Model.Complaint.DefendantName</p>
+        <h4 class="mb-0">Judgements</h4>
+        <div class="text-muted small">Complaint #@Model.Complaint.ComplaintNumber — @Model.Complaint.DefendantName</div>
     </div>
-    <a asp-page="Add" asp-route-complaintId="@Model.Complaint.Id"
-       class="btn btn-primary shadow-sm d-flex align-items-center gap-2">
-        <i class="bi bi-plus-circle"></i> Add New Judgement
+    <a asp-page="Add" asp-route-complaintId="@Model.Complaint.Id" class="k-button k-button-solid k-button-solid-primary">
+        Add New Judgement
     </a>
 </div>
 
-<!-- Judgements Table -->
-<div class="card shadow-sm border-0 rounded-4 overflow-hidden">
-    @if (Model.JudgementBatches.Any())
+@(Html.Kendo().Grid(Model.JudgementBatches)
+    .Name("judgementsGrid")
+    .Columns(columns =>
     {
-        <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
-                <thead class="table-light">
-                    <tr>
-                        <th class="px-4 py-3 text-secondary fw-semibold">Date</th>
-                        <th class="py-3 text-secondary fw-semibold">File Numbers</th>
-                        <th class="py-3 text-secondary fw-semibold">Judge</th>
-                        <th class="py-3 text-secondary fw-semibold">Cases</th>
-                        <th class="py-3 text-secondary fw-semibold">Status</th>
-                        <th class="px-4 py-3 text-secondary fw-semibold text-end">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var batch in Model.JudgementBatches)
-                    {
-                        <tr>
-                            <td class="px-4 text-muted small">@batch.JudgementDate.ToString("MMM dd, yyyy")</td>
-                            <td class="fw-medium text-dark small">@batch.FileNumbers</td>
-                            <td class="text-muted small">@batch.JudgeName</td>
-                            <td>
-                                <span class="badge bg-primary bg-opacity-10 text-primary border border-primary-subtle px-3 py-2 rounded-pill">
-                                    @batch.Count case(s)
-                                </span>
-                            </td>
-                            <td>
-                                @if (batch.IsFinalized)
-                                {
-                                    <span class="badge bg-success bg-opacity-10 text-success border border-success-subtle px-3 py-2 rounded-pill">
-                                        <i class="bi bi-lock-fill me-1"></i>Finalized
-                                    </span>
-                                }
-                                else
-                                {
-                                    <span class="badge bg-warning bg-opacity-10 text-warning border border-warning-subtle px-3 py-2 rounded-pill">Draft</span>
-                                }
-                            </td>
-                            <td class="px-4 text-end">
-                                <a asp-page="Details" asp-route-id="@batch.FirstJudgementId"
-                                   class="btn btn-sm btn-light border text-primary me-1">
-                                    <i class="bi bi-eye"></i> View
-                                </a>
-                                @if (!batch.IsFinalized)
-                                {
-                                    <a asp-page="Edit" asp-route-id="@batch.FirstJudgementId"
-                                       class="btn btn-sm btn-light border text-warning">
-                                        <i class="bi bi-pencil"></i> Edit
-                                    </a>
-                                }
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    }
-    else
-    {
-        <div class="text-center py-5">
-            <div class="display-3 text-muted mb-3 opacity-50">
-                <i class="bi bi-hammer"></i>
-            </div>
-            <h4 class="text-dark fw-bold">No judgements found</h4>
-            <p class="text-muted">Click "Add New Judgement" to create one.</p>
-        </div>
-    }
-</div>
+        columns.Bound(b => b.JudgementDate).Title("Date").Width(140)
+            .Filterable(false)
+            .ClientTemplate("#= kendo.toString(kendo.parseDate(JudgementDate), 'MMM dd, yyyy') #");
+
+        columns.Bound(b => b.FileNumbers).Title("File Numbers");
+        columns.Bound(b => b.JudgeName).Title("Judge").Width(200);
+
+        columns.Bound(b => b.Count).Title("Cases").Width(100)
+            .Filterable(false)
+            .ClientTemplate("#= Count # case(s)");
+
+        columns.Bound(b => b.IsFinalized).Title("Status").Width(110)
+            .Filterable(false)
+            .ClientTemplate(
+                "# if (IsFinalized) { #<span class='st-final'>Finalized</span># } " +
+                "else { #<span class='st-draft'>Draft</span># } #"
+            );
+
+        columns.Bound(b => b.FirstJudgementId).Title("Actions")
+            .Sortable(false).Filterable(false).Width(140)
+            .ClientTemplate(
+                "<div class='row-actions'>" +
+                "<a href='" + detailsUrl + "'>View</a>" +
+                "# if (!IsFinalized) { #" +
+                    "<a href='" + editUrl + "'>Edit</a>" +
+                "# } #" +
+                "</div>"
+            );
+    })
+    .Pageable(p => p.PageSizes(new[] { 10, 20, 50 }))
+    .Sortable()
+    .Filterable()
+    .DataSource(ds => ds.Ajax().ServerOperation(false).PageSize(10))
+    .NoRecords(n => n.Template(
+        "<div class='py-4 text-center text-muted'>No judgements found. Click \"Add New Judgement\" to create one.</div>"
+    ))
+)

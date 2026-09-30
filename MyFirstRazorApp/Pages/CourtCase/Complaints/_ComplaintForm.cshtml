@@ -2,7 +2,6 @@
 @using System.Security.Claims
 
 @{
-    //no var use 
     var currentUserName = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
 }
 <input type="hidden" asp-for="CreatedDate" value="@DateTime.Now" />
@@ -10,6 +9,7 @@
 <input type="hidden" asp-for="CreatedBy" value="@currentUserName" />
 <input type="hidden" asp-for="UpdatedBy" value="@currentUserName" />
 <input type="hidden" asp-for="ComplaintNumber" />
+<input type="hidden" asp-for="Id" />
 
 
 <div class="mb-4">

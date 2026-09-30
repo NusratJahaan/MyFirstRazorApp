@@ -9,17 +9,17 @@ namespace MyFirstRazorApp.Pages.CourtCase.Complaints
     public class ListModel : PageModel
     {
         private readonly IComplaintService _complaintService;
+        public string SearchTerm { get; set; }
 
+        public IList<Complaint> Complaints { get; set; }
         public ListModel(IComplaintService complaintService)
         {
             _complaintService = complaintService;
         }
 
-        public IList<Complaint> Complaints { get; set; } = new List<Complaint>();
-        public string? SearchTerm { get; set; }
-
-        public async Task OnGetAsync(string? searchTerm)
+        public async Task OnGetAsync(string searchTerm)
         {
+            Complaints = new List<Complaint>();
             try
             {
                 SearchTerm = searchTerm;

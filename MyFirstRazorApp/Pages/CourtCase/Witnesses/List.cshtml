@@ -1,20 +1,35 @@
 ﻿@page
+@using Kendo.Mvc.UI
 @using MyFirstRazorApp.Models
 @model MyFirstRazorApp.Pages.CourtCase.Witnesses.ListModel
 @{
     Layout = "_CaseLayout";
     ViewData["Title"] = "Witnesses";
     ViewData["ComplaintId"] = Model.Complaint.Id;
+
+    var editUrl = Url.Page("Edit", new { id = 0 })?.Replace("/0", "/#= Id #");
 }
 
-<div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+<style>
+    .k-grid { font-size: 13px; }
+    .k-grid td { vertical-align: middle; }
+    .st-victim { color: #c62828; }
+    .st-witness { color: #495057; }
+    .row-actions a, .row-actions button {
+        background: none; border: 0; padding: 0; margin-right: 12px;
+        color: #0d6efd; cursor: pointer; text-decoration: none; font-size: 13px;
+    }
+    .row-actions a:hover, .row-actions button:hover { text-decoration: underline; }
+    .row-actions .act-delete { color: #c62828; }
+</style>
+
+<div class="d-flex justify-content-between align-items-end mb-3">
     <div>
-        <h2 class="text-dark fw-bold mb-0">Witnesses</h2>
-        <p class="text-muted small mb-0">Complaint #@Model.Complaint.ComplaintNumber — @Model.Complaint.DefendantName</p>
+        <h4 class="mb-0">Witnesses</h4>
+        <div class="text-muted small">Complaint #@Model.Complaint.ComplaintNumber — @Model.Complaint.DefendantName</div>
     </div>
-    <a asp-page="Add" asp-route-complaintId="@Model.Complaint.Id"
-       class="btn btn-primary shadow-sm d-flex align-items-center gap-2">
-        <i class="bi bi-plus-circle"></i> Add New Witness
+    <a asp-page="Add" asp-route-complaintId="@Model.Complaint.Id" class="k-button k-button-solid k-button-solid-primary">
+        Add New Witness
     </a>
 </div>
 
@@ -24,72 +39,51 @@
     <input type="hidden" name="complaintId" value="@Model.Complaint.Id" />
 </form>
 
-<!-- Witnesses Table -->
-<div class="card shadow-sm border-0 rounded-4 overflow-hidden">
-    @if (Model.Witnesses.Any())
+@(Html.Kendo().Grid(Model.Witnesses)
+    .Name("witnessesGrid")
+    .Columns(columns =>
     {
-        <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
-                <thead class="table-light">
-                    <tr>
-                        <th class="px-4 py-3 text-secondary fw-semibold">Name</th>
-                        <th class="py-3 text-secondary fw-semibold">Phone</th>
-                        <th class="py-3 text-secondary fw-semibold">Address</th>
-                        <th class="py-3 text-secondary fw-semibold">Role</th>
-                        <th class="px-4 py-3 text-secondary fw-semibold text-end">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var witness in Model.Witnesses)
-                    {
-                        <tr>
-                            <td class="px-4 fw-medium text-dark">@witness.Name</td>
-                            <td class="text-muted small">@witness.Phone</td>
-                            <td class="text-muted small">@witness.Address</td>
-                            <td>
-                                @if (witness.IsVictim)
-                                {
-                                    <span class="badge bg-danger bg-opacity-10 text-danger border border-danger-subtle px-3 py-2 rounded-pill">
-                                        <i class="bi bi-shield-fill-exclamation me-1"></i>Victim
-                                    </span>
-                                }
-                                else
-                                {
-                                    <span class="badge bg-info bg-opacity-10 text-info border border-info-subtle px-3 py-2 rounded-pill">
-                                        <i class="bi bi-eye me-1"></i>Witness
-                                    </span>
-                                }
-                            </td>
-                            <td class="px-4 text-end">
-                                <a asp-page="Edit" asp-route-id="@witness.Id"
-                                   class="btn btn-sm btn-light border text-warning me-1">
-                                    <i class="bi bi-pencil"></i> Edit
-                                </a>
-                                <button type="button" class="btn btn-sm btn-light border text-danger"
-                                        onclick="deleteWitness(@witness.Id, '@witness.Name');">
-                                    <i class="bi bi-trash"></i> Delete
-                                </button>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    }
-    else
-    {
-        <div class="text-center py-5">
-            <div class="display-3 text-muted mb-3 opacity-50">
-                <i class="bi bi-people"></i>
-            </div>
-            <h4 class="text-dark fw-bold">No witnesses found</h4>
-            <p class="text-muted">Click "Add New Witness" to create one.</p>
-        </div>
-    }
-</div>
+        columns.Bound(w => w.Name).Title("Name").Width(220);
+        columns.Bound(w => w.Phone).Title("Phone").Width(160);
+        columns.Bound(w => w.Address).Title("Address");
+
+        columns.Bound(w => w.IsVictim).Title("Role").Width(100)
+            .Filterable(false)
+            .ClientTemplate(
+                "# if (IsVictim) { #<span class='st-victim'>Victim</span># } " +
+                "else { #<span class='st-witness'>Witness</span># } #"
+            );
+
+        columns.Bound(w => w.Id).Title("Actions")
+            .Sortable(false).Filterable(false).Width(150)
+            .ClientTemplate(
+                "<div class='row-actions'>" +
+                "<a href='" + editUrl + "'>Edit</a>" +
+                "<button type='button' class='act-delete' onclick='deleteWitnessRow(#= Id #);'>Delete</button>" +
+                "</div>"
+            );
+    })
+    .Pageable(p => p.PageSizes(new[] { 10, 20, 50 }))
+    .Sortable()
+    .Filterable()
+    .DataSource(ds => ds.Ajax().ServerOperation(false).PageSize(10))
+    .NoRecords(n => n.Template(
+        "<div class='py-4 text-center text-muted'>No witnesses found. Click \"Add New Witness\" to create one.</div>"
+    ))
+)
 
 @section Scripts {
     <script>
+        // Looks up the witness name from the grid data, so names with quotes can't break the button
+        function deleteWitnessRow(id) {
+            var items = $("#witnessesGrid").data("kendoGrid").dataSource.data();
+            var name = "";
+            for (var i = 0; i < items.length; i++) {
+                if (items[i].Id === id) { name = items[i].Name; break; }
+            }
+            deleteWitness(id, name);
+        }
+
         function deleteWitness(id, name) {
             if (confirm('Delete witness "' + name + '"?')) {
                 document.getElementById('deleteId').value = id;

@@ -76,7 +76,6 @@ namespace MyFirstRazorApp.Services.CourtCase
             }
             catch (Exception ex)
             {
-                // Pass original as inner exception
                 throw new Exception($"Error adding complaint: {ex.Message}", ex);
             }
         }
@@ -85,14 +84,7 @@ namespace MyFirstRazorApp.Services.CourtCase
         {
             try
             {
-                var existing = await _context.Complaints.FindAsync(complaint.Id);
-                if (existing == null) return false;
-
-                existing.DefendantName = complaint.DefendantName;
-                existing.DefendantPhone = complaint.DefendantPhone;
-                existing.DefendantAddress = complaint.DefendantAddress;
-                existing.Description = complaint.Description;
-
+                _context.Complaints.Update(complaint);
                 await _context.SaveChangesAsync();
                 return true;
             }
