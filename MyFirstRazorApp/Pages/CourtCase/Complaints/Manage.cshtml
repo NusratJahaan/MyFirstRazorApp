@@ -11,22 +11,36 @@
 }
 
 <style>
-    .k-grid { font-size: 13px; }
-    .k-grid td { vertical-align: middle; }
-    .row-actions button {
-        background: none; border: 0; padding: 0;
-        cursor: pointer; font-size: 13px;
+    .k-grid {
+        font-size: 13px;
     }
-    .row-actions button:hover { text-decoration: underline; }
-    .row-actions .act-deactivate { color: #c62828; }
-    .row-actions .act-activate { color: #1b7f3b; }
+
+        .k-grid td {
+            vertical-align: middle;
+        }
+
+    .row-actions button {
+        background: none;
+        border: 0;
+        padding: 0;
+        cursor: pointer;
+        font-size: 13px;
+    }
+
+        .row-actions button:hover {
+            text-decoration: underline;
+        }
+
+    .row-actions .act-deactivate {
+        color: #c62828;
+    }
+
+    .row-actions .act-activate {
+        color: #1b7f3b;
+    }
 </style>
 
-<div class="d-flex align-items-end mb-3">
-    <a asp-page="/CourtCase/Complaints/Details" asp-route-id="@Model.Complaint.Id"
-       class="k-button k-button-solid k-button-solid-base me-3" title="Back">
-        <i class="bi bi-arrow-left"></i>
-    </a>
+<div class="mb-3">
     <div>
         <h4 class="mb-0">Manage Case</h4>
         <div class="text-muted small">Complaint #@Model.Complaint.ComplaintNumber — @Model.Complaint.DefendantName</div>

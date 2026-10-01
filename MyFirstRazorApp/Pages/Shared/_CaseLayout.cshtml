@@ -8,10 +8,39 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2026.2.520/styles/kendo.default-main.min.css" />
-     <link rel="stylesheet" href="https://kendo.cdn.telerik.com/themes/14.5.0/default/default-main.css" />
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/themes/14.5.0/default/default-main.css" />
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="https://kendo.cdn.telerik.com/2026.2.520/js/kendo.all.min.js"></script>
     <script src="https://kendo.cdn.telerik.com/2026.2.520/js/kendo.aspnetmvc.min.js"></script>
+
+    <style>
+            /* Custom Sidebar styling matching image */
+            .sidebar-container {
+                background-color: #535353 !important;
+                width: 240px;
+                min-width: 240px;
+            }
+
+            .sidebar-nav .nav-link {
+                color: #ffffff !important;
+                font-family: inherit;
+                font-size: 14px;
+                font-weight: 400;
+                line-height: 1.5;
+                letter-spacing: normal;
+                padding: 8px 12px;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+                border-radius: 0 !important;
+                margin-bottom: 0 !important;
+                transition: background-color 0.15s ease;
+            }
+
+                .sidebar-nav .nav-link:hover,
+                .sidebar-nav .nav-link.active {
+                    background-color: #3b3b3b !important;
+                    color: #ffffff !important;
+                }
+    </style>
 </head>
 <body>
     <!-- Top Header -->
@@ -33,43 +62,45 @@
 
     <div class="d-flex" style="min-height: calc(100vh - 120px);">
         <!-- Sidebar -->
-        <aside class="bg-light border-end" style="width: 240px; min-width: 240px;">
-            <nav class="nav flex-column p-2">
+        <aside class="sidebar-container border-end">
+            <nav class="nav flex-column sidebar-nav p-0">
                 <!-- ✅ Dashboard — moved to TOP -->
-                <a class="nav-link text-dark py-2 px-3 rounded mb-1 fw-semibold"
+                <a class="nav-link"
                    asp-page="/CourtCase/Complaints/List">
                     Dashboard
                 </a>
 
-                <hr />
-
                 <!-- Case Sections (no icons) -->
-                <a class="nav-link text-dark py-2 px-3 rounded mb-1"
+                <a class="nav-link"
                    asp-page="/CourtCase/Complaints/Details"
                    asp-route-id="@ViewData["ComplaintId"]">
                     Defendant Summary
                 </a>
-                <a class="nav-link text-dark py-2 px-3 rounded mb-1"
+                <a class="nav-link"
                    asp-page="/CourtCase/Offences/List"
                    asp-route-complaintId="@ViewData["ComplaintId"]">
                     Offences
                 </a>
-                <a class="nav-link text-dark py-2 px-3 rounded mb-1"
+                <a class="nav-link"
                    asp-page="/CourtCase/Witnesses/List"
                    asp-route-complaintId="@ViewData["ComplaintId"]">
                     Witnesses
                 </a>
-                <a class="nav-link text-dark py-2 px-3 rounded mb-1"
+                <a class="nav-link"
                    asp-page="/CourtCase/Warrants/List"
                    asp-route-complaintId="@ViewData["ComplaintId"]">
                     Warrants
                 </a>
-                <a class="nav-link text-dark py-2 px-3 rounded mb-1"
+                <a class="nav-link"
                    asp-page="/CourtCase/Judgements/List"
                    asp-route-complaintId="@ViewData["ComplaintId"]">
                     Judgements
                 </a>
-                <a class="nav-link text-dark py-2 px-3 rounded mb-1" asp-page="/CourtCase/Complaints/Manage" asp-route-complaintId="@ViewData["ComplaintId"]">Manage Case</a>
+                <a class="nav-link"
+                   asp-page="/CourtCase/Complaints/Manage"
+                   asp-route-complaintId="@ViewData["ComplaintId"]">
+                    Manage Case
+                </a>
             </nav>
         </aside>
 
