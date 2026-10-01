@@ -40,74 +40,168 @@
                     background-color: #3b3b3b !important;
                     color: #ffffff !important;
                 }
+
+            .tl-header {
+                width: 100%; /* spans the full content column, like the screenshot */
+                font-family: Arial, Helvetica, sans-serif;
+            }
+
+            .tl-topbar {
+                background: #222222;
+                color: #fff;
+                height: 36px;
+                padding: 0 14px 0 36px; /* left padding lines the name up like the screenshot */
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                font-size: 13px;
+            }
+
+            .tl-user i {
+                font-size: 13px;
+                margin-right: 6px;
+            }
+
+            .tl-user strong {
+                font-weight: 700;
+            }
+
+            .tl-user span {
+                font-weight: 400;
+                margin-left: 2px;
+            }
+
+            .tl-actions {
+                display: flex;
+                align-items: center;
+                gap: 14px;
+            }
+
+            .tl-mail {
+                font-size: 22px;
+                color: #fff;
+            }
+
+            .tl-avatar {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                border: 2px solid #fff;
+                background: #d9232d;
+                color: #fff;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 0;
+                margin-top: 8px; /* lets it overhang the cyan strip slightly */
+                position: relative;
+                z-index: 2;
+            }
+
+            .tl-nav {
+                background: #1fd0f2; /* cyan strip */
+                height: 24px;
+                display: flex;
+                align-items: stretch;
+            }
+
+                .tl-nav a {
+                    color: #fff;
+                    font-size: 11px;
+                    text-decoration: none;
+                    padding: 0 40px;
+                    display: flex;
+                    align-items: center;
+                    border-right: 1px solid rgba(255, 255, 255, .35);
+                }
+
+                    .tl-nav a:hover {
+                        background: rgba(255, 255, 255, .15);
+                    }
     </style>
 </head>
 <body>
-    <!-- Top Header -->
-    <header class="bg-dark text-white py-2 px-3 d-flex justify-content-between align-items-center">
-        <div class="d-flex align-items-center gap-3">
-            <i class="bi bi-bank2 fs-4"></i>
-            <span class="fw-bold">Judico</span>
-        </div>
-        <div class="d-flex align-items-center gap-3 small">
-            <span><i class="bi bi-person-circle me-1"></i>@User.Identity?.Name</span>
-            <span class="text-white-50">Logged On: @DateTime.Now.ToString("MMM-dd-yyyy hh:mm tt")</span>
-            <form method="post" asp-page="/Account/Logout" class="d-inline m-0">
-                <button type="submit" class="btn btn-sm btn-outline-light">
-                    <i class="bi bi-box-arrow-right"></i> Logout
-                </button>
-            </form>
-        </div>
-    </header>
+    <div class="d-flex" style="min-height: 100vh;">
 
-    <div class="d-flex" style="min-height: calc(100vh - 120px);">
-        <!-- Sidebar -->
+        <!-- ============ SIDEBAR (no brand, just nav) ============ -->
         <aside class="sidebar-container border-end">
             <nav class="nav flex-column sidebar-nav p-0">
-                <!-- ✅ Dashboard — moved to TOP -->
-                <a class="nav-link"
-                   asp-page="/CourtCase/Complaints/List">
+                <a class="nav-link" asp-page="/CourtCase/Complaints/List">
                     Dashboard
                 </a>
 
-                <!-- Case Sections (no icons) -->
-                <a class="nav-link"
-                   asp-page="/CourtCase/Complaints/Details"
-                   asp-route-id="@ViewData["ComplaintId"]">
-                    Defendant Summary
-                </a>
-                <a class="nav-link"
-                   asp-page="/CourtCase/Offences/List"
-                   asp-route-complaintId="@ViewData["ComplaintId"]">
-                    Offences
-                </a>
-                <a class="nav-link"
-                   asp-page="/CourtCase/Witnesses/List"
-                   asp-route-complaintId="@ViewData["ComplaintId"]">
-                    Witnesses
-                </a>
-                <a class="nav-link"
-                   asp-page="/CourtCase/Warrants/List"
-                   asp-route-complaintId="@ViewData["ComplaintId"]">
-                    Warrants
-                </a>
-                <a class="nav-link"
-                   asp-page="/CourtCase/Judgements/List"
-                   asp-route-complaintId="@ViewData["ComplaintId"]">
-                    Judgements
-                </a>
-                <a class="nav-link"
-                   asp-page="/CourtCase/Complaints/Manage"
-                   asp-route-complaintId="@ViewData["ComplaintId"]">
-                    Manage Case
-                </a>
+                @if (ViewData["ComplaintId"] != null)
+                {
+                    <a class="nav-link"
+                       asp-page="/CourtCase/Complaints/Details"
+                       asp-route-id="@ViewData["ComplaintId"]">
+                        Defendant Summary
+                    </a>
+                    <a class="nav-link"
+                       asp-page="/CourtCase/Offences/List"
+                       asp-route-complaintId="@ViewData["ComplaintId"]">
+                        Offences
+                    </a>
+                    <a class="nav-link"
+                       asp-page="/CourtCase/Witnesses/List"
+                       asp-route-complaintId="@ViewData["ComplaintId"]">
+                        Witnesses
+                    </a>
+                    <a class="nav-link"
+                       asp-page="/CourtCase/Warrants/List"
+                       asp-route-complaintId="@ViewData["ComplaintId"]">
+                        Warrants
+                    </a>
+                    <a class="nav-link"
+                       asp-page="/CourtCase/Judgements/List"
+                       asp-route-complaintId="@ViewData["ComplaintId"]">
+                        Judgements
+                    </a>
+                    <a class="nav-link"
+                       asp-page="/CourtCase/Complaints/Manage"
+                       asp-route-complaintId="@ViewData["ComplaintId"]">
+                        Manage Case
+                    </a>
+                }
             </nav>
         </aside>
 
-        <!-- Main Content -->
-        <main class="flex-grow-1 p-4">
-            @RenderBody()
-        </main>
+        <!-- ============ RIGHT SIDE: HEADER + CONTENT ============ -->
+        <div class="flex-grow-1 d-flex flex-column">
+
+            <!-- Top Header: Judico on left, user info on right -->
+            <header class="tl-header">
+                <div class="tl-topbar">
+                    <!-- Left: user + logged on -->
+                    <div class="tl-user">
+                        <i class="bi bi-person"></i>
+                        <strong>@User.Identity?.Name</strong>
+                        <span>Logged On: @DateTime.Now.ToString("MMM-dd-yyyy hh:mm tt")</span>
+                    </div>
+
+                    <!-- Right: mail + avatar/logout -->
+                    <div class="tl-actions">
+                        <i class="bi bi-envelope-fill tl-mail"></i>
+                        <form method="post" asp-page="/Account/Logout" class="m-0">
+                            <button type="submit" class="tl-avatar" title="Logout">
+                                <i class="bi bi-bank2"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Cyan nav strip -->
+                <nav class="tl-nav">
+                    <a asp-page="/User/Dashboard">Dashboard</a>
+                    <a asp-page="/Search">Search</a>
+                </nav>
+            </header>
+
+            <!-- Main Content -->
+            <main class="flex-grow-1 p-4">
+                @RenderBody()
+            </main>
+        </div>
     </div>
 
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
