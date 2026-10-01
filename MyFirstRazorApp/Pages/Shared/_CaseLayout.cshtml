@@ -14,7 +14,7 @@
     <script src="https://kendo.cdn.telerik.com/2026.2.520/js/kendo.aspnetmvc.min.js"></script>
 
     <style>
-            /* Custom Sidebar styling matching image */
+
             .sidebar-container {
                 background-color: #535353 !important;
                 width: 240px;
@@ -42,7 +42,7 @@
                 }
 
             .tl-header {
-                width: 100%; /* spans the full content column, like the screenshot */
+                width: 100%;
                 font-family: Arial, Helvetica, sans-serif;
             }
 
@@ -50,7 +50,7 @@
                 background: #222222;
                 color: #fff;
                 height: 36px;
-                padding: 0 14px 0 36px; /* left padding lines the name up like the screenshot */
+                padding: 0 14px 0 36px;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
@@ -93,13 +93,13 @@
                 align-items: center;
                 justify-content: center;
                 padding: 0;
-                margin-top: 8px; /* lets it overhang the cyan strip slightly */
+                margin-top: 8px;
                 position: relative;
                 z-index: 2;
             }
 
             .tl-nav {
-                background: #1fd0f2; /* cyan strip */
+                background: #1fd0f2;
                 height: 24px;
                 display: flex;
                 align-items: stretch;
@@ -118,12 +118,56 @@
                     .tl-nav a:hover {
                         background: rgba(255, 255, 255, .15);
                     }
+
+.btn-act-view {
+    background-color: #1b3a8a;
+    border-color: #1b3a8a;
+    color: #ffffff;
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 3px;
+    text-decoration: none;
+}
+
+.btn-act-view:hover {
+    background-color: #15306e;
+    color: #ffffff;
+}
+
+.btn-act-edit {
+    background-color: #d97706;
+    border-color: #d97706;
+    color: #ffffff;
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 3px;
+    text-decoration: none;
+}
+
+.btn-act-edit:hover {
+    background-color: #b45309;
+    color: #ffffff;
+}
+
+.btn-act-delete {
+    background-color: #d32f2f;
+    border-color: #d32f2f;
+    color: #ffffff;
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 3px;
+    text-decoration: none;
+}
+
+.btn-act-delete:hover {
+    background-color: #b71c1c;
+    color: #ffffff;
+}
     </style>
 </head>
 <body>
     <div class="d-flex" style="min-height: 100vh;">
 
-        <!-- ============ SIDEBAR (no brand, just nav) ============ -->
         <aside class="sidebar-container border-end">
             <nav class="nav flex-column sidebar-nav p-0">
                 <a class="nav-link" asp-page="/CourtCase/Complaints/List">
@@ -166,20 +210,17 @@
             </nav>
         </aside>
 
-        <!-- ============ RIGHT SIDE: HEADER + CONTENT ============ -->
         <div class="flex-grow-1 d-flex flex-column">
 
-            <!-- Top Header: Judico on left, user info on right -->
             <header class="tl-header">
                 <div class="tl-topbar">
-                    <!-- Left: user + logged on -->
+
                     <div class="tl-user">
                         <i class="bi bi-person"></i>
                         <strong>@User.Identity?.Name</strong>
                         <span>Logged On: @DateTime.Now.ToString("MMM-dd-yyyy hh:mm tt")</span>
                     </div>
 
-                    <!-- Right: mail + avatar/logout -->
                     <div class="tl-actions">
                         <i class="bi bi-envelope-fill tl-mail"></i>
                         <form method="post" asp-page="/Account/Logout" class="m-0">
@@ -190,15 +231,13 @@
                     </div>
                 </div>
 
-                <!-- Cyan nav strip -->
                 <nav class="tl-nav">
                     <a asp-page="/User/Dashboard">Dashboard</a>
                     <a asp-page="/Search">Search</a>
                 </nav>
             </header>
 
-            <!-- Main Content -->
-            <main class="flex-grow-1 p-4">
+            <main class="flex-grow-1 p-2">
                 @RenderBody()
             </main>
         </div>

@@ -7,154 +7,243 @@
 }
 
 <style>
-    /* Modern UI Palette & Typography */
-    body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-        color: #212529;
-    }
 
-    /* Top Banner Header */
-    .dashboard-header-banner {
-        background-color: #dcdfe3;
-        border-radius: 4px;
-        padding: 8px 12px;
+.tl-section-bar {
+    background-color: #e9ecef;     
+    padding: 0;              
+    display: flex;                  
+    align-items: center;
+    gap: 8px;                      
+    margin-bottom: 6px;
+    border-radius: 3px;
+}
+
+.tl-banner {
+    background-color: #f5c518;
+    color: #212529;
+    padding: 5px 12px;
+    display: inline-flex;
+    align-items: center;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    border-radius: 2px;
+}
+
+.badge-count {
+    background-color: #d32f2f;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 13px;
+    padding: 5px 10px;
+    display: inline-flex;
+    align-items: center;
+    border-radius: 2px;
+}
+
+    .tl-search-row {
         display: flex;
+        justify-content: flex-end;
         align-items: center;
         gap: 8px;
+        margin-bottom: 6px;
+        padding: 4px 0;
     }
 
-    .badge-count {
-        background-color: #d32f2f;
-        color: #ffffff;
-        font-weight: 700;
+    .tl-search-input {
+        display: flex;
+        align-items: center;
+        background: #ffffff;
+        border: 1px solid #ced4da;
+        border-radius: 3px;
+        padding: 0 8px;
         font-size: 12px;
-        padding: 2px 8px;
-        border-radius: 2px;
+        height: 28px;
+        width: 240px;
     }
 
-    /* Search Bar Card Styling */
-    .styled-card {
-        background-color: #ffffff;
-        border: 1px solid #e2e8f0;
-        border-radius: 6px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    .tl-search-input input {
+        border: none;
+        outline: none;
+        padding: 0 4px;
+        font-size: 12px;
+        width: 100%;
+        height: 100%;
+        background: transparent;
     }
 
-    /* Primary Buttons & Search Controls */
-    .btn-custom-primary {
-        background-color: #0d6efd;
-        border-color: #0d6efd;
+    .btn-tl-add {
+        background-color: #4a90e2;
         color: #ffffff;
-        font-weight: 500;
+        border: none;
+        font-size: 12px;
+        padding: 0 12px;
+        height: 28px;
+        border-radius: 3px;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        line-height: 1;
     }
 
-    .btn-custom-primary:hover {
-        background-color: #0b5ed7;
-        border-color: #0a58ca;
+    .btn-tl-add:hover {
+        background-color: #357abd;
         color: #ffffff;
     }
 
-    /* Kendo Grid Styling Adjustments */
+    .btn-tl-view {
+        background-color: #f0a04b;
+        color: #ffffff;
+        border: none;
+        font-size: 11px;
+        padding: 2px 9px;
+        border-radius: 3px;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .btn-tl-view:hover {
+        background-color: #d98934;
+        color: #ffffff;
+    }
+
+    .btn-tl-edit {
+        background-color: #52b788;
+        color: #ffffff;
+        border: none;
+        font-size: 11px;
+        padding: 2px 9px;
+        border-radius: 3px;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .btn-tl-edit:hover {
+        background-color: #40916c;
+        color: #ffffff;
+    }
+
     .k-grid {
-        border-color: #e0e0e0 !important;
-        font-size: 13px;
-        border-radius: 6px;
-        overflow: hidden;
+        border-color: #d0d0d0 !important;
+        font-size: 12px;
+        border-radius: 3px;
     }
 
     .k-grid-header {
-        background-color: #f8f9fa !important;
+        background-color: #f5f5f5 !important;
     }
 
     .k-grid-header th.k-header {
-        background-color: #f8f9fa !important;
+        background-color: #e9ecef !important;
         color: #212529 !important;
         font-weight: 700 !important;
-        border-bottom: 2px solid #dee2e6 !important;
-    }
-
-    .k-grid tr:nth-child(even) {
-        background-color: #fcfcfc;
+        border-bottom: 1px solid #b0b0b0 !important;
+        padding: 5px 8px !important;
+        font-size: 12px;
     }
 
     .k-grid td {
         vertical-align: middle;
+        padding: 4px 8px !important;
+        border-bottom: none !important;
+    }
+
+    .k-grid tr:nth-child(even) td {
+        background-color: #f8f9fa;
+    }
+
+    .k-grid tr:hover td {
+        background-color: #eef2f7;
+    }
+
+   .k-pager-wrap {
+    padding: 4px 8px !important;
+    font-size: 12px !important;
+    border-top: 1px solid #d0dde5 !important;
+    background-color: #E8F0F5 !important;
+
+    .k-pager-wrap .k-link,
+    .k-pager-wrap .k-pager-nav {
+        min-width: 22px !important;
+        height: 22px !important;
+        line-height: 22px !important;
+        font-size: 11px !important;
+        padding: 0 4px !important;
+        border-radius: 2px !important;
+    }
+
+    .k-pager-wrap .k-state-selected {
+        background-color: #f5c518 !important;
+        color: #212529 !important;
+        border-color: #f5c518 !important;
+        font-weight: 700 !important;
+    }
+
+    .k-pager-wrap .k-pager-sizes {
+        font-size: 11px !important;
+    }
+
+    .k-pager-wrap .k-dropdownlist,
+    .k-pager-wrap .k-picker {
+        font-size: 11px !important;
+        height: 22px !important;
+    }
+
+    .k-pager-info {
+        font-size: 11px !important;
+        color: #6c757d !important;
+        margin-left: 8px !important;
     }
 </style>
 
-<div class="container-fluid mt-4 mb-5">
-    <!-- Header Banner Section -->
-    <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
-        <div>
-            <div class="dashboard-header-banner mb-1">
-                <h2 class="text-dark fw-bold mb-0 fs-4">Complaints Dashboard</h2>
-                <span class="badge-count">@Model.Complaints.Count()</span>
-            </div>
-            <p class="text-muted small mb-0 ms-1">View and manage all complaints</p>
-        </div>
-        <a asp-page="Add" class="btn btn-custom-primary shadow-sm d-flex align-items-center gap-2">
-            <i class="bi bi-plus-circle"></i> Add New Complaint
-        </a>
-    </div>
-
-    <!-- Search Bar -->
-    <div class="card styled-card mb-4">
-        <div class="card-body p-3">
-            <form method="get" class="row g-2 align-items-center">
-                <div class="col-md-10">
-                    <div class="input-group">
-                        <span class="input-group-text bg-light border-end-0">
-                            <i class="bi bi-search text-muted"></i>
-                        </span>
-                        <input type="text" name="searchTerm" value="@Model.SearchTerm"
-                               class="form-control border-start-0"
-                               placeholder="Search by complaint number, defendant name, or phone..." />
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <button type="submit" class="btn btn-custom-primary w-100">
-                        <i class="bi bi-search"></i> Search
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Telerik Grid -->
-    <div class="card styled-card p-3">
-        @(Html.Kendo().Grid(Model.Complaints)
-            .Name("complaintsGrid")
-            .Columns(columns =>
-            {
-                columns.Bound(c => c.ComplaintNumber).Title("Case Number").Width(180)
-                    .ClientTemplate(
-                        "<span class='badge bg-primary bg-opacity-10 text-primary border border-primary-subtle px-3 py-2 rounded-pill'>#= ComplaintNumber #</span>"
-                    );
-                columns.Bound(c => c.DefendantName).Title("Defendant").Width(200);
-                columns.Bound(c => c.DefendantPhone).Title("Phone").Width(160);
-                columns.Bound(c => c.DefendantAddress).Title("Address");
-                columns.Bound(c => c.Id).Title("Actions")
-                    .Sortable(false).Filterable(false).Width(200)
-                    .ClientTemplate(
-                        "<a href='/CourtCase/Complaints/Details/#= Id #' class='btn btn-sm btn-light border text-primary me-1'>" +
-                            "<i class='bi bi-eye'></i> View" +
-                        "</a>" +
-                        "<a href='/CourtCase/Complaints/Edit/#= Id #' class='btn btn-sm btn-light border text-warning'>" +
-                            "<i class='bi bi-pencil'></i> Edit" +
-                        "</a>"
-                    );
-            })
-            .Pageable(p => p.PageSizes(new[] { 10, 20, 50 }))
-            .Sortable()
-            .Filterable()
-            .DataSource(ds => ds.Ajax().ServerOperation(false).PageSize(10))
-            .NoRecords(n => n.Template(
-                "<div class='py-5 text-center'>" +
-                    "<div class='display-3 text-muted mb-3 opacity-50'><i class='bi bi-file-earmark-text'></i></div>" +
-                    "<h4 class='text-dark fw-bold'>No complaints found</h4>" +
-                    "<p class='text-muted'>Click 'Add New Complaint' to create one.</p>" +
-                "</div>"
-            ))
-        )
-    </div>
+<div class="tl-section-bar">
+    <div class="tl-banner">Complaints Dashboard</div>
+    <span class="badge-count">@Model.Complaints.Count()</span>
 </div>
+
+<div class="tl-search-row">
+    <form method="get" class="d-flex align-items-center gap-2 m-0">
+        <div class="tl-search-input">
+            <i class="bi bi-search text-muted"></i>
+            <input type="text" name="searchTerm" value="@Model.SearchTerm"
+                   placeholder="Search..." />
+        </div>
+        <button type="submit" class="btn-tl-add">
+            <i class="bi bi-search"></i> Search
+        </button>
+    </form>
+    <a asp-page="Add" class="btn-tl-add">
+        <i class="bi bi-plus-circle"></i> Add New Complaint
+    </a>
+</div>
+
+@(Html.Kendo().Grid(Model.Complaints)
+    .Name("complaintsGrid")
+    .Columns(columns =>
+    {
+        columns.Bound(c => c.ComplaintNumber).Title("Case Number").Width(180);
+        columns.Bound(c => c.DefendantName).Title("Defendant").Width(200);
+        columns.Bound(c => c.DefendantPhone).Title("Phone").Width(160);
+        columns.Bound(c => c.DefendantAddress).Title("Address");
+        columns.Bound(c => c.Id).Title("Actions")
+            .Sortable(false).Filterable(false).Width(160)
+            .ClientTemplate(
+    "<a href='/CourtCase/Complaints/Details/#= Id #' class='btn-tl-view me-1'>View</a>" +
+    "<a href='/CourtCase/Complaints/Edit/#= Id #' class='btn-tl-edit'>Edit</a>"
+);
+    })
+    .Pageable(p => p
+        .PageSizes(new[] { 10, 20, 50 })
+        .Messages(m => m
+            .Display("{0} - {1} of {2} items")
+            .Empty("No items to display")
+        )
+    )
+    .Sortable()
+    .Filterable()
+    .DataSource(ds => ds.Ajax().ServerOperation(false).PageSize(10))
+    .NoRecords(n => n.Template(
+        "<div class='py-4 text-center text-muted'>No complaints found. Click 'Add New Complaint' to create one.</div>"
+    ))
+)
