@@ -7,39 +7,38 @@
 }
 
 <style>
+    .tl-section-bar {
+        background-color: #e9ecef;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 6px;
+        border-radius: 3px;
+    }
 
-.tl-section-bar {
-    background-color: #e9ecef;     
-    padding: 0;              
-    display: flex;                  
-    align-items: center;
-    gap: 8px;                      
-    margin-bottom: 6px;
-    border-radius: 3px;
-}
+    .tl-banner {
+        background-color: #f5c518;
+        color: #212529;
+        padding: 5px 12px;
+        display: inline-flex;
+        align-items: center;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.2px;
+        border-radius: 2px;
+    }
 
-.tl-banner {
-    background-color: #f5c518;
-    color: #212529;
-    padding: 5px 12px;
-    display: inline-flex;
-    align-items: center;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.2px;
-    border-radius: 2px;
-}
-
-.badge-count {
-    background-color: #d32f2f;
-    color: #ffffff;
-    font-weight: 700;
-    font-size: 13px;
-    padding: 5px 10px;
-    display: inline-flex;
-    align-items: center;
-    border-radius: 2px;
-}
+    .badge-count {
+        background-color: #d32f2f;
+        color: #ffffff;
+        font-weight: 700;
+        font-size: 13px;
+        padding: 5px 10px;
+        display: inline-flex;
+        align-items: center;
+        border-radius: 2px;
+    }
 
     .tl-search-row {
         display: flex;
@@ -61,16 +60,15 @@
         height: 28px;
         width: 240px;
     }
-
-    .tl-search-input input {
-        border: none;
-        outline: none;
-        padding: 0 4px;
-        font-size: 12px;
-        width: 100%;
-        height: 100%;
-        background: transparent;
-    }
+        .tl-search-input input {
+            border: none;
+            outline: none;
+            padding: 0 4px;
+            font-size: 12px;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+        }
 
     .btn-tl-add {
         background-color: #4a90e2;
@@ -87,10 +85,10 @@
         line-height: 1;
     }
 
-    .btn-tl-add:hover {
-        background-color: #357abd;
-        color: #ffffff;
-    }
+        .btn-tl-add:hover {
+            background-color: #357abd;
+            color: #ffffff;
+        }
 
     .btn-tl-view {
         background-color: #f0a04b;
@@ -103,10 +101,10 @@
         display: inline-block;
     }
 
-    .btn-tl-view:hover {
-        background-color: #d98934;
-        color: #ffffff;
-    }
+        .btn-tl-view:hover {
+            background-color: #d98934;
+            color: #ffffff;
+        }
 
     .btn-tl-edit {
         background-color: #52b788;
@@ -119,10 +117,27 @@
         display: inline-block;
     }
 
-    .btn-tl-edit:hover {
-        background-color: #40916c;
-        color: #ffffff;
+        .btn-tl-edit:hover {
+            background-color: #40916c;
+            color: #ffffff;
+        }
+
+    .btn-review {
+        background-color: #d32f2f;
+        color: #ffffff !important;
+        border: none;
+        font-size: 11px;
+        padding: 2px 12px;
+        border-radius: 3px;
+        text-decoration: none;
+        display: inline-block;
+        font-weight: 500;
     }
+
+        .btn-review:hover {
+            background-color: #b71c1c;
+            color: #ffffff;
+        }
 
     .k-grid {
         border-color: #d0d0d0 !important;
@@ -134,14 +149,14 @@
         background-color: #f5f5f5 !important;
     }
 
-    .k-grid-header th.k-header {
-        background-color: #e9ecef !important;
-        color: #212529 !important;
-        font-weight: 700 !important;
-        border-bottom: 1px solid #b0b0b0 !important;
-        padding: 5px 8px !important;
-        font-size: 12px;
-    }
+        .k-grid-header th.k-header {
+            background-color: #e9ecef !important;
+            color: #212529 !important;
+            font-weight: 700 !important;
+            border-bottom: 1px solid #b0b0b0 !important;
+            padding: 5px 8px !important;
+            font-size: 12px;
+        }
 
     .k-grid td {
         vertical-align: middle;
@@ -157,38 +172,40 @@
         background-color: #eef2f7;
     }
 
-   .k-pager-wrap {
-    padding: 4px 8px !important;
-    font-size: 12px !important;
-    border-top: 1px solid #d0dde5 !important;
-    background-color: #E8F0F5 !important;
-
-    .k-pager-wrap .k-link,
-    .k-pager-wrap .k-pager-nav {
-        min-width: 22px !important;
-        height: 22px !important;
-        line-height: 22px !important;
-        font-size: 11px !important;
-        padding: 0 4px !important;
-        border-radius: 2px !important;
+    .k-pager-wrap {
+        padding: 4px 8px !important;
+        font-size: 12px !important;
+        border-top: 1px solid #d0dde5 !important;
+        background-color: #E8F0F5 !important;
     }
 
-    .k-pager-wrap .k-state-selected {
-        background-color: #f5c518 !important;
-        color: #212529 !important;
-        border-color: #f5c518 !important;
-        font-weight: 700 !important;
-    }
+        .k-pager-wrap .k-link,
+        .k-pager-wrap .k-pager-nav {
+            min-width: 22px !important;
+            height: 22px !important;
+            line-height: 22px !important;
+            font-size: 11px !important;
+            padding: 0 4px !important;
+            border-radius: 2px !important;
+        }
 
-    .k-pager-wrap .k-pager-sizes {
-        font-size: 11px !important;
-    }
+        .k-pager-wrap .k-state-selected,
+        .k-pager-wrap .k-selected {
+            background-color: #f5c518 !important;
+            color: #212529 !important;
+            border-color: #f5c518 !important;
+            font-weight: 700 !important;
+        }
 
-    .k-pager-wrap .k-dropdownlist,
-    .k-pager-wrap .k-picker {
-        font-size: 11px !important;
-        height: 22px !important;
-    }
+        .k-pager-wrap .k-pager-sizes {
+            font-size: 11px !important;
+        }
+
+        .k-pager-wrap .k-dropdownlist,
+        .k-pager-wrap .k-picker {
+            font-size: 11px !important;
+            height: 22px !important;
+        }
 
     .k-pager-info {
         font-size: 11px !important;
@@ -229,9 +246,9 @@
         columns.Bound(c => c.Id).Title("Actions")
             .Sortable(false).Filterable(false).Width(160)
             .ClientTemplate(
-    "<a href='/CourtCase/Complaints/Details/#= Id #' class='btn-tl-view me-1'>View</a>" +
-    "<a href='/CourtCase/Complaints/Edit/#= Id #' class='btn-tl-edit'>Edit</a>"
-);
+                "<a href='/CourtCase/Complaints/Details/#= Id #' class='btn-tl-view me-1'>View</a>" +
+                "<a href='/CourtCase/Complaints/Edit/#= Id #' class='btn-tl-edit'>Edit</a>"
+            );
     })
     .Pageable(p => p
         .PageSizes(new[] { 10, 20, 50 })
@@ -245,5 +262,44 @@
     .DataSource(ds => ds.Ajax().ServerOperation(false).PageSize(10))
     .NoRecords(n => n.Template(
         "<div class='py-4 text-center text-muted'>No complaints found. Click 'Add New Complaint' to create one.</div>"
+    ))
+)
+
+<div class="tl-section-bar mt-3">
+    <div class="tl-banner">Pending Offences Awaiting Action</div>
+    <span class="badge-count">@Model.PendingOffences.Count()</span>
+</div>
+
+@(Html.Kendo().Grid(Model.PendingOffences)
+    .Name("pendingOffencesGrid")
+    .Columns(columns =>
+    {
+        columns.Bound(o => o.FileNumber).Title("File Number").Width(150);
+        columns.Bound(o => o.OffenceType).Title("Offence Type");
+        columns.Bound(o => o.DefendantName).Title("Defendant").Width(200);
+        columns.Bound(o => o.ComplaintNumber).Title("Complaint #").Width(150);
+
+        columns.Bound(o => o.CreatedDate).Title("Created").Width(130)
+            .Filterable(false)
+            .ClientTemplate("#= kendo.toString(kendo.parseDate(CreatedDate), 'MMM dd, yyyy') #");
+
+        columns.Bound(o => o.Id).Title("Actions")
+            .Sortable(false).Filterable(false).Width(110)
+            .ClientTemplate(
+                "<a href='/CourtCase/Offences/Details/#= Id #' class='btn-review'>Review</a>"
+            );
+    })
+    .Pageable(p => p
+        .PageSizes(new[] { 10, 20, 50 })
+        .Messages(m => m
+            .Display("{0} - {1} of {2} items")
+            .Empty("No items to display")
+        )
+    )
+    .Sortable()
+    .Filterable()
+    .DataSource(ds => ds.Ajax().ServerOperation(false).PageSize(10))
+    .NoRecords(n => n.Template(
+        "<div class='py-4 text-center text-muted'>No pending offences.</div>"
     ))
 )

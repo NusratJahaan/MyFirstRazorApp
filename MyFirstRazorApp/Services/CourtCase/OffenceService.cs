@@ -1,10 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyFirstRazorApp.Data;
 using MyFirstRazorApp.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MyFirstRazorApp.Services.CourtCase
 {
@@ -48,13 +44,11 @@ namespace MyFirstRazorApp.Services.CourtCase
         {
             try
             {
-                //  Auto-generate FileNumber
                 if (string.IsNullOrEmpty(offence.FileNumber))
                 {
                     offence.FileNumber = await GenerateFileNumberAsync();
                 }
 
-                // Set defaults for new offence
                 offence.OffenceStatus = OffenceStatus.Pending;
                 offence.CaseStatus = CaseStatus.Active;
                 offence.IsApproved = false;
@@ -174,7 +168,6 @@ namespace MyFirstRazorApp.Services.CourtCase
             }
         }
 
-        //  NEW METHOD — Auto-generate FileNumber in format FN-YYYY-MM-NNNN
         public async Task<string> GenerateFileNumberAsync()
         {
             try
@@ -204,6 +197,22 @@ namespace MyFirstRazorApp.Services.CourtCase
             catch (Exception ex)
             {
                 throw new Exception($"Error generating file number: {ex.Message}", ex);
+            }
+        }
+
+        public async Task<List<PendingOffenceDto>> GetPendingOffencesAsync()
+        {
+            try
+            {
+                var result = await _context.Database
+                    .SqlQueryRaw<PendingOffenceDto>("EXEC sp_GetPendingOffences")
+                    .ToListAsync();
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error getting pending offences: {ex.Message}", ex);
             }
         }
     }
