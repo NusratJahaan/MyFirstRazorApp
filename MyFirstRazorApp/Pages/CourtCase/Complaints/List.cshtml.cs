@@ -8,10 +8,10 @@ namespace MyFirstRazorApp.Pages.CourtCase.Complaints
     [Authorize]
     public class ListModel : PageModel
     {
-        private readonly IComplaintService _complaintService;
         public string SearchTerm { get; set; }
-
         public IList<Complaint> Complaints { get; set; }
+
+        private readonly IComplaintService _complaintService;
         public ListModel(IComplaintService complaintService)
         {
             _complaintService = complaintService;

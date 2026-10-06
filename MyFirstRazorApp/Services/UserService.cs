@@ -23,65 +23,14 @@ namespace MyFirstRazorApp.Services
         {
             try
             {
-                // ✅ Hash password
                 user.PasswordHash = _passwordHasher.HashPassword(user, plainPassword);
 
-                // ✅ Audit
                 user.CreatedDate = DateTime.Now;
-                user.CreatedBy = "System";
+                user.CreatedBy = user.FullName;
                 user.UpdatedDate = DateTime.Now;
-                user.UpdatedBy = "System";
+                user.UpdatedBy = user.FullName;
 
-                // ✅ Save SystemUser
                 await _context.SystemUsers.AddAsync(user);
-                await _context.SaveChangesAsync();
-
-                // ✅ Create role-specific record
-                switch (user.Role)
-                {
-                    case "Student":
-                        var student = new Student
-                        {
-                            Name = user.FullName,
-                            Email = user.Email,
-                            SystemUserId = user.Id,
-                            CreatedDate = DateTime.Now,
-                            CreatedBy = "System",
-                            UpdatedDate = DateTime.Now,
-                            UpdatedBy = "System"
-                        };
-                        await _context.Students.AddAsync(student);
-                        break;
-
-                    case "Teacher":
-                        var teacher = new Teacher
-                        {
-                            Name = user.FullName,
-                            Email = user.Email,
-                            SystemUserId = user.Id,
-                            CreatedDate = DateTime.Now,
-                            CreatedBy = "System",
-                            UpdatedDate = DateTime.Now,
-                            UpdatedBy = "System"
-                        };
-                        await _context.Teachers.AddAsync(teacher);
-                        break;
-
-                    case "Coordinator":
-                        var coordinator = new Coordinator
-                        {
-                            Name = user.FullName,
-                            Email = user.Email,
-                            SystemUserId = user.Id,
-                            CreatedDate = DateTime.Now,
-                            CreatedBy = "System",
-                            UpdatedDate = DateTime.Now,
-                            UpdatedBy = "System"
-                        };
-                        await _context.Coordinators.AddAsync(coordinator);
-                        break;
-                }
-
                 await _context.SaveChangesAsync();
                 return true;
             }
