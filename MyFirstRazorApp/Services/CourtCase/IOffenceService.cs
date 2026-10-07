@@ -14,5 +14,11 @@ namespace MyFirstRazorApp.Services.CourtCase
         Task<bool> ToggleActiveAsync(int id);
         Task<string> GenerateFileNumberAsync();
         Task<List<PendingOffenceDto>> GetPendingOffencesAsync();
+        Task<List<PendingOffenceDto>> SearchPendingOffencesAsync(
+            string fileNumber,
+            string defendantName,
+            int? offenceLookUpId,
+            DateTime? fromDate,
+            DateTime? toDate);
     }
 }

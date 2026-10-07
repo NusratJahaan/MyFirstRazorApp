@@ -215,5 +215,54 @@ namespace MyFirstRazorApp.Services.CourtCase
                 throw new Exception($"Error getting pending offences: {ex.Message}", ex);
             }
         }
+        public async Task<List<PendingOffenceDto>> SearchPendingOffencesAsync(
+            string fileNumber,
+            string defendantName,
+            int? offenceLookUpId,
+            DateTime? fromDate,
+            DateTime? toDate)
+        {
+            try
+            {
+                var query = _context.Offences
+                    .Where(o => o.OffenceStatus == OffenceStatus.Pending
+                             && o.IsApproved == false);
+
+                if (!string.IsNullOrWhiteSpace(fileNumber))
+                    query = query.Where(o => o.FileNumber.Contains(fileNumber));
+
+                if (offenceLookUpId.HasValue && offenceLookUpId.Value > 0)
+                    query = query.Where(o => o.OffenceLookUpId == offenceLookUpId.Value);
+
+                if (fromDate.HasValue)
+                    query = query.Where(o => o.CreatedDate >= fromDate.Value);
+
+                if (toDate.HasValue)
+                    query = query.Where(o => o.CreatedDate <= toDate.Value.Date.AddDays(1).AddSeconds(-1));
+
+                var result = await (from o in query
+                                    join ot in _context.OffenceLookUps on o.OffenceLookUpId equals ot.Id
+                                    join c in _context.Complaints on o.ComplaintId equals c.Id
+                                    where string.IsNullOrWhiteSpace(defendantName)
+                                          || c.DefendantName.Contains(defendantName)
+                                    select new PendingOffenceDto
+                                    {
+                                        Id = o.Id,
+                                        FileNumber = o.FileNumber,
+                                        CreatedDate = o.CreatedDate,
+                                        OffenceType = ot.Description,
+                                        DefendantName = c.DefendantName,
+                                        ComplaintNumber = c.ComplaintNumber
+                                    })
+                                    .OrderByDescending(x => x.CreatedDate)
+                                    .ToListAsync();
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error searching pending offences: {ex.Message}", ex);
+            }
+        }
     }
 }

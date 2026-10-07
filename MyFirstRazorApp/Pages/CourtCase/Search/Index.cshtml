@@ -1,0 +1,262 @@
+﻿@page
+@using Kendo.Mvc.UI
+@using MyFirstRazorApp.Models
+@model MyFirstRazorApp.Pages.CourtCase.Search.IndexModel
+@{
+    Layout = "_CaseLayout";
+    ViewData["Title"] = "Search";
+}
+
+<style>
+    .tl-search-page {
+        background: #efefef;
+        padding: 4px 0 10px;
+        font-family: "Segoe UI", "Open Sans", Arial, Helvetica, sans-serif;
+    }
+
+   .tl-page-title {
+    font-size: 26px;
+    font-weight: 300;
+    color: #000;
+    margin: 4px 0 10px;
+    line-height: 1.2;
+}
+
+    .search-card {
+        background: #ffffff;
+        border: 1px solid #dcdcdc;
+        border-radius: 4px;
+        padding: 14px 14px 16px;
+        margin-bottom: 8px;
+    }
+    .search-card .form-label {
+        font-size: 13px;
+        font-weight: 400;
+        color: #222;
+        margin-bottom: 4px;
+    }
+    .search-card .form-control,
+    .search-card .form-select {
+        font-size: 13px;
+        height: 32px;
+        padding: 3px 9px;
+        border: 1px solid #ced4da;
+        border-radius: 3px;
+        background-color: #ffffff;
+        box-shadow: none;
+    }
+    .search-card .form-control:focus,
+    .search-card .form-select:focus {
+        border-color: #7a8fb8;
+        box-shadow: none;
+    }
+    .search-actions {
+        margin-top: 14px;
+        display: flex;
+        gap: 6px;
+    }
+
+    .btn-search {
+        background-color: #5a5a5a;
+        color: #ffffff;
+        border: 1px solid #4a4a4a;
+        font-size: 13px;
+        height: 32px;
+        padding: 0 16px;
+        border-radius: 3px;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        line-height: 1;
+        cursor: pointer;
+    }
+    .btn-search:hover { background-color: #444; color: #ffffff; }
+
+    .btn-clear {
+        background-color: #ffffff;
+        color: #333;
+        border: 1px solid #b5b5b5;
+        font-size: 13px;
+        height: 32px;
+        padding: 0 16px;
+        border-radius: 3px;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        line-height: 1;
+    }
+    .btn-clear:hover { background-color: #f1f1f1; color: #222; }
+
+    .btn-review {
+        background-color: #17c3ee;
+        color: #ffffff !important;
+        font-size: 12px;
+        padding: 4px 20px;
+        border: none;
+        border-radius: 3px;
+        text-decoration: none;
+        display: inline-block;
+        line-height: 1.2;
+    }
+    .btn-review:hover { background-color: #0fa9cf; color: #ffffff !important; }
+
+    .tl-results {
+        background: #ffffff;
+        border: 1px solid #dcdcdc;
+        border-radius: 4px;
+        overflow: hidden;
+    }
+    .tl-results-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 10px;
+        font-size: 13px;
+        color: #333;
+    }
+    .tl-results-bar strong { font-weight: 700; }
+
+    .tl-search-page .k-grid {
+        font-size: 13px;
+        border-width: 1px 0 0 0 !important;
+        border-color: #dcdcdc !important;
+        border-radius: 0 !important;
+    }
+    .tl-search-page .k-grid-header,
+    .tl-search-page .k-grid-header th.k-header {
+        background-color: #f1f4f7 !important;
+        color: #111 !important;
+        font-weight: 700 !important;
+        font-size: 13px;
+    }
+    .tl-search-page .k-grid-header th.k-header {
+        padding: 10px 10px !important;
+        border-color: #dfe3e8 !important;
+        border-bottom: 1px solid #cfd6dd !important;
+    }
+    .tl-search-page .k-grid td {
+        padding: 9px 10px !important;
+        vertical-align: middle;
+        border-color: #eceff2 !important;
+    }
+    .tl-search-page .k-grid tr:nth-child(even) td { background-color: #f6f7f8; }
+    .tl-search-page .k-grid tr:hover td { background-color: #eef3f8; }
+
+    .tl-search-page .k-pager-wrap {
+        padding: 5px 8px !important;
+        font-size: 12px !important;
+        border-top: 1px solid #d0dde5 !important;
+        background-color: #e8f0f5 !important;
+    }
+    .tl-search-page .k-pager-wrap .k-link,
+    .tl-search-page .k-pager-wrap .k-pager-nav {
+        min-width: 24px !important;
+        height: 24px !important;
+        line-height: 24px !important;
+        font-size: 12px !important;
+        padding: 0 4px !important;
+        border-radius: 2px !important;
+    }
+    .tl-search-page .k-pager-wrap .k-state-selected,
+    .tl-search-page .k-pager-wrap .k-selected {
+        background-color: #b9d6f2 !important;
+        color: #1a3c66 !important;
+        border-color: #b9d6f2 !important;
+        font-weight: 700 !important;
+    }
+    .tl-search-page .k-pager-wrap .k-dropdownlist,
+    .tl-search-page .k-pager-wrap .k-picker { font-size: 12px !important; height: 24px !important; }
+    .tl-search-page .k-pager-info { font-size: 12px !important; color: #333 !important; margin-left: 8px !important; }
+</style>
+
+<div class="tl-search-page">
+
+    <div class="tl-page-title">Pending Offence Search</div>
+
+    <div class="search-card">
+        <form method="get">
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label">File Number</label>
+                    <input type="text" name="fileNumber" value="@Model.FileNumber" class="form-control" />
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label">Defendant Name</label>
+                    <input type="text" name="defendantName" value="@Model.DefendantName" class="form-control" />
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label">Offence Type</label>
+                    <select name="offenceLookUpId" class="form-select">
+                        <option value="">All</option>
+                        @foreach (var opt in Model.OffenceTypeOptions)
+                        {
+                            <option value="@opt.Value" selected="@(opt.Value == Model.OffenceLookUpId?.ToString())">
+                                @opt.Text
+                            </option>
+                        }
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label">From Date</label>
+                    <input type="date" name="fromDate" value="@(Model.FromDate?.ToString("yyyy-MM-dd"))" class="form-control" />
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label">To Date</label>
+                    <input type="date" name="toDate" value="@(Model.ToDate?.ToString("yyyy-MM-dd"))" class="form-control" />
+                </div>
+            </div>
+
+            <div class="search-actions">
+                <button type="submit" class="btn-search">Search</button>
+                <a href="/CourtCase/Search/Index" class="btn-clear">Clear</a>
+            </div>
+        </form>
+    </div>
+
+    @if (Model.HasSearched)
+    {
+        <div class="tl-results">
+            <div class="tl-results-bar">
+                <span><strong>Results</strong> &nbsp;(@Model.Results.Count() found)</span>
+            </div>
+
+            @(Html.Kendo().Grid(Model.Results)
+                .Name("searchResultsGrid")
+                .Columns(columns =>
+                {
+                    columns.Bound(o => o.FileNumber).Title("File Number").Width(150);
+                    columns.Bound(o => o.OffenceType).Title("Offence Type");
+                    columns.Bound(o => o.DefendantName).Title("Defendant").Width(200);
+                    columns.Bound(o => o.ComplaintNumber).Title("Complaint #").Width(150);
+
+                    columns.Bound(o => o.CreatedDate).Title("Created").Width(130)
+                        .Filterable(false)
+                        .ClientTemplate("#= kendo.toString(kendo.parseDate(CreatedDate), 'MMM dd, yyyy') #");
+
+                    columns.Bound(o => o.Id).Title("").Sortable(false).Filterable(false).Width(110)
+                        .ClientTemplate(
+                            "<a href='/CourtCase/Offences/Details/#= Id #' class='btn-review'>Review</a>"
+                        );
+                })
+                .Pageable(p => p
+                    .PageSizes(new[] { 10, 20, 50 })
+                    .Messages(m => m
+                        .Display("{0} - {1} of {2} items")
+                        .Empty("No items to display")
+                    )
+                )
+                .Sortable()
+                .Filterable()
+                .DataSource(ds => ds.Ajax().ServerOperation(false).PageSize(10))
+                .NoRecords(n => n.Template(
+                    "<div class='py-4 text-center text-muted'>No offences match your search.</div>"
+                ))
+            )
+        </div>
+    }
+
+</div>
