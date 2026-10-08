@@ -16,8 +16,8 @@ namespace MyFirstRazorApp.Pages.CourtCase.Search
         private readonly IOffenceService _offenceService;
         private readonly IOffenceLookUpService _offenceLookUpService;
 
-        public IList<PendingOffenceDto> Results { get; set; } = new List<PendingOffenceDto>();
-        public List<SelectListItem> OffenceTypeOptions { get; set; } = new List<SelectListItem>();
+        public IList<PendingOffenceDto> Results { get; set; }
+        public List<SelectListItem> OffenceTypeOptions { get; set; }
 
         public string FileNumber { get; set; }
         public string DefendantName { get; set; }
@@ -40,6 +40,9 @@ namespace MyFirstRazorApp.Pages.CourtCase.Search
             DateTime? fromDate,
             DateTime? toDate)
         {
+            Results = new List<PendingOffenceDto>();
+            OffenceTypeOptions = new List<SelectListItem>();
+
             var lookups = await _offenceLookUpService.GetAllAsync();
             OffenceTypeOptions = lookups
                 .Select(l => new SelectListItem
