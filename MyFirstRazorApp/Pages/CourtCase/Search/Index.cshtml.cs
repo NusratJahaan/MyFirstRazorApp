@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using MyFirstRazorApp.Models;
+using MyFirstRazorApp.Models.Dtos;
 using MyFirstRazorApp.Services.CourtCase;
 using System;
 using System.Collections.Generic;

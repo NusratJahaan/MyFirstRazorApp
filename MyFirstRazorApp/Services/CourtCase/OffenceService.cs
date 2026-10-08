@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyFirstRazorApp.Data;
 using MyFirstRazorApp.Models;
+using MyFirstRazorApp.Models.Dtos;
 
 namespace MyFirstRazorApp.Services.CourtCase
 {

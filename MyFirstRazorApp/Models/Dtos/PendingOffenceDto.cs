@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MyFirstRazorApp.Models
+namespace MyFirstRazorApp.Models.Dtos
 {
     public class PendingOffenceDto
     {

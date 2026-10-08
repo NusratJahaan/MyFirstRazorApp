@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MyFirstRazorApp.Models;
+using MyFirstRazorApp.Models.Dtos;
 using MyFirstRazorApp.Services.CourtCase;
 
 namespace MyFirstRazorApp.Pages.CourtCase.Complaints

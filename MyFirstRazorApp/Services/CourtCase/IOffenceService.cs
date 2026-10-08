@@ -1,4 +1,5 @@
 ﻿using MyFirstRazorApp.Models;
+using MyFirstRazorApp.Models.Dtos;
 
 namespace MyFirstRazorApp.Services.CourtCase
 {
