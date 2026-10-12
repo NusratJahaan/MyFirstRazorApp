@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
 using MyFirstRazorApp.Models.StudentModels;
 using MyFirstRazorApp.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace MyFirstRazorApp.Pages.Students
@@ -14,10 +14,12 @@ namespace MyFirstRazorApp.Pages.Students
     public class IndexModel : PageModel
     {
         private readonly IStudentService _studentService;
+        private readonly ILogger<IndexModel> _logger;
 
-        public IndexModel(IStudentService studentService)
+        public IndexModel(IStudentService studentService, ILogger<IndexModel> logger)
         {
             _studentService = studentService;
+            _logger = logger;
         }
 
         public IList<Student> Students { get; set; } = new List<Student>();
@@ -28,15 +30,15 @@ namespace MyFirstRazorApp.Pages.Students
         {
             try
             {
-                var role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value ?? "";
+                var role = ClaimsHelper.GetRole(User);
                 CurrentRole = role;
 
-                if (role == "Student")
+                if (role == Roles.Student)
                 {
-                    var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
-                    if (int.TryParse(userIdClaim, out int userId))
+                    var userId = ClaimsHelper.GetUserId(User);
+                    if (userId != null)
                     {
-                        var student = await _studentService.GetStudentBySystemUserIdAsync(userId);
+                        var student = await _studentService.GetStudentBySystemUserIdAsync(userId.Value);
                         if (student != null)
                         {
                             Students.Add(student);
@@ -51,7 +53,7 @@ namespace MyFirstRazorApp.Pages.Students
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                _logger.LogError(ex, "Error loading students");
                 Students = new List<Student>();
             }
         }

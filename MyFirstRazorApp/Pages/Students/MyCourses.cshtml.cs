@@ -1,27 +1,28 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
 using MyFirstRazorApp.Models.StudentModels;
 using MyFirstRazorApp.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace MyFirstRazorApp.Pages.Students
 {
-    [Authorize(Roles = "Student")]
+    [Authorize(Roles = Roles.Student)]
     public class MyCoursesModel : PageModel
     {
         private readonly IStudentService _studentService;
+        private readonly ILogger<MyCoursesModel> _logger;
 
-        public MyCoursesModel(IStudentService studentService)
+        public MyCoursesModel(IStudentService studentService, ILogger<MyCoursesModel> logger)
         {
             _studentService = studentService;
+            _logger = logger;
         }
 
-        public Student Student { get; set; } = new Student();
         public List<Course> EnrolledCourses { get; set; } = new();
         public List<Course> AvailableCourses { get; set; } = new();
 
@@ -32,7 +33,6 @@ namespace MyFirstRazorApp.Pages.Students
                 var student = await GetCurrentStudentAsync();
                 if (student == null) return Forbid();
 
-                Student = student;
                 EnrolledCourses = await _studentService.GetEnrolledCoursesAsync(student.Id);
                 AvailableCourses = await _studentService.GetAvailableCoursesAsync(student.Id);
 
@@ -40,12 +40,12 @@ namespace MyFirstRazorApp.Pages.Students
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                _logger.LogError(ex, "Error loading courses");
                 return RedirectToPage("/Students/Index");
             }
         }
 
-        // ✅ Enroll in a course
+        // Enroll in a course
         public async Task<IActionResult> OnPostEnrollAsync(int courseId)
         {
             try
@@ -58,12 +58,12 @@ namespace MyFirstRazorApp.Pages.Students
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                _logger.LogError(ex, "Error enrolling in course {CourseId}", courseId);
                 return RedirectToPage();
             }
         }
 
-        // ✅ Unenroll from a course
+        // Unenroll from a course
         public async Task<IActionResult> OnPostUnenrollAsync(int courseId)
         {
             try
@@ -76,19 +76,17 @@ namespace MyFirstRazorApp.Pages.Students
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                _logger.LogError(ex, "Error unenrolling from course {CourseId}", courseId);
                 return RedirectToPage();
             }
         }
 
-        // ---------- Helpers ----------
-
         private async Task<Student?> GetCurrentStudentAsync()
         {
-            var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
-            if (!int.TryParse(userIdClaim, out int userId)) return null;
+            var userId = ClaimsHelper.GetUserId(User);
+            if (userId == null) return null;
 
-            return await _studentService.GetStudentBySystemUserIdAsync(userId);
+            return await _studentService.GetStudentBySystemUserIdAsync(userId.Value);
         }
     }
 }

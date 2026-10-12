@@ -6,108 +6,114 @@
     ViewData["ComplaintId"] = Model.Complaint.Id;
 }
 
-<style>
-    footer {
-        text-align: center !important;
-    }
-</style>
+<div class="details-page">
 
-<div class="container-fluid mt-4 mb-5">
-    <div class="row justify-content-center">
-        <div class="col-md-10 col-lg-8">
+    <h2 class="page-title">Edit Complaint</h2>
 
-            <div class="card shadow-sm border-0 rounded-4 mb-4">
-                <div class="card-body p-4 p-md-5">
-                    <h5 class="text-dark fw-bold mb-3">
-                        <i class="bi bi-person-vcard me-2 text-primary"></i>Defendant Information
-                    </h5>
-
-                    <div class="bg-white p-3 rounded border">
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold text-muted small mb-1">Defendant Name</label>
-                                <div class="p-2 rounded text-dark fw-medium border" style="background-color: #e9ecef;">
-                                    @Model.Complaint.DefendantName
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold text-muted small mb-1">Phone</label>
-                                <div class="p-2 rounded text-dark border" style="background-color: #e9ecef;">
-                                    @(string.IsNullOrEmpty(Model.Complaint.DefendantPhone) ? "—" : Model.Complaint.DefendantPhone)
-                                </div>
-                            </div>
-
-                            <div class="col-md-12">
-                                <label class="form-label fw-semibold text-muted small mb-1">Address</label>
-                                <div class="p-2 rounded text-dark border" style="background-color: #e9ecef;">
-                                    @(string.IsNullOrEmpty(Model.Complaint.DefendantAddress) ? "—" : Model.Complaint.DefendantAddress)
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold text-muted small mb-1">Complaint #</label>
-                                <div class="p-2 rounded text-dark border" style="background-color: #e9ecef;">
-                                    <span class="badge bg-primary bg-opacity-10 text-primary border border-primary-subtle px-3 py-1 rounded-pill">
-                                        @Model.Complaint.ComplaintNumber
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div class="col-md-12">
-                                <label class="form-label fw-semibold text-muted small mb-1">Description</label>
-                                <div class="p-2 rounded text-dark border" style="background-color: #e9ecef;">
-                                    @(string.IsNullOrEmpty(Model.Complaint.Description) ? "—" : Model.Complaint.Description)
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <!-- Summary Box -->
+    <div class="summary-box">
+        <div class="summary-header">
+            <span class="summary-label">Complaint #:</span>
+            <span class="summary-value">@Model.Complaint.ComplaintNumber</span>
+            <span class="summary-label ms-4">Complaint Entry Date &amp; Time:</span>
+            <span class="summary-value">@Model.Complaint.CreatedDate.ToString("MMM dd, yyyy hh:mm tt")</span>
+        </div>
+        <div class="summary-defendant">
+            <span class="summary-defendant-label">Defendant</span>
+            <div class="summary-defendant-info">
+                <span>@Model.Complaint.DefendantName</span>
             </div>
-
-            <div class="card shadow-sm border-0 rounded-4 mb-4">
-                <div class="card-body p-4 p-md-5">
-                    <h6 class="text-secondary fw-semibold mb-3">
-                        <i class="bi bi-info-circle me-2"></i>Record Information
-                    </h6>
-
-                    <div class="bg-white p-3 rounded border">
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold text-secondary small mb-1">Created By</label>
-                                <div class="p-2 rounded text-dark small border" style="background-color: #e9ecef;">
-                                    <i class="bi bi-person-circle me-1 text-muted"></i>@(Model.Complaint.CreatedBy ?? "—")
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold text-secondary small mb-1">Created Date</label>
-                                <div class="p-2 rounded text-dark small border" style="background-color: #e9ecef;">
-                                    <i class="bi bi-calendar me-1 text-muted"></i>@(Model.Complaint.CreatedDate.ToString("MMM dd, yyyy hh:mm tt"))
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold text-secondary small mb-1">Last Updated By</label>
-                                <div class="p-2 rounded text-dark small border" style="background-color: #e9ecef;">
-                                    <i class="bi bi-person-circle me-1 text-muted"></i>@(Model.Complaint.UpdatedBy ?? "—")
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold text-secondary small mb-1">Last Updated Date</label>
-                                <div class="p-2 rounded text-dark small border" style="background-color: #e9ecef;">
-                                    <i class="bi bi-calendar me-1 text-muted"></i>@(Model.Complaint.UpdatedDate?.ToString("MMM dd, yyyy hh:mm tt") ?? "—")
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="d-flex justify-content-end">
-                <a asp-page="./List" class="btn btn-light border px-4 text-secondary rounded-pill">
-                    Back to List
-                </a>
-            </div>
-
         </div>
     </div>
+
+    <!-- Complaint Date & Time -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-6">
+            <label class="field-label">Complaint Date <span class="text-danger">*</span></label>
+            <div class="field-value">@Model.Complaint.CreatedDate.ToString("MM/dd/yyyy")</div>
+        </div>
+        <div class="col-md-6">
+            <label class="field-label">Complaint Time</label>
+            <div class="field-value">@Model.Complaint.CreatedDate.ToString("hh:mm tt")</div>
+        </div>
+    </div>
+
+    <!-- Defendant Information -->
+    <h5 class="section-heading">Defendant Information</h5>
+
+    <div class="row g-3 mb-3">
+        <div class="col-12">
+            <label class="field-label">Defendant Name</label>
+            <div class="field-value">@Model.Complaint.DefendantName</div>
+        </div>
+    </div>
+
+    <div class="row g-3 mb-3">
+        <div class="col-12">
+            <label class="field-label">Phone</label>
+            <div class="field-value">
+                @(string.IsNullOrEmpty(Model.Complaint.DefendantPhone) ? "—" : Model.Complaint.DefendantPhone)
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-3 mb-4">
+        <div class="col-12">
+            <label class="field-label">Address</label>
+            <div class="field-value">
+                @(string.IsNullOrEmpty(Model.Complaint.DefendantAddress) ? "—" : Model.Complaint.DefendantAddress)
+            </div>
+        </div>
+    </div>
+
+    <!-- Case Description -->
+    <h5 class="section-heading">Case Description</h5>
+
+    <div class="mb-4">
+        @if (string.IsNullOrEmpty(Model.Complaint.Description))
+        {
+            <p class="text-muted fst-italic mb-0">No description has been recorded for this complaint.</p>
+        }
+        else
+        {
+            <div class="field-value" style="min-height: 80px;">@Model.Complaint.Description</div>
+        }
+    </div>
+
+    <!-- Initial / Last Activity -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-6">
+            <h5 class="section-heading">Initial Activity</h5>
+            <div class="activity-list">
+                <div class="activity-item">
+                    <span class="activity-label">Created By:</span>
+                    <span class="activity-value">@(Model.Complaint.CreatedBy ?? "—")</span>
+                </div>
+                <div class="activity-item">
+                    <span class="activity-label">Created On:</span>
+                    <span class="activity-value">@Model.Complaint.CreatedDate.ToString("MM/dd/yyyy hh:mm tt")</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h5 class="section-heading">Last Activity</h5>
+            <div class="activity-list">
+                <div class="activity-item">
+                    <span class="activity-label">Updated By:</span>
+                    <span class="activity-value">@(Model.Complaint.UpdatedBy ?? "—")</span>
+                </div>
+                <div class="activity-item">
+                    <span class="activity-label">Updated On:</span>
+                    <span class="activity-value">@(Model.Complaint.UpdatedDate?.ToString("MM/dd/yyyy hh:mm tt") ?? "—")</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="d-flex justify-content-end gap-2 pt-3 border-top">
+        <a asp-page="./List" class="btn btn-light border px-4">Cancel</a>
+        <a asp-page="./Edit" asp-route-id="@Model.Complaint.Id" class="btn btn-primary px-4">Update</a>
+    </div>
+
 </div>

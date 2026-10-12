@@ -1,12 +1,12 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
 using MyFirstRazorApp.Models.StudentModels;
 using MyFirstRazorApp.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace MyFirstRazorApp.Pages.Students
@@ -16,50 +16,50 @@ namespace MyFirstRazorApp.Pages.Students
     {
         private readonly IStudentService _studentService;
         private readonly ITeacherService _teacherService;
+        private readonly ILogger<DetailsModel> _logger;
 
-        public DetailsModel(IStudentService studentService, ITeacherService teacherService)
+        public DetailsModel(IStudentService studentService, ITeacherService teacherService, ILogger<DetailsModel> logger)
         {
             _studentService = studentService;
             _teacherService = teacherService;
+            _logger = logger;
         }
 
         public Student Student { get; set; } = new Student();
         public List<Course> EnrolledCourses { get; set; } = new();
-        public string CurrentRole { get; set; } = string.Empty;
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
             try
             {
-                var role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value ?? "";
-                CurrentRole = role;
+                var role = ClaimsHelper.GetRole(User);
 
                 // Role-based access
-                if (role == "Student")
+                if (role == Roles.Student)
                 {
                     // Student can only view their own details
-                    var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
-                    if (!int.TryParse(userIdClaim, out int userId))
+                    var userId = ClaimsHelper.GetUserId(User);
+                    if (userId == null)
                     {
                         return Forbid();
                     }
 
-                    var ownStudent = await _studentService.GetStudentBySystemUserIdAsync(userId);
+                    var ownStudent = await _studentService.GetStudentBySystemUserIdAsync(userId.Value);
                     if (ownStudent == null || ownStudent.Id != id)
                     {
                         return Forbid();
                     }
                 }
-                else if (role == "Teacher")
+                else if (role == Roles.Teacher)
                 {
                     // Teacher can only view students in their courses
-                    var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value;
-                    if (!int.TryParse(userIdClaim, out int userId))
+                    var userId = ClaimsHelper.GetUserId(User);
+                    if (userId == null)
                     {
                         return Forbid();
                     }
 
-                    var teacher = await _teacherService.GetTeacherBySystemUserIdAsync(userId);
+                    var teacher = await _teacherService.GetTeacherBySystemUserIdAsync(userId.Value);
                     if (teacher == null)
                     {
                         return Forbid();
@@ -87,7 +87,7 @@ namespace MyFirstRazorApp.Pages.Students
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                _logger.LogError(ex, "Error loading student details for student {StudentId}", id);
                 return NotFound();
             }
         }

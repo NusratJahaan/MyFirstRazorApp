@@ -3,7 +3,7 @@
 
 <div class="container-fluid mt-4 mb-5">
     <div class="d-flex align-items-center mb-4 pb-2 border-bottom">
-        <a asp-page="Index" class="btn btn-light border shadow-sm text-muted me-3 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; border-radius: 50%;" title="Back">
+        <a asp-page="Index" class="btn btn-light border shadow-sm text-muted me-3 d-flex align-items-center justify-content-center avatar avatar-sm rounded-circle" title="Back">
             <i class="bi bi-arrow-left"></i>
         </a>
         <div>
@@ -16,7 +16,7 @@
     <div class="card shadow-sm border-0 rounded-4 overflow-hidden mb-4">
         <div class="card-body p-4">
             <div class="d-flex align-items-center gap-4">
-                <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                <div class="avatar avatar-lg bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center">
                     <i class="bi bi-person display-5"></i>
                 </div>
                 <div>
@@ -25,7 +25,7 @@
                         <i class="bi bi-envelope me-1"></i>@Model.Student.Email
                     </p>
                     <span class="badge bg-info bg-opacity-10 text-info border border-info-subtle px-3 py-2 rounded-pill">
-                        @Model.EnrolledCourses.Count course(s)
+                        @(Model.EnrolledCourses.Count == 1 ? "1 course" : $"{Model.EnrolledCourses.Count} courses")
                     </span>
                 </div>
             </div>
@@ -58,18 +58,7 @@
                                     <i class="bi bi-journal-text text-primary me-2"></i>@course.Name
                                 </td>
                                 <td class="text-muted small">@(course.Description ?? "—")</td>
-                                <td>
-                                    @if (course.Teacher != null)
-                                    {
-                                        <a asp-page="/Teachers/Details" asp-route-id="@course.Teacher.Id" class="text-primary text-decoration-none">
-                                            <i class="bi bi-person-badge me-1"></i>@course.Teacher.Name
-                                        </a>
-                                    }
-                                    else
-                                    {
-                                        <span class="text-muted small fst-italic">Unassigned</span>
-                                    }
-                                </td>
+                                <partial name="_TeacherCell" model="course" />
                                 <td class="px-4 text-end">
                                     <a asp-page="/Courses/Details" asp-route-id="@course.Id" class="btn btn-sm btn-light border text-primary">
                                         <i class="bi bi-eye"></i> View
