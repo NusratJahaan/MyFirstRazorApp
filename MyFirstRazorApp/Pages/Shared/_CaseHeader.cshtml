@@ -1,0 +1,13 @@
+@model MyFirstRazorApp.Models.Complaint
+
+<div class="case-banner">
+    <div class="case-banner-row">
+        <span class="case-banner-label">Case Number:</span>
+        <span class="case-banner-value">@Model.ComplaintNumber</span>
+    </div>
+
+    <div class="case-defendant">
+        <span class="case-defendant-badge">Defendant(s)</span>
+        <div class="case-defendant-name">@Model.DefendantName</div>
+    </div>
+</div>

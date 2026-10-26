@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using MyFirstRazorApp.Models
+@using MyFirstRazorApp.Services.CourtCase
+@inject IComplaintService ComplaintService
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -7,6 +10,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/courtcase.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2026.2.520/styles/kendo.default-main.min.css" />
     <link rel="stylesheet" href="https://kendo.cdn.telerik.com/themes/14.5.0/default/default-main.css" />
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -118,51 +122,6 @@
                     .tl-nav a:hover {
                         background: rgba(255, 255, 255, .15);
                     }
-
-.btn-act-view {
-    background-color: #1b3a8a;
-    border-color: #1b3a8a;
-    color: #ffffff;
-    font-size: 12px;
-    padding: 3px 10px;
-    border-radius: 3px;
-    text-decoration: none;
-}
-
-.btn-act-view:hover {
-    background-color: #15306e;
-    color: #ffffff;
-}
-
-.btn-act-edit {
-    background-color: #d97706;
-    border-color: #d97706;
-    color: #ffffff;
-    font-size: 12px;
-    padding: 3px 10px;
-    border-radius: 3px;
-    text-decoration: none;
-}
-
-.btn-act-edit:hover {
-    background-color: #b45309;
-    color: #ffffff;
-}
-
-.btn-act-delete {
-    background-color: #d32f2f;
-    border-color: #d32f2f;
-    color: #ffffff;
-    font-size: 12px;
-    padding: 3px 10px;
-    border-radius: 3px;
-    text-decoration: none;
-}
-
-.btn-act-delete:hover {
-    background-color: #b71c1c;
-    color: #ffffff;
-}
     </style>
 </head>
 <body>
@@ -237,7 +196,17 @@
                 </nav>
             </header>
 
-            <main class="flex-grow-1 p-2">
+            @{
+                Complaint? caseComplaint = ViewData["ComplaintId"] is int complaintId && complaintId > 0
+                    ? await ComplaintService.GetComplaintByIdAsync(complaintId)
+                    : null;
+            }
+            @if (caseComplaint != null)
+            {
+                <partial name="_CaseHeader" model="caseComplaint" />
+            }
+
+            <main class="flex-grow-1 p-2 @(ViewData["LegacyCaseTheme"] is true ? "" : "case-page")">
                 @RenderBody()
             </main>
         </div>

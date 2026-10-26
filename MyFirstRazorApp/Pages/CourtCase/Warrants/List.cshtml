@@ -13,24 +13,14 @@ var rosUrl = detailsUrl + "\\#ros-section";
 }
 
 <style>
-    .k-grid { font-size: 13px; }
-    .k-grid td { vertical-align: middle; }
     .st-open { color: #1b7f3b; }
     .st-locked { color: #c62828; }
-    .row-actions a, .row-actions button {
-        background: none; border: 0; padding: 0; margin-right: 12px;
-        color: #0d6efd; cursor: pointer; text-decoration: none; font-size: 13px;
-    }
-    .row-actions a:hover, .row-actions button:hover { text-decoration: underline; }
-    .row-actions .act-delete { color: #c62828; }
 </style>
 
-<div class="d-flex justify-content-between align-items-end mb-3">
-    <div>
-        <h4 class="mb-0">Warrants</h4>
-        <div class="text-muted small">Complaint #@Model.Complaint.ComplaintNumber — @Model.Complaint.DefendantName</div>
-    </div>
-    <a asp-page="Add" asp-route-complaintId="@Model.Complaint.Id" class="k-button k-button-solid k-button-solid-primary">
+<div class="tl-section-bar">
+    <div class="tl-banner">Warrants</div>
+    <span class="badge-count">@Model.Warrants.Count</span>
+    <a asp-page="Add" asp-route-complaintId="@Model.Complaint.Id" class="k-button k-button-solid k-button-solid-primary btn-sky">
         Add New Warrant
     </a>
 </div>
@@ -75,7 +65,6 @@ var rosUrl = detailsUrl + "\\#ros-section";
     })
     .Pageable(p => p.PageSizes(new[] { 10, 20, 50 }))
     .Sortable()
-    .Filterable()
     .DataSource(ds => ds.Ajax().ServerOperation(false).PageSize(10))
     .NoRecords(n => n.Template(
         "<div class='py-4 text-center text-muted'>No warrants found. Click \"Add New Warrant\" to create one.</div>"

@@ -4,6 +4,7 @@
 @{
     Layout = "_CaseLayout";
     ViewData["Title"] = "Dashboard";
+    ViewData["LegacyCaseTheme"] = true;
 }
 
 <style>
@@ -258,7 +259,6 @@
         )
     )
     .Sortable()
-    .Filterable()
     .DataSource(ds => ds.Ajax().ServerOperation(false).PageSize(10))
     .NoRecords(n => n.Template(
         "<div class='py-4 text-center text-muted'>No complaints found. Click 'Add New Complaint' to create one.</div>"
@@ -297,7 +297,6 @@
         )
     )
     .Sortable()
-    .Filterable()
     .DataSource(ds => ds.Ajax().ServerOperation(false).PageSize(10))
     .NoRecords(n => n.Template(
         "<div class='py-4 text-center text-muted'>No pending offences.</div>"

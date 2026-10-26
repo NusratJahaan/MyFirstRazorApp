@@ -10,22 +10,6 @@
 
     <h2 class="page-title">Edit Complaint</h2>
 
-    <!-- Summary Box -->
-    <div class="summary-box">
-        <div class="summary-header">
-            <span class="summary-label">Complaint #:</span>
-            <span class="summary-value">@Model.Complaint.ComplaintNumber</span>
-            <span class="summary-label ms-4">Complaint Entry Date &amp; Time:</span>
-            <span class="summary-value">@Model.Complaint.CreatedDate.ToString("MMM dd, yyyy hh:mm tt")</span>
-        </div>
-        <div class="summary-defendant">
-            <span class="summary-defendant-label">Defendant</span>
-            <div class="summary-defendant-info">
-                <span>@Model.Complaint.DefendantName</span>
-            </div>
-        </div>
-    </div>
-
     <!-- Complaint Date & Time -->
     <div class="row g-3 mb-4">
         <div class="col-md-6">

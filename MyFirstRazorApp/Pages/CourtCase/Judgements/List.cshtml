@@ -11,22 +11,14 @@
 }
 
 <style>
-    .k-grid { font-size: 13px; }
-    .k-grid td { vertical-align: middle; }
     .st-final { color: #1b7f3b; }
     .st-draft { color: #b26a00; }
-    .row-actions a {
-        color: #0d6efd; text-decoration: none; font-size: 13px; margin-right: 12px;
-    }
-    .row-actions a:hover { text-decoration: underline; }
 </style>
 
-<div class="d-flex justify-content-between align-items-end mb-3">
-    <div>
-        <h4 class="mb-0">Judgements</h4>
-        <div class="text-muted small">Complaint #@Model.Complaint.ComplaintNumber — @Model.Complaint.DefendantName</div>
-    </div>
-    <a asp-page="Add" asp-route-complaintId="@Model.Complaint.Id" class="k-button k-button-solid k-button-solid-primary">
+<div class="tl-section-bar">
+    <div class="tl-banner">Judgements</div>
+    <span class="badge-count">@Model.JudgementBatches.Count</span>
+    <a asp-page="Add" asp-route-complaintId="@Model.Complaint.Id" class="k-button k-button-solid k-button-solid-primary btn-sky">
         Add New Judgement
     </a>
 </div>
@@ -66,7 +58,6 @@
     })
     .Pageable(p => p.PageSizes(new[] { 10, 20, 50 }))
     .Sortable()
-    .Filterable()
     .DataSource(ds => ds.Ajax().ServerOperation(false).PageSize(10))
     .NoRecords(n => n.Template(
         "<div class='py-4 text-center text-muted'>No judgements found. Click \"Add New Judgement\" to create one.</div>"

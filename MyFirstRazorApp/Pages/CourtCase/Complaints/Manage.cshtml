@@ -10,41 +10,9 @@
     var offenceTypes = Model.OffenceLookUps.ToDictionary(l => l.Id, l => l.Description);
 }
 
-<style>
-    .k-grid {
-        font-size: 13px;
-    }
-
-        .k-grid td {
-            vertical-align: middle;
-        }
-
-    .row-actions button {
-        background: none;
-        border: 0;
-        padding: 0;
-        cursor: pointer;
-        font-size: 13px;
-    }
-
-        .row-actions button:hover {
-            text-decoration: underline;
-        }
-
-    .row-actions .act-deactivate {
-        color: #c62828;
-    }
-
-    .row-actions .act-activate {
-        color: #1b7f3b;
-    }
-</style>
-
-<div class="mb-3">
-    <div>
-        <h4 class="mb-0">Manage Case</h4>
-        <div class="text-muted small">Complaint #@Model.Complaint.ComplaintNumber — @Model.Complaint.DefendantName</div>
-    </div>
+<div class="tl-section-bar">
+    <div class="tl-banner">Active Cases</div>
+    <span class="badge-count">@Model.ActiveOffences.Count</span>
 </div>
 
 <form method="post" asp-page-handler="Toggle" id="toggleForm" class="d-none">
@@ -55,8 +23,6 @@
 <script>
     var offenceTypes = @Html.Raw(Json.Serialize(offenceTypes));
 </script>
-
-<h6 class="mb-2">Active Cases (@Model.ActiveOffences.Count)</h6>
 
 @(Html.Kendo().Grid(Model.ActiveOffences)
     .Name("activeGrid")
@@ -80,12 +46,14 @@
     })
     .Pageable(p => p.PageSizes(new[] { 10, 20, 50 }))
     .Sortable()
-    .Filterable()
     .DataSource(ds => ds.Ajax().ServerOperation(false).PageSize(10))
     .NoRecords(n => n.Template("<div class='py-3 text-center text-muted'>No active cases.</div>"))
 )
 
-<h6 class="mt-4 mb-2">Inactive Cases (@Model.InactiveOffences.Count)</h6>
+<div class="tl-section-bar mt-3">
+    <div class="tl-banner">Inactive Cases</div>
+    <span class="badge-count">@Model.InactiveOffences.Count</span>
+</div>
 
 @(Html.Kendo().Grid(Model.InactiveOffences)
     .Name("inactiveGrid")
@@ -109,7 +77,6 @@
     })
     .Pageable(p => p.PageSizes(new[] { 10, 20, 50 }))
     .Sortable()
-    .Filterable()
     .DataSource(ds => ds.Ajax().ServerOperation(false).PageSize(10))
     .NoRecords(n => n.Template("<div class='py-3 text-center text-muted'>No inactive cases.</div>"))
 )

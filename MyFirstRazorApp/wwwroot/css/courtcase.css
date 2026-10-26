@@ -1,0 +1,326 @@
+/* Sky-blue theme for court-case screens.
+   Scoped by .case-page (added to <main> in _CaseLayout.cshtml) so other
+   areas using _Layout, such as Courses, are unaffected. */
+
+.case-page {
+  --sky: #29a9d6;
+  --sky-hover: #1b8cb4;
+  --sky-deep: #12607e;
+  --sky-tint: #e8f6fc;
+  --sky-border: #bfe1ef;
+  --sky-row: #f6fbfd;
+  --sky-row-hover: #e6f4fb;
+}
+
+/* ---------- Kendo Grid ---------- */
+
+.case-page .k-grid {
+  border: 1px solid var(--sky-border);
+  border-radius: 4px;
+  font-size: 12.5px;
+  background-color: #ffffff;
+}
+
+.case-page .k-grid-header,
+.case-page .k-grid-header .k-header,
+.case-page .k-grid-header th.k-header,
+.case-page .k-grid .k-table-th {
+  background-color: var(--sky-tint) !important;
+  color: var(--sky-deep) !important;
+  font-weight: 700 !important;
+  border-color: var(--sky-border) !important;
+}
+
+.case-page .k-grid-header th.k-header,
+.case-page .k-grid .k-table-th {
+  padding: 5px 8px !important;
+  font-size: 12px;
+  border-bottom: 1px solid var(--sky-border) !important;
+}
+
+.case-page .k-grid td,
+.case-page .k-grid .k-table-td {
+  vertical-align: middle;
+  padding: 5px 8px !important;
+  border-bottom: 1px solid #edf4f8 !important;
+}
+
+.case-page .k-grid tbody tr:nth-child(even) td {
+  background-color: var(--sky-row);
+}
+
+.case-page .k-grid tbody tr:hover td {
+  background-color: var(--sky-row-hover);
+}
+
+.case-page .k-grid .k-grid-norecords td {
+  text-align: center;
+  padding: 16px 8px !important;
+}
+
+/* ---------- Kendo Grid pager ---------- */
+
+.case-page .k-pager-wrap {
+  padding: 4px 8px !important;
+  font-size: 12px !important;
+  border-top: 1px solid var(--sky-border) !important;
+  background-color: var(--sky-tint) !important;
+}
+
+.case-page .k-pager-wrap .k-link,
+.case-page .k-pager-wrap .k-pager-nav {
+  min-width: 22px !important;
+  height: 22px !important;
+  line-height: 22px !important;
+  font-size: 11px !important;
+  padding: 0 4px !important;
+  border-radius: 2px !important;
+}
+
+.case-page .k-pager-wrap .k-state-selected,
+.case-page .k-pager-wrap .k-selected {
+  background-color: var(--sky) !important;
+  border-color: var(--sky) !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+}
+
+.case-page .k-pager-wrap .k-dropdownlist,
+.case-page .k-pager-wrap .k-picker {
+  font-size: 11px !important;
+  height: 22px !important;
+}
+
+.case-page .k-pager-info {
+  font-size: 11px !important;
+  color: #4b6b78 !important;
+  margin-left: 8px !important;
+}
+
+/* ---------- Section bars (dashboard-style headers) ---------- */
+
+.case-page .tl-section-bar {
+  background-color: #e9ecef;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+  border-radius: 3px;
+}
+
+.case-page .tl-section-bar .btn-sky,
+.case-page .tl-section-bar .k-button {
+  margin-left: auto;
+  margin-right: 6px;
+}
+
+.case-page .tl-banner {
+  background-color: var(--sky);
+  color: #ffffff;
+  padding: 5px 12px;
+  display: inline-flex;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  border-radius: 2px;
+}
+
+.case-page .badge-count {
+  background-color: var(--sky-deep);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 13px;
+  padding: 5px 10px;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 2px;
+}
+
+/* ---------- Buttons ---------- */
+
+/* Bootstrap primary buttons on Add/Edit/Details pages */
+.case-page .btn-primary {
+  --bs-btn-color: #ffffff;
+  --bs-btn-bg: #29a9d6;
+  --bs-btn-border-color: #29a9d6;
+  --bs-btn-hover-color: #ffffff;
+  --bs-btn-hover-bg: #1b8cb4;
+  --bs-btn-hover-border-color: #1b8cb4;
+  --bs-btn-focus-shadow-rgb: 41, 169, 214;
+  --bs-btn-active-color: #ffffff;
+  --bs-btn-active-bg: #1b8cb4;
+  --bs-btn-active-border-color: #1b8cb4;
+  --bs-btn-disabled-bg: #29a9d6;
+  --bs-btn-disabled-border-color: #29a9d6;
+}
+
+/* Kendo primary buttons and the Add New … links */
+.case-page .k-button.k-button-solid-primary,
+.case-page .k-button.btn-sky {
+  background-color: var(--sky) !important;
+  border-color: var(--sky) !important;
+  color: #ffffff !important;
+  font-size: 12px;
+  padding: 4px 12px;
+  border-radius: 3px;
+  box-shadow: none !important;
+}
+
+.case-page .k-button.k-button-solid-primary:hover,
+.case-page .k-button.k-button-solid-primary.k-hover,
+.case-page .k-button.btn-sky:hover,
+.case-page .k-button.btn-sky.k-hover {
+  background-color: var(--sky-hover) !important;
+  border-color: var(--sky-hover) !important;
+  color: #ffffff !important;
+}
+
+.case-page .btn-tl-add {
+  background-color: var(--sky);
+  color: #ffffff;
+  border: none;
+  font-size: 12px;
+  padding: 0 12px;
+  height: 28px;
+  border-radius: 3px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  line-height: 1;
+}
+
+.case-page .btn-tl-add:hover {
+  background-color: var(--sky-hover);
+  color: #ffffff;
+}
+
+.case-page .btn-tl-view {
+  background-color: var(--sky);
+  color: #ffffff !important;
+  border: none;
+  font-size: 11px;
+  padding: 2px 9px;
+  border-radius: 3px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.case-page .btn-tl-view:hover {
+  background-color: var(--sky-hover);
+  color: #ffffff;
+}
+
+.case-page .btn-tl-edit {
+  background-color: var(--sky-tint);
+  color: var(--sky-deep) !important;
+  border: 1px solid var(--sky-border);
+  font-size: 11px;
+  padding: 2px 9px;
+  border-radius: 3px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.case-page .btn-tl-edit:hover {
+  background-color: #d7eefa;
+  color: var(--sky-deep);
+}
+
+.case-page .btn-review {
+  background-color: var(--sky);
+  color: #ffffff !important;
+  border: none;
+  font-size: 11px;
+  padding: 2px 12px;
+  border-radius: 3px;
+  text-decoration: none;
+  display: inline-block;
+  font-weight: 500;
+}
+
+.case-page .btn-review:hover {
+  background-color: var(--sky-hover);
+  color: #ffffff !important;
+}
+
+.case-page .btn-search {
+  background-color: var(--sky);
+  color: #ffffff;
+  border: 1px solid var(--sky);
+  font-size: 13px;
+  height: 32px;
+  padding: 0 16px;
+  border-radius: 3px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.case-page .btn-search:hover {
+  background-color: var(--sky-hover);
+  border-color: var(--sky-hover);
+  color: #ffffff;
+}
+
+.case-page .btn-clear {
+  background-color: #ffffff;
+  color: #333333;
+  border: 1px solid #b5b5b5;
+  font-size: 13px;
+  height: 32px;
+  padding: 0 16px;
+  border-radius: 3px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+}
+
+.case-page .btn-clear:hover {
+  background-color: #f1f1f1;
+  color: #222222;
+}
+
+/* ---------- In-grid action links ---------- */
+
+.case-page .row-actions a,
+.case-page .row-actions button {
+  background: none;
+  border: 0;
+  padding: 0;
+  margin-right: 12px;
+  color: #1789b3;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 13px;
+}
+
+.case-page .row-actions a:hover,
+.case-page .row-actions button:hover {
+  color: var(--sky-hover);
+  text-decoration: underline;
+}
+
+.case-page .row-actions .act-delete,
+.case-page .row-actions .act-decline,
+.case-page .row-actions .act-deactivate {
+  color: #c62828;
+}
+
+.case-page .row-actions .act-approve,
+.case-page .row-actions .act-activate {
+  color: #1b7f3b;
+}
+
+/* ---------- Form focus accents ---------- */
+
+.case-page .form-control:focus,
+.case-page .form-select:focus {
+  border-color: var(--sky);
+  box-shadow: 0 0 0 0.15rem rgba(41, 169, 214, 0.2);
+}
